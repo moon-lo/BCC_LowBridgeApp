@@ -494,6 +494,9 @@ namespace BCC.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f050021
+			public const int APIkey = 2131034145;
+			
 			// aapt resource value: 0x7f050020
 			public const int ApplicationName = 2131034144;
 			

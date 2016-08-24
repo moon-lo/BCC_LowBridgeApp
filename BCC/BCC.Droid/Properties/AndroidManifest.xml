@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="BCC.Droid.BCC.Droid" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="16" />
-  <application android:label="BCC.Droid"></application>
+
 
   <uses-feature android:glEsVersion="0x00020000" android:required="true" />
   
@@ -19,7 +19,7 @@
 
   <application android:label="@string/ApplicationName">
 
-  <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAhfqXIV1II0VnTsjBieyNk6pjv_bd7u3I" />
+  <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/APIkey"/>
   <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
   </application>
 

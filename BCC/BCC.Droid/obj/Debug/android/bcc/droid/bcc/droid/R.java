@@ -383,6 +383,7 @@ containing a value of this type.
         public static final int icon=0x7f030000;
     }
     public static final class string {
+        public static final int APIkey=0x7f050021;
         public static final int ApplicationName=0x7f050020;
         public static final int Hello=0x7f05001f;
         /**  Brand name for Facebook [DO NOT TRANSLATE] 
