@@ -1,0 +1,2 @@
+android.app.Application
+BCC.Droid.BCC.Droid
