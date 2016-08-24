@@ -15,6 +15,7 @@ namespace BCC.Droid
         protected override IMvxApplication CreateApp()
         {
             return new BCC.Core.App();
+        
         }
 
         protected override IMvxTrace CreateDebugTrace()

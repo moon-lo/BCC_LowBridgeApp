@@ -59,5 +59,11 @@ C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Se
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Xml.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\mipmap\icon.png
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\Xamarin.Android.Support.v4.dll
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\Xamarin.GooglePlayServices.Base.dll
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\Xamarin.GooglePlayServices.Basement.dll
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\Xamarin.GooglePlayServices.Maps.dll
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\layout\vehicleprofiles.xml
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\layout\hamburger.xml
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\BCC.Droid.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\BCC.Droid.dll.mdb
