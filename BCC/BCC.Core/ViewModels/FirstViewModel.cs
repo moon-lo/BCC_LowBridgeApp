@@ -5,7 +5,7 @@ namespace BCC.Core.ViewModels
     public class FirstViewModel
         : MvxViewModel
     {
-        private string _name = "Hello MvvmCross";
+        private string _name = getApplicationContext().getPackageName();;
         public string Name
         {
             get { return _name; }
