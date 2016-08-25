@@ -10,6 +10,7 @@ namespace BCC.Droid.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
         }
     }
