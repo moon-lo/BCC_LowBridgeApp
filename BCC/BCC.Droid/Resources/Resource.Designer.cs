@@ -155,11 +155,14 @@ namespace BCC.Droid
 		public partial class Color
 		{
 			
+			// aapt resource value: 0x7f070012
+			public const int black = 2131165202;
+			
 			// aapt resource value: 0x7f070008
 			public const int common_action_bar_splitter = 2131165192;
 			
-			// aapt resource value: 0x7f070011
-			public const int common_google_signin_btn_text_dark = 2131165201;
+			// aapt resource value: 0x7f070015
+			public const int common_google_signin_btn_text_dark = 2131165205;
 			
 			// aapt resource value: 0x7f070009
 			public const int common_google_signin_btn_text_dark_default = 2131165193;
@@ -173,8 +176,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f07000a
 			public const int common_google_signin_btn_text_dark_pressed = 2131165194;
 			
-			// aapt resource value: 0x7f070012
-			public const int common_google_signin_btn_text_light = 2131165202;
+			// aapt resource value: 0x7f070016
+			public const int common_google_signin_btn_text_light = 2131165206;
 			
 			// aapt resource value: 0x7f07000d
 			public const int common_google_signin_btn_text_light_default = 2131165197;
@@ -188,8 +191,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f07000e
 			public const int common_google_signin_btn_text_light_pressed = 2131165198;
 			
-			// aapt resource value: 0x7f070013
-			public const int common_plus_signin_btn_text_dark = 2131165203;
+			// aapt resource value: 0x7f070017
+			public const int common_plus_signin_btn_text_dark = 2131165207;
 			
 			// aapt resource value: 0x7f070000
 			public const int common_plus_signin_btn_text_dark_default = 2131165184;
@@ -203,8 +206,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f070001
 			public const int common_plus_signin_btn_text_dark_pressed = 2131165185;
 			
-			// aapt resource value: 0x7f070014
-			public const int common_plus_signin_btn_text_light = 2131165204;
+			// aapt resource value: 0x7f070018
+			public const int common_plus_signin_btn_text_light = 2131165208;
 			
 			// aapt resource value: 0x7f070004
 			public const int common_plus_signin_btn_text_light_default = 2131165188;
@@ -217,6 +220,15 @@ namespace BCC.Droid
 			
 			// aapt resource value: 0x7f070005
 			public const int common_plus_signin_btn_text_light_pressed = 2131165189;
+			
+			// aapt resource value: 0x7f070013
+			public const int gray = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int transparent = 2131165204;
+			
+			// aapt resource value: 0x7f070011
+			public const int white = 2131165201;
 			
 			static Color()
 			{
@@ -361,7 +373,10 @@ namespace BCC.Droid
 			public const int Icon = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int splash = 2130837547;
+			public const int menu = 2130837547;
+			
+			// aapt resource value: 0x7f02002c
+			public const int splash = 2130837548;
 			
 			static Drawable()
 			{
@@ -391,11 +406,11 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f08000c
 			public const int auto = 2131230732;
 			
+			// aapt resource value: 0x7f080010
+			public const int button = 2131230736;
+			
 			// aapt resource value: 0x7f08000d
 			public const int dark = 2131230733;
-			
-			// aapt resource value: 0x7f080011
-			public const int editText1 = 2131230737;
 			
 			// aapt resource value: 0x7f080002
 			public const int hybrid = 2131230722;
@@ -418,14 +433,14 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080005
 			public const int satellite = 2131230725;
 			
+			// aapt resource value: 0x7f080011
+			public const int searchText = 2131230737;
+			
 			// aapt resource value: 0x7f08000a
 			public const int standard = 2131230730;
 			
 			// aapt resource value: 0x7f080006
 			public const int terrain = 2131230726;
-			
-			// aapt resource value: 0x7f080010
-			public const int textView1 = 2131230736;
 			
 			// aapt resource value: 0x7f08000b
 			public const int wide = 2131230731;
@@ -466,10 +481,13 @@ namespace BCC.Droid
 			public const int Hamburger = 2130968577;
 			
 			// aapt resource value: 0x7f040002
-			public const int SplashScreen = 2130968578;
+			public const int Search_Bg = 2130968578;
 			
 			// aapt resource value: 0x7f040003
-			public const int VehicleProfiles = 2130968579;
+			public const int SplashScreen = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public const int VehicleProfiles = 2130968580;
 			
 			static Layout()
 			{
@@ -500,11 +518,11 @@ namespace BCC.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050021
-			public const int APIkey = 2131034145;
+			// aapt resource value: 0x7f050022
+			public const int APIkey = 2131034146;
 			
-			// aapt resource value: 0x7f050020
-			public const int ApplicationName = 2131034144;
+			// aapt resource value: 0x7f050021
+			public const int ApplicationName = 2131034145;
 			
 			// aapt resource value: 0x7f05001f
 			public const int Hello = 2131034143;
@@ -601,6 +619,9 @@ namespace BCC.Droid
 			
 			// aapt resource value: 0x7f05001e
 			public const int common_signin_button_text_long = 2131034142;
+			
+			// aapt resource value: 0x7f050020
+			public const int search = 2131034144;
 			
 			static String()
 			{

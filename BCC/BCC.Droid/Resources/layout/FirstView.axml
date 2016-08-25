@@ -3,22 +3,35 @@
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <fragment
-      android:id="@+id/map"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      class="com.google.android.gms.maps.MapFragment" />
-  <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:textSize="40dp"
-      local:MvxBind="Text Name, Mode=OneWay"
-      android:id="@+id/textView1" />
-  <EditText
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:textSize="40dp"
-      local:MvxBind="Text Name, Mode=OneWayToSource"
-      android:id="@+id/editText1"
-      android:layout_below="@id/textView1"/>
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.MapFragment" />
+    <LinearLayout
+        android:background="@layout/Search_Bg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/transparent"
+            android:src="@drawable/menu"
+            android:id="@+id/button" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/transparent"
+            android:textColor="@color/black"
+            android:hint="@string/search"
+            android:layout_margin="5dp"
+            android:textColorHint="@color/gray"
+            android:id="@+id/searchText"
+            local:MvxBind="Text Name"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true" />
+    </LinearLayout>
 </RelativeLayout>
