@@ -114,7 +114,9 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\layout\FirstView.axml" />
+    <AndroidResource Include="Resources\layout\FirstView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\VehicleProfiles.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -158,6 +160,26 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\splash.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\cars.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\cars.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\cars.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\cars.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\cars.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\crosshair.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\crosshair.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\crosshair.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\crosshair.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\crosshair.png" />
     <Content Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>

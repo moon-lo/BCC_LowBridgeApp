@@ -282,31 +282,32 @@ containing a value of this type.
     public static final class color {
         public static int black=0x7f070012;
         public static int common_action_bar_splitter=0x7f070008;
-        public static int common_google_signin_btn_text_dark=0x7f070014;
+        public static int common_google_signin_btn_text_dark=0x7f070015;
         /**  Google Sign-in Button Colors 
          */
         public static int common_google_signin_btn_text_dark_default=0x7f070009;
         public static int common_google_signin_btn_text_dark_disabled=0x7f07000b;
         public static int common_google_signin_btn_text_dark_focused=0x7f07000c;
         public static int common_google_signin_btn_text_dark_pressed=0x7f07000a;
-        public static int common_google_signin_btn_text_light=0x7f070015;
+        public static int common_google_signin_btn_text_light=0x7f070016;
         public static int common_google_signin_btn_text_light_default=0x7f07000d;
         public static int common_google_signin_btn_text_light_disabled=0x7f07000f;
         public static int common_google_signin_btn_text_light_focused=0x7f070010;
         public static int common_google_signin_btn_text_light_pressed=0x7f07000e;
-        public static int common_plus_signin_btn_text_dark=0x7f070016;
+        public static int common_plus_signin_btn_text_dark=0x7f070017;
         /**  Google Plus Sign-in Button Colors 
          */
         public static int common_plus_signin_btn_text_dark_default=0x7f070000;
         public static int common_plus_signin_btn_text_dark_disabled=0x7f070002;
         public static int common_plus_signin_btn_text_dark_focused=0x7f070003;
         public static int common_plus_signin_btn_text_dark_pressed=0x7f070001;
-        public static int common_plus_signin_btn_text_light=0x7f070017;
+        public static int common_plus_signin_btn_text_light=0x7f070018;
         public static int common_plus_signin_btn_text_light_default=0x7f070004;
         public static int common_plus_signin_btn_text_light_disabled=0x7f070006;
         public static int common_plus_signin_btn_text_light_focused=0x7f070007;
         public static int common_plus_signin_btn_text_light_pressed=0x7f070005;
         public static int gray=0x7f070013;
+        public static int transparent=0x7f070014;
         public static int white=0x7f070011;
     }
     public static final class drawable {
@@ -353,7 +354,8 @@ containing a value of this type.
         public static int common_plus_signin_btn_text_light_normal=0x7f020028;
         public static int common_plus_signin_btn_text_light_pressed=0x7f020029;
         public static int icon=0x7f02002a;
-        public static int splash=0x7f02002b;
+        public static int menu=0x7f02002b;
+        public static int splash=0x7f02002c;
     }
     public static final class id {
         public static int MvvmCrossTagId=0x7f080000;
@@ -389,8 +391,8 @@ containing a value of this type.
         public static int icon=0x7f030000;
     }
     public static final class string {
-        public static int APIkey=0x7f050021;
-        public static int ApplicationName=0x7f050020;
+        public static int APIkey=0x7f050022;
+        public static int ApplicationName=0x7f050021;
         public static int Hello=0x7f05001f;
         /**  Brand name for Facebook [DO NOT TRANSLATE] 
          */
@@ -498,6 +500,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static int common_signin_button_text_long=0x7f05001e;
+        public static int search=0x7f050020;
     }
     public static final class style {
         public static int Theme_Splash=0x7f090000;
