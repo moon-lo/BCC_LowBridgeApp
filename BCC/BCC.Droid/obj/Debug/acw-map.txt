@@ -6,6 +6,10 @@ BCC.Droid.Views.FirstView, BCC.Droid;md51a7c69b8e9e7c16ad269c30ad6124464.FirstVi
 BCC.Droid.Views.FirstView, BCC.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
 BCC.Droid.Views.FirstView;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
 bcc.droid.views.FirstView;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
+BCC.Droid.Views.FirstView/OnMapReadyClass, BCC.Droid;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView_OnMapReadyClass
+BCC.Droid.Views.FirstView+OnMapReadyClass, BCC.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView_OnMapReadyClass
+BCC.Droid.Views.FirstView.OnMapReadyClass;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView_OnMapReadyClass
+bcc.droid.views.FirstView_OnMapReadyClass;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView_OnMapReadyClass
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView, MvvmCross.Binding.Droid;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView, MvvmCross.Binding.Droid, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView
