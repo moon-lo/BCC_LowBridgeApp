@@ -45,24 +45,28 @@ namespace BCC.Droid.Views
             {
                 map = ((OnMapReadyClass)sender).Map;//receive the Map object
 
-                CameraUpdate cameraUpdate = GetNewCameraPosition(location);
-                SetupMarker(location, map);
-
                 //set map paramaters
                 map.UiSettings.MapToolbarEnabled = false;
                 map.UiSettings.CompassEnabled = false;
 
-                //move the camera
-                if (map != null)
-                    map.MoveCamera(cameraUpdate);
+                CameraUpdate cameraUpdate = GetNewCameraPosition(location);
+                marker = SetupMarker(location, map, marker);
 
+                if (map != null) map.MoveCamera(cameraUpdate);
             };
             //call the above code when map ready
             frag.GetMapAsync(mapReadyCallback);
 
         }
 
-        private void SetupMarker(Location location, GoogleMap map)
+        /// <summary>
+        /// places a marker on the supplied map at the supplied location, it removes old marker if one is supplied
+        /// </summary>
+        /// <param name="location">the location of the marker</param>
+        /// <param name="map">the map it is being placed on</param>
+        /// <param name="marker">the old marker</param>
+        /// <returns>the new marker</returns>
+        private Marker SetupMarker(Location location, GoogleMap map, Marker marker)
         {
             //remove the old marker
             if (marker != null)
@@ -73,7 +77,7 @@ namespace BCC.Droid.Views
             userMarker.SetPosition(new LatLng(location.Latitude, location.Longitude));
             userMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueCyan));
             userMarker.SetTitle("Your Location");
-            marker = map.AddMarker(userMarker);
+            return map.AddMarker(userMarker);
         }
 
         /// <summary>
@@ -114,13 +118,14 @@ namespace BCC.Droid.Views
             }
         }
 
+        //unused
         public void OnProviderDisabled(string provider) { }
         public void OnProviderEnabled(string provider) { }
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras) { }
 
         #endregion
         /// <summary>
-        /// 
+        /// the function that handles the creation of the view
         /// </summary>
         /// <param name="bundle"></param>
         protected override void OnCreate(Bundle bundle)
@@ -130,9 +135,12 @@ namespace BCC.Droid.Views
             SetContentView(Resource.Layout.FirstView);
             _locationManager = (LocationManager)GetSystemService(LocationService);
         }
+
+        /// <summary>
+        /// when the app resumes it sets up all the map things
+        /// </summary>
         protected override void OnResume()
         {
-
             base.OnResume();
 
             Criteria locationCriteria = new Criteria();
@@ -142,10 +150,11 @@ namespace BCC.Droid.Views
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
             _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
-
-
-
         }
+
+        /// <summary>
+        /// pauses all of the map things
+        /// </summary>
         protected override void OnPause()
         {
             base.OnPause();
