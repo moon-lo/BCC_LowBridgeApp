@@ -7,6 +7,7 @@ using MvvmCross.Droid.Views;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Views;
+using Android.Widget;
 
 namespace BCC.Droid.Views
 {
@@ -14,7 +15,7 @@ namespace BCC.Droid.Views
     /// author: Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity, ILocationListener
+    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback
     {
 
         //todo
@@ -25,6 +26,10 @@ namespace BCC.Droid.Views
         private LocationManager _locationManager;
         private string _locationProvider;
         private Marker marker = null;
+
+        public GoogleMap Map { get; private set; }
+        public event EventHandler MapReady;
+        private string test = "test";
 
         #region gps
         /// <summary>
@@ -38,16 +43,11 @@ namespace BCC.Droid.Views
 
             //get the map fragment and setup the checks to see if the map is ready
             var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
-            var mapReadyCallback = new OnMapReadyClass();
 
             //get the map if ready
-            mapReadyCallback.MapReady += (sender, args) =>
+            this.MapReady += (sender, args) =>
             {
-                map = ((OnMapReadyClass)sender).Map;//receive the Map object
-
-                //set map paramaters
-                map.UiSettings.MapToolbarEnabled = false;
-                map.UiSettings.CompassEnabled = false;
+                map = Map;//receive the Map object
 
                 CameraUpdate cameraUpdate = GetNewCameraPosition(location);
                 marker = SetupMarker(location, map, marker);
@@ -55,7 +55,7 @@ namespace BCC.Droid.Views
                 if (map != null) map.MoveCamera(cameraUpdate);
             };
             //call the above code when map ready
-            frag.GetMapAsync(mapReadyCallback);
+            frag.GetMapAsync(this);
 
         }
 
@@ -99,24 +99,29 @@ namespace BCC.Droid.Views
             return cameraUpdate;
         }
 
-        /// <summary>
-        /// the class than handles checking when the map is ready
-        /// </summary>
-        public class OnMapReadyClass : Java.Lang.Object, IOnMapReadyCallback
-        {
-            public GoogleMap Map { get; private set; }
-            public event EventHandler MapReady;
 
-            public void OnMapReady(GoogleMap googleMap)
+
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            Map = googleMap;
+            var handler = MapReady;
+            Map.UiSettings.MapToolbarEnabled = false;
+            Map.UiSettings.CompassEnabled = false;
+
+            googleMap.CameraChange += (sender, e) => {
+                Map.UiSettings.CompassEnabled = false;
+                Toast.MakeText(this, test, ToastLength.Short).Show();
+                
+                //we now have a way to detect when the map has been moved, now to check if it was done by the software or human
+                //then disable the required stuff
+            };
+
+            if (handler != null)
             {
-                Map = googleMap;
-                var handler = MapReady;
-                if (handler != null)
-                {
-                    handler(this, EventArgs.Empty);
-                }
+                handler(this, EventArgs.Empty);
             }
         }
+        
 
         //unused
         public void OnProviderDisabled(string provider) { }
@@ -134,6 +139,8 @@ namespace BCC.Droid.Views
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
             _locationManager = (LocationManager)GetSystemService(LocationService);
+
+            var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
         }
 
         /// <summary>
