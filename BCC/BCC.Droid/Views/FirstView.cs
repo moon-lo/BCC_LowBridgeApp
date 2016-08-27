@@ -19,9 +19,8 @@ namespace BCC.Droid.Views
     {
 
         //todo
-        //when user scrolls, detect scroll, disable _locationManager.RemoveUpdates(this); and change the icon
-        //when user presses center button call _locationManager.RequestLocationUpdates(_locationProvider, 500, 0, this); and move to last known location
         //save and load from previous location
+        //comment
 
         private LocationManager _locationManager;
         private string _locationProvider;
@@ -29,7 +28,8 @@ namespace BCC.Droid.Views
 
         public GoogleMap Map { get; private set; }
         public event EventHandler MapReady;
-        private string test = "test";
+        private bool programScroll = true;
+        private bool disablePositioning = false;
 
         #region gps
         /// <summary>
@@ -48,13 +48,20 @@ namespace BCC.Droid.Views
             this.MapReady += (sender, args) =>
             {
                 map = Map;//receive the Map object
+                CameraUpdate cameraUpdate = null;
 
-                CameraUpdate cameraUpdate = GetNewCameraPosition(location);
+                if (!disablePositioning && !programScroll)
+                {
+                    programScroll = true;
+                    cameraUpdate = GetNewCameraPosition(location);
+                }
+
                 marker = SetupMarker(location, map, marker);
 
-                if (map != null) map.MoveCamera(cameraUpdate);
+                if (map != null && !disablePositioning && cameraUpdate != null) map.MoveCamera(cameraUpdate);
             };
             //call the above code when map ready
+
             frag.GetMapAsync(this);
 
         }
@@ -100,28 +107,29 @@ namespace BCC.Droid.Views
         }
 
 
-
+        //comment
         public void OnMapReady(GoogleMap googleMap)
         {
             Map = googleMap;
             var handler = MapReady;
-            Map.UiSettings.MapToolbarEnabled = false;
-            Map.UiSettings.CompassEnabled = false;
-
-            googleMap.CameraChange += (sender, e) => {
-                Map.UiSettings.CompassEnabled = false;
-                Toast.MakeText(this, test, ToastLength.Short).Show();
-                
-                //we now have a way to detect when the map has been moved, now to check if it was done by the software or human
-                //then disable the required stuff
+            Map.CameraChange += (sender, e) =>
+            {
+                if (programScroll)
+                {
+                    programScroll = false;
+                }
+                else
+                {
+                    FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.crosshair);
+                    disablePositioning = true;
+                }
             };
-
             if (handler != null)
             {
                 handler(this, EventArgs.Empty);
             }
         }
-        
+
 
         //unused
         public void OnProviderDisabled(string provider) { }
@@ -141,6 +149,24 @@ namespace BCC.Droid.Views
             _locationManager = (LocationManager)GetSystemService(LocationService);
 
             var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
+            GoogleMap map = null;
+            this.MapReady += (sender, args) =>
+            {
+                map = Map;
+                Map.UiSettings.MapToolbarEnabled = false;
+                Map.UiSettings.CompassEnabled = false;
+            };
+            //call the above code when map ready
+            frag.GetMapAsync(this);
+            //set event handeler for button
+            FindViewById<ImageButton>(Resource.Id.focusButton).Click += delegate
+            {
+                disablePositioning = false;
+                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
+                if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
+                    OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
+            };
+
         }
 
         /// <summary>
@@ -157,6 +183,7 @@ namespace BCC.Droid.Views
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
             _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
+
         }
 
         /// <summary>

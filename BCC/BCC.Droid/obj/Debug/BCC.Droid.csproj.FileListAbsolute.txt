@@ -100,5 +100,10 @@ C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Ru
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.ServiceModel.Internals.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Xml.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\drawable-xxxhdpi\gps_blue.png
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\drawable-xxhdpi\gps_blue.png
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\drawable-xhdpi\gps_blue.png
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\drawable-mdpi\gps_blue.png
+C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\res\drawable-hdpi\gps_blue.png
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\obj\Debug\BCC.Droid.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Droid\bin\Debug\BCC.Droid.dll.mdb

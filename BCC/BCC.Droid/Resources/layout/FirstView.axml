@@ -37,6 +37,7 @@
     <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:id="@+id/focusButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="92dp"
@@ -44,7 +45,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/floatingbuttonwhite"
-        android:src="@drawable/crosshair" />
+        android:src="@drawable/gps_blue" />
     <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"

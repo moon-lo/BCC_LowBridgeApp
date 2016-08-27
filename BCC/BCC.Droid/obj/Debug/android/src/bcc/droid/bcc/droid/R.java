@@ -357,9 +357,10 @@ containing a value of this type.
         public static final int crosshair=0x7f02002b;
         public static final int floatingbutton=0x7f02002c;
         public static final int floatingbuttonwhite=0x7f02002d;
-        public static final int icon=0x7f02002e;
-        public static final int menu=0x7f02002f;
-        public static final int splash=0x7f020030;
+        public static final int gps_blue=0x7f02002e;
+        public static final int icon=0x7f02002f;
+        public static final int menu=0x7f020030;
+        public static final int splash=0x7f020031;
     }
     public static final class id {
         public static final int MvvmCrossTagId=0x7f080000;
@@ -369,6 +370,7 @@ containing a value of this type.
         public static final int auto=0x7f08000c;
         public static final int button=0x7f080010;
         public static final int dark=0x7f08000d;
+        public static final int focusButton=0x7f080012;
         public static final int hybrid=0x7f080002;
         public static final int icon_only=0x7f080009;
         public static final int light=0x7f08000e;

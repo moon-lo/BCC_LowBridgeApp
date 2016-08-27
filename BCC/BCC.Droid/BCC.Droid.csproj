@@ -180,6 +180,11 @@
     <AndroidResource Include="Resources\drawable-xhdpi\crosshair.png" />
     <AndroidResource Include="Resources\drawable-mdpi\crosshair.png" />
     <AndroidResource Include="Resources\drawable-hdpi\crosshair.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\gps_blue.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\gps_blue.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\gps_blue.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\gps_blue.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\gps_blue.png" />
     <Content Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>

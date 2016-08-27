@@ -382,13 +382,16 @@ namespace BCC.Droid
 			public const int floatingbuttonwhite = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int Icon = 2130837550;
+			public const int gps_blue = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int menu = 2130837551;
+			public const int Icon = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int splash = 2130837552;
+			public const int menu = 2130837552;
+			
+			// aapt resource value: 0x7f020031
+			public const int splash = 2130837553;
 			
 			static Drawable()
 			{
@@ -423,6 +426,9 @@ namespace BCC.Droid
 			
 			// aapt resource value: 0x7f08000d
 			public const int dark = 2131230733;
+			
+			// aapt resource value: 0x7f080012
+			public const int focusButton = 2131230738;
 			
 			// aapt resource value: 0x7f080002
 			public const int hybrid = 2131230722;
