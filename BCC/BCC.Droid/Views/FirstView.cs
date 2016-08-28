@@ -28,8 +28,8 @@ namespace BCC.Droid.Views
 
         public GoogleMap Map { get; private set; }
         public event EventHandler MapReady;
-        private bool programScroll = true;
         private bool disablePositioning = false;
+        private int softwareUpdate = 1;
 
         #region gps
         /// <summary>
@@ -40,7 +40,6 @@ namespace BCC.Droid.Views
         public void OnLocationChanged(Location location)
         {
             GoogleMap map = null;
-
             //get the map fragment and setup the checks to see if the map is ready
             var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
 
@@ -50,15 +49,15 @@ namespace BCC.Droid.Views
                 map = Map;//receive the Map object
                 CameraUpdate cameraUpdate = null;
 
-                if (!disablePositioning && !programScroll)
+                if (!disablePositioning)
                 {
-                    programScroll = true;
+                    softwareUpdate++;
                     cameraUpdate = GetNewCameraPosition(location);
                 }
 
                 marker = SetupMarker(location, map, marker);
 
-                if (map != null && !disablePositioning && cameraUpdate != null) map.MoveCamera(cameraUpdate);
+                if (map != null && !disablePositioning) map.MoveCamera(cameraUpdate);
             };
             //call the above code when map ready
 
@@ -107,16 +106,19 @@ namespace BCC.Droid.Views
         }
 
 
-        //comment
+        /// <summary>
+        /// handles updating the map when it is ready
+        /// </summary>
+        /// <param name="googleMap">the map to update</param>
         public void OnMapReady(GoogleMap googleMap)
         {
             Map = googleMap;
             var handler = MapReady;
             Map.CameraChange += (sender, e) =>
             {
-                if (programScroll)
+                if (softwareUpdate > 0)
                 {
-                    programScroll = false;
+                    softwareUpdate--;
                 }
                 else
                 {
@@ -178,11 +180,11 @@ namespace BCC.Droid.Views
 
             Criteria locationCriteria = new Criteria();
 
-            locationCriteria.Accuracy = Accuracy.Coarse;
+            locationCriteria.Accuracy = Accuracy.Fine;
             locationCriteria.PowerRequirement = Power.Medium;
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
 
         }
 
