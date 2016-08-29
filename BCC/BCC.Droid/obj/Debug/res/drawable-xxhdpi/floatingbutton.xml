@@ -1,1 +1,1 @@
-<ripple android:color="@color/gray" tools:targetApi="lollipop" xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"><item><shape android:shape="oval"><solid android:color="#f816a463" /></shape></item></ripple>
+<ripple android:color="@color/gray" tools:targetApi="lollipop" xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"><item><shape android:shape="oval"><solid android:color="@color/secondary" /></shape></item></ripple>

@@ -282,31 +282,32 @@ containing a value of this type.
     public static final class color {
         public static final int black=0x7f070012;
         public static final int common_action_bar_splitter=0x7f070008;
-        public static final int common_google_signin_btn_text_dark=0x7f070015;
+        public static final int common_google_signin_btn_text_dark=0x7f070016;
         /**  Google Sign-in Button Colors 
          */
         public static final int common_google_signin_btn_text_dark_default=0x7f070009;
         public static final int common_google_signin_btn_text_dark_disabled=0x7f07000b;
         public static final int common_google_signin_btn_text_dark_focused=0x7f07000c;
         public static final int common_google_signin_btn_text_dark_pressed=0x7f07000a;
-        public static final int common_google_signin_btn_text_light=0x7f070016;
+        public static final int common_google_signin_btn_text_light=0x7f070017;
         public static final int common_google_signin_btn_text_light_default=0x7f07000d;
         public static final int common_google_signin_btn_text_light_disabled=0x7f07000f;
         public static final int common_google_signin_btn_text_light_focused=0x7f070010;
         public static final int common_google_signin_btn_text_light_pressed=0x7f07000e;
-        public static final int common_plus_signin_btn_text_dark=0x7f070017;
+        public static final int common_plus_signin_btn_text_dark=0x7f070018;
         /**  Google Plus Sign-in Button Colors 
          */
         public static final int common_plus_signin_btn_text_dark_default=0x7f070000;
         public static final int common_plus_signin_btn_text_dark_disabled=0x7f070002;
         public static final int common_plus_signin_btn_text_dark_focused=0x7f070003;
         public static final int common_plus_signin_btn_text_dark_pressed=0x7f070001;
-        public static final int common_plus_signin_btn_text_light=0x7f070018;
+        public static final int common_plus_signin_btn_text_light=0x7f070019;
         public static final int common_plus_signin_btn_text_light_default=0x7f070004;
         public static final int common_plus_signin_btn_text_light_disabled=0x7f070006;
         public static final int common_plus_signin_btn_text_light_focused=0x7f070007;
         public static final int common_plus_signin_btn_text_light_pressed=0x7f070005;
         public static final int gray=0x7f070013;
+        public static final int secondary=0x7f070015;
         public static final int transparent=0x7f070014;
         public static final int white=0x7f070011;
     }

@@ -161,8 +161,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f070008
 			public const int common_action_bar_splitter = 2131165192;
 			
-			// aapt resource value: 0x7f070015
-			public const int common_google_signin_btn_text_dark = 2131165205;
+			// aapt resource value: 0x7f070016
+			public const int common_google_signin_btn_text_dark = 2131165206;
 			
 			// aapt resource value: 0x7f070009
 			public const int common_google_signin_btn_text_dark_default = 2131165193;
@@ -176,8 +176,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f07000a
 			public const int common_google_signin_btn_text_dark_pressed = 2131165194;
 			
-			// aapt resource value: 0x7f070016
-			public const int common_google_signin_btn_text_light = 2131165206;
+			// aapt resource value: 0x7f070017
+			public const int common_google_signin_btn_text_light = 2131165207;
 			
 			// aapt resource value: 0x7f07000d
 			public const int common_google_signin_btn_text_light_default = 2131165197;
@@ -191,8 +191,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f07000e
 			public const int common_google_signin_btn_text_light_pressed = 2131165198;
 			
-			// aapt resource value: 0x7f070017
-			public const int common_plus_signin_btn_text_dark = 2131165207;
+			// aapt resource value: 0x7f070018
+			public const int common_plus_signin_btn_text_dark = 2131165208;
 			
 			// aapt resource value: 0x7f070000
 			public const int common_plus_signin_btn_text_dark_default = 2131165184;
@@ -206,8 +206,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f070001
 			public const int common_plus_signin_btn_text_dark_pressed = 2131165185;
 			
-			// aapt resource value: 0x7f070018
-			public const int common_plus_signin_btn_text_light = 2131165208;
+			// aapt resource value: 0x7f070019
+			public const int common_plus_signin_btn_text_light = 2131165209;
 			
 			// aapt resource value: 0x7f070004
 			public const int common_plus_signin_btn_text_light_default = 2131165188;
@@ -223,6 +223,9 @@ namespace BCC.Droid
 			
 			// aapt resource value: 0x7f070013
 			public const int gray = 2131165203;
+			
+			// aapt resource value: 0x7f070015
+			public const int secondary = 2131165205;
 			
 			// aapt resource value: 0x7f070014
 			public const int transparent = 2131165204;
