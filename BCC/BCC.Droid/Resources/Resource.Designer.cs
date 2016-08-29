@@ -391,7 +391,10 @@ namespace BCC.Droid
 			public const int menu = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int splash = 2130837553;
+			public const int plus = 2130837553;
+			
+			// aapt resource value: 0x7f020032
+			public const int splash = 2130837554;
 			
 			static Drawable()
 			{

@@ -360,7 +360,8 @@ containing a value of this type.
         public static final int gps_blue=0x7f02002e;
         public static final int icon=0x7f02002f;
         public static final int menu=0x7f020030;
-        public static final int splash=0x7f020031;
+        public static final int plus=0x7f020031;
+        public static final int splash=0x7f020032;
     }
     public static final class id {
         public static final int MvvmCrossTagId=0x7f080000;
