@@ -9,7 +9,13 @@ C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\obj\Debug\BCC.Core.dll
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\obj\Debug\BCC.Core.pdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
 C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
-C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
-C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
-C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
-C:\Users\Michael\Desktop\IAB330\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\BCC.Core.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\BCC.Core.pdb
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\MvvmCross.Binding.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\MvvmCross.Core.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\MvvmCross.Localization.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\MvvmCross.Platform.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\obj\Debug\BCC.Core.dll
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\obj\Debug\BCC.Core.pdb
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
+C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb

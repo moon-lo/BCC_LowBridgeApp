@@ -5,6 +5,7 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <application android:label="BCC.Droid" android:name="android.app.Application" android:allowBackup="true" android:icon="@mipmap/icon" android:debuggable="true">
+    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     <activity android:icon="@mipmap/icon" android:label="Bridge Manager" android:noHistory="true" android:screenOrientation="portrait" android:theme="@style/Theme.Splash" android:name="md53ce5f0ab5c0148a39582b020041a12a6.SplashScreen">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
