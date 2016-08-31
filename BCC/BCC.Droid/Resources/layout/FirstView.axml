@@ -12,7 +12,8 @@
         android:background="@layout/Search_Bg"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:id="@+id/search">
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,11 +30,22 @@
             android:layout_margin="5dp"
             android:textColorHint="@color/gray"
             android:id="@+id/searchText"
-            local:MvxBind="Text Name"
+            local:MvxBind="Text SearchText"
             android:maxLines="1"
             android:singleLine="true"
             android:scrollHorizontally="true" />
     </LinearLayout>
+    <Mvx.MvxListView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@layout/Search_Bg"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_below="@id/search"
+        local:MvxItemTemplate="@layout/searchlayout"
+        local:MvxBind="ItemsSource SearchData; ItemClick SelectSearchCommand" />
     <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"

@@ -55,5 +55,5 @@
         p1:layout_alignParentBottom="true"
         p1:id="@+id/plusButton"
         p1:background="@drawable/floatingbutton"
-        p1:layout_margin="16" />
+        p1:layout_margin="16dp" />
 </RelativeLayout>

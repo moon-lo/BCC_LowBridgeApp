@@ -123,6 +123,9 @@
     <AndroidResource Include="Resources\layout\Hamburger.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\searchLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -185,6 +188,11 @@
     <AndroidResource Include="Resources\drawable-xhdpi\gps_blue.png" />
     <AndroidResource Include="Resources\drawable-mdpi\gps_blue.png" />
     <AndroidResource Include="Resources\drawable-hdpi\gps_blue.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\plus.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\plus.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\plus.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\plus.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\plus.png" />
     <Content Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -282,32 +282,33 @@ containing a value of this type.
     public static final class color {
         public static final int black=0x7f070012;
         public static final int common_action_bar_splitter=0x7f070008;
-        public static final int common_google_signin_btn_text_dark=0x7f070015;
+        public static final int common_google_signin_btn_text_dark=0x7f070016;
         /**  Google Sign-in Button Colors 
          */
         public static final int common_google_signin_btn_text_dark_default=0x7f070009;
         public static final int common_google_signin_btn_text_dark_disabled=0x7f07000b;
         public static final int common_google_signin_btn_text_dark_focused=0x7f07000c;
         public static final int common_google_signin_btn_text_dark_pressed=0x7f07000a;
-        public static final int common_google_signin_btn_text_light=0x7f070016;
+        public static final int common_google_signin_btn_text_light=0x7f070017;
         public static final int common_google_signin_btn_text_light_default=0x7f07000d;
         public static final int common_google_signin_btn_text_light_disabled=0x7f07000f;
         public static final int common_google_signin_btn_text_light_focused=0x7f070010;
         public static final int common_google_signin_btn_text_light_pressed=0x7f07000e;
-        public static final int common_plus_signin_btn_text_dark=0x7f070017;
+        public static final int common_plus_signin_btn_text_dark=0x7f070018;
         /**  Google Plus Sign-in Button Colors 
          */
         public static final int common_plus_signin_btn_text_dark_default=0x7f070000;
         public static final int common_plus_signin_btn_text_dark_disabled=0x7f070002;
         public static final int common_plus_signin_btn_text_dark_focused=0x7f070003;
         public static final int common_plus_signin_btn_text_dark_pressed=0x7f070001;
-        public static final int common_plus_signin_btn_text_light=0x7f070018;
+        public static final int common_plus_signin_btn_text_light=0x7f070019;
         public static final int common_plus_signin_btn_text_light_default=0x7f070004;
         public static final int common_plus_signin_btn_text_light_disabled=0x7f070006;
         public static final int common_plus_signin_btn_text_light_focused=0x7f070007;
         public static final int common_plus_signin_btn_text_light_pressed=0x7f070005;
         public static final int gray=0x7f070013;
-        public static final int transparent=0x7f070014;
+        public static final int secondary=0x7f070014;
+        public static final int transparent=0x7f070015;
         public static final int white=0x7f070011;
     }
     public static final class drawable {
@@ -360,7 +361,8 @@ containing a value of this type.
         public static final int gps_blue=0x7f02002e;
         public static final int icon=0x7f02002f;
         public static final int menu=0x7f020030;
-        public static final int splash=0x7f020031;
+        public static final int plus=0x7f020031;
+        public static final int splash=0x7f020032;
     }
     public static final class id {
         public static final int MvvmCrossTagId=0x7f080000;
@@ -368,19 +370,29 @@ containing a value of this type.
         public static final int adjust_height=0x7f080007;
         public static final int adjust_width=0x7f080008;
         public static final int auto=0x7f08000c;
-        public static final int button=0x7f080010;
+        public static final int button=0x7f080011;
         public static final int dark=0x7f08000d;
-        public static final int focusButton=0x7f080012;
+        public static final int focusButton=0x7f080013;
         public static final int hybrid=0x7f080002;
         public static final int icon_only=0x7f080009;
         public static final int light=0x7f08000e;
+        public static final int linearLayout1=0x7f080015;
         public static final int map=0x7f08000f;
         public static final int none=0x7f080003;
         public static final int normal=0x7f080004;
+        public static final int plusButton=0x7f08001c;
+        public static final int radioButton2=0x7f080019;
+        public static final int radioButton3=0x7f08001a;
+        public static final int radioButton4=0x7f08001b;
+        public static final int radioGroup1=0x7f080018;
+        public static final int relativeLayout1=0x7f080014;
         public static final int satellite=0x7f080005;
-        public static final int searchText=0x7f080011;
+        public static final int search=0x7f080010;
+        public static final int searchText=0x7f080012;
+        public static final int space1=0x7f080017;
         public static final int standard=0x7f08000a;
         public static final int terrain=0x7f080006;
+        public static final int textView1=0x7f080016;
         public static final int wide=0x7f08000b;
     }
     public static final class integer {
@@ -390,8 +402,9 @@ containing a value of this type.
         public static final int firstview=0x7f040000;
         public static final int hamburger=0x7f040001;
         public static final int search_bg=0x7f040002;
-        public static final int splashscreen=0x7f040003;
-        public static final int vehicleprofiles=0x7f040004;
+        public static final int searchlayout=0x7f040003;
+        public static final int splashscreen=0x7f040004;
+        public static final int vehicleprofiles=0x7f040005;
     }
     public static final class mipmap {
         public static final int icon=0x7f030000;
