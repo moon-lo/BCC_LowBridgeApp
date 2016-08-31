@@ -6,6 +6,14 @@ BCC.Droid.Views.FirstView, BCC.Droid;md51a7c69b8e9e7c16ad269c30ad6124464.FirstVi
 BCC.Droid.Views.FirstView, BCC.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
 BCC.Droid.Views.FirstView;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
 bcc.droid.views.FirstView;md51a7c69b8e9e7c16ad269c30ad6124464.FirstView
+BCC.Droid.Views.Hamburger, BCC.Droid;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger
+BCC.Droid.Views.Hamburger, BCC.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger
+BCC.Droid.Views.Hamburger;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger
+bcc.droid.views.Hamburger;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger
+BCC.Droid.Views.Hamburger/NavigationDrawerActivity, BCC.Droid;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger_NavigationDrawerActivity
+BCC.Droid.Views.Hamburger+NavigationDrawerActivity, BCC.Droid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger_NavigationDrawerActivity
+BCC.Droid.Views.Hamburger.NavigationDrawerActivity;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger_NavigationDrawerActivity
+bcc.droid.views.Hamburger_NavigationDrawerActivity;md51a7c69b8e9e7c16ad269c30ad6124464.Hamburger_NavigationDrawerActivity
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView, MvvmCross.Binding.Droid;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView, MvvmCross.Binding.Droid, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView
 MvvmCross.Binding.Droid.Views.MvxBaseListItemView;md5bf0126c95bf9fc0db24c02c9adb4cfa7.MvxBaseListItemView

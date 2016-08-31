@@ -311,6 +311,9 @@ containing a value of this type.
         public static final int transparent=0x7f070015;
         public static final int white=0x7f070011;
     }
+    public static final class dimen {
+        public static final int drawer_width=0x7f090000;
+    }
     public static final class drawable {
         public static final int cars=0x7f020000;
         public static final int common_full_open_on_phone=0x7f020001;
@@ -367,32 +370,36 @@ containing a value of this type.
     public static final class id {
         public static final int MvvmCrossTagId=0x7f080000;
         public static final int MvxBindingTagUnique=0x7f080001;
+        public static final int Search_Bg=0x7f080015;
         public static final int adjust_height=0x7f080007;
         public static final int adjust_width=0x7f080008;
         public static final int auto=0x7f08000c;
         public static final int button=0x7f080011;
+        public static final int content_frame=0x7f080016;
         public static final int dark=0x7f08000d;
+        public static final int drawer_layout=0x7f080014;
         public static final int focusButton=0x7f080013;
         public static final int hybrid=0x7f080002;
         public static final int icon_only=0x7f080009;
+        public static final int left_drawer=0x7f080017;
         public static final int light=0x7f08000e;
-        public static final int linearLayout1=0x7f080015;
+        public static final int linearLayout1=0x7f080019;
         public static final int map=0x7f08000f;
         public static final int none=0x7f080003;
         public static final int normal=0x7f080004;
-        public static final int plusButton=0x7f08001c;
-        public static final int radioButton2=0x7f080019;
-        public static final int radioButton3=0x7f08001a;
-        public static final int radioButton4=0x7f08001b;
-        public static final int radioGroup1=0x7f080018;
-        public static final int relativeLayout1=0x7f080014;
+        public static final int plusButton=0x7f080020;
+        public static final int radioButton2=0x7f08001d;
+        public static final int radioButton3=0x7f08001e;
+        public static final int radioButton4=0x7f08001f;
+        public static final int radioGroup1=0x7f08001c;
+        public static final int relativeLayout1=0x7f080018;
         public static final int satellite=0x7f080005;
         public static final int search=0x7f080010;
         public static final int searchText=0x7f080012;
-        public static final int space1=0x7f080017;
+        public static final int space1=0x7f08001b;
         public static final int standard=0x7f08000a;
         public static final int terrain=0x7f080006;
-        public static final int textView1=0x7f080016;
+        public static final int textView1=0x7f08001a;
         public static final int wide=0x7f08000b;
     }
     public static final class integer {
@@ -401,10 +408,11 @@ containing a value of this type.
     public static final class layout {
         public static final int firstview=0x7f040000;
         public static final int hamburger=0x7f040001;
-        public static final int search_bg=0x7f040002;
-        public static final int searchlayout=0x7f040003;
-        public static final int splashscreen=0x7f040004;
-        public static final int vehicleprofiles=0x7f040005;
+        public static final int item_menu=0x7f040002;
+        public static final int search_bg=0x7f040003;
+        public static final int searchlayout=0x7f040004;
+        public static final int splashscreen=0x7f040005;
+        public static final int vehicleprofiles=0x7f040006;
     }
     public static final class mipmap {
         public static final int icon=0x7f030000;
@@ -522,7 +530,7 @@ containing a value of this type.
         public static final int search=0x7f050020;
     }
     public static final class style {
-        public static final int Theme_Splash=0x7f090000;
+        public static final int Theme_Splash=0x7f0a0000;
     }
     public static final class styleable {
         /**  Attributes for LoadingImageView 

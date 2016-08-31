@@ -243,6 +243,22 @@ namespace BCC.Droid
 			}
 		}
 		
+		public partial class Dimension
+		{
+			
+			// aapt resource value: 0x7f090000
+			public const int drawer_width = 2131296256;
+			
+			static Dimension()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Dimension()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
@@ -418,6 +434,9 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080001
 			public const int MvxBindingTagUnique = 2131230721;
 			
+			// aapt resource value: 0x7f080015
+			public const int Search_Bg = 2131230741;
+			
 			// aapt resource value: 0x7f080007
 			public const int adjust_height = 2131230727;
 			
@@ -430,8 +449,14 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080011
 			public const int button = 2131230737;
 			
+			// aapt resource value: 0x7f080016
+			public const int content_frame = 2131230742;
+			
 			// aapt resource value: 0x7f08000d
 			public const int dark = 2131230733;
+			
+			// aapt resource value: 0x7f080014
+			public const int drawer_layout = 2131230740;
 			
 			// aapt resource value: 0x7f080013
 			public const int focusButton = 2131230739;
@@ -442,11 +467,14 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080009
 			public const int icon_only = 2131230729;
 			
+			// aapt resource value: 0x7f080017
+			public const int left_drawer = 2131230743;
+			
 			// aapt resource value: 0x7f08000e
 			public const int light = 2131230734;
 			
-			// aapt resource value: 0x7f080015
-			public const int linearLayout1 = 2131230741;
+			// aapt resource value: 0x7f080019
+			public const int linearLayout1 = 2131230745;
 			
 			// aapt resource value: 0x7f08000f
 			public const int map = 2131230735;
@@ -457,23 +485,23 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080004
 			public const int normal = 2131230724;
 			
+			// aapt resource value: 0x7f080020
+			public const int plusButton = 2131230752;
+			
+			// aapt resource value: 0x7f08001d
+			public const int radioButton2 = 2131230749;
+			
+			// aapt resource value: 0x7f08001e
+			public const int radioButton3 = 2131230750;
+			
+			// aapt resource value: 0x7f08001f
+			public const int radioButton4 = 2131230751;
+			
 			// aapt resource value: 0x7f08001c
-			public const int plusButton = 2131230748;
-			
-			// aapt resource value: 0x7f080019
-			public const int radioButton2 = 2131230745;
-			
-			// aapt resource value: 0x7f08001a
-			public const int radioButton3 = 2131230746;
-			
-			// aapt resource value: 0x7f08001b
-			public const int radioButton4 = 2131230747;
+			public const int radioGroup1 = 2131230748;
 			
 			// aapt resource value: 0x7f080018
-			public const int radioGroup1 = 2131230744;
-			
-			// aapt resource value: 0x7f080014
-			public const int relativeLayout1 = 2131230740;
+			public const int relativeLayout1 = 2131230744;
 			
 			// aapt resource value: 0x7f080005
 			public const int satellite = 2131230725;
@@ -484,8 +512,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080012
 			public const int searchText = 2131230738;
 			
-			// aapt resource value: 0x7f080017
-			public const int space1 = 2131230743;
+			// aapt resource value: 0x7f08001b
+			public const int space1 = 2131230747;
 			
 			// aapt resource value: 0x7f08000a
 			public const int standard = 2131230730;
@@ -493,8 +521,8 @@ namespace BCC.Droid
 			// aapt resource value: 0x7f080006
 			public const int terrain = 2131230726;
 			
-			// aapt resource value: 0x7f080016
-			public const int textView1 = 2131230742;
+			// aapt resource value: 0x7f08001a
+			public const int textView1 = 2131230746;
 			
 			// aapt resource value: 0x7f08000b
 			public const int wide = 2131230731;
@@ -535,16 +563,19 @@ namespace BCC.Droid
 			public const int Hamburger = 2130968577;
 			
 			// aapt resource value: 0x7f040002
-			public const int Search_Bg = 2130968578;
+			public const int item_menu = 2130968578;
 			
 			// aapt resource value: 0x7f040003
-			public const int searchLayout = 2130968579;
+			public const int Search_Bg = 2130968579;
 			
 			// aapt resource value: 0x7f040004
-			public const int SplashScreen = 2130968580;
+			public const int searchLayout = 2130968580;
 			
 			// aapt resource value: 0x7f040005
-			public const int VehicleProfiles = 2130968581;
+			public const int SplashScreen = 2130968581;
+			
+			// aapt resource value: 0x7f040006
+			public const int VehicleProfiles = 2130968582;
 			
 			static Layout()
 			{
@@ -693,8 +724,8 @@ namespace BCC.Droid
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f090000
-			public const int Theme_Splash = 2131296256;
+			// aapt resource value: 0x7f0a0000
+			public const int Theme_Splash = 2131361792;
 			
 			static Style()
 			{
