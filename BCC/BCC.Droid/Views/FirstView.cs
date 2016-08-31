@@ -12,7 +12,7 @@ using Android.Widget;
 namespace BCC.Droid.Views
 {
     /// <summary>
-    /// author: Michael Devenish
+    /// author: N9452982,  Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
     public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback

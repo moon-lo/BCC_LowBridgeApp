@@ -6,6 +6,9 @@ using System.Windows.Input;
 
 namespace BCC.Core.ViewModels
 {
+    /// <summary>
+    /// Author: N9452982, Michael Devenish
+    /// </summary>
     public class FirstViewModel
         : MvxViewModel
     {

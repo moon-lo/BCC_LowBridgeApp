@@ -1,4 +1,42 @@
-<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:local="http://schemas.android.com/apk/res-auto"><fragment android:id="@+id/map" android:layout_width="match_parent" android:layout_height="match_parent" class="com.google.android.gms.maps.MapFragment" /><LinearLayout android:background="@layout/search_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="10dp" android:id="@+id/search"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dp" android:background="@color/transparent" android:src="@drawable/menu" android:id="@+id/button" /><EditText android:layout_width="match_parent" android:layout_height="fill_parent" android:background="@color/transparent" android:textColor="@color/black" android:hint="@string/search" android:layout_margin="5dp" android:textColorHint="@color/gray" android:id="@+id/searchText" local:MvxBind="Text SearchText" android:maxLines="1" android:singleLine="true" android:scrollHorizontally="true" /></LinearLayout><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--Author: N9452982, Michael Devenish-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.MapFragment" />
+    <LinearLayout
+        android:background="@layout/Search_Bg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/search">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/transparent"
+            android:src="@drawable/menu"
+            android:id="@+id/button" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/transparent"
+            android:textColor="@color/black"
+            android:hint="@string/search"
+            android:layout_margin="5dp"
+            android:textColorHint="@color/gray"
+            android:id="@+id/searchText"
+            local:MvxBind="Text SearchText"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true" />
+    </LinearLayout>
+<!--
     <Mvx.MvxListView
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -10,4 +48,26 @@
         android:layout_below="@id/search"
         local:MvxItemTemplate="@layout/searchlayout"
         local:MvxBind="ItemsSource SearchData; ItemClick SelectSearchCommand" />
-        --><!-- get this working and make it appear on search enter--><ImageButton android:layout_width="60dp" android:layout_height="60dp" android:id="@+id/focusButton" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_marginBottom="92dp" android:layout_marginRight="16dp" android:layout_marginLeft="16dp" android:layout_marginTop="16dp" android:background="@drawable/floatingbuttonwhite" android:src="@drawable/gps_blue" /><ImageButton android:layout_width="60dp" android:layout_height="60dp" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:layout_margin="16dp" android:background="@drawable/floatingbutton" android:src="@drawable/cars" /></RelativeLayout>
+        -->
+<!-- get this working and make it appear on search enter-->
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/focusButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/floatingbuttonwhite"
+        android:src="@drawable/gps_blue" />
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/floatingbutton"
+        android:src="@drawable/cars" />
+</RelativeLayout>
