@@ -10,3 +10,4 @@
   android:textSize="20dp"
   local:MvxBind="Text SearchResult"/>
 </LinearLayout>
+
