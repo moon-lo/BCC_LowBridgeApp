@@ -22,3 +22,7 @@ C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
 C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
 C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
 C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
+C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
+C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
+C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\obj\Debug\BCC.Core.dll.mdb
+C:\Users\Michael\Desktop\iab330test\BCC\BCC.Core\bin\Debug\BCC.Core.dll.mdb
