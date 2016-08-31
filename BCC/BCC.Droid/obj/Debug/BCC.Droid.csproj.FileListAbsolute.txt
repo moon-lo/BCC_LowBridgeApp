@@ -337,4 +337,3 @@ C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Droid\obj\Debug\android\assets\Sy
 C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Droid\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
 C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Droid\obj\Debug\res\mipmap\icon.png
 C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Droid\obj\Debug\BCC.Droid.dll.mdb
-C:\Users\USER\Desktop\BCC_LowBridgeApp\BCC\BCC.Droid\bin\Debug\BCC.Droid.dll.mdb
