@@ -180,11 +180,11 @@ namespace BCC.Droid.Views
 
             Criteria locationCriteria = new Criteria();
 
-            locationCriteria.Accuracy = Accuracy.Fine;
-            locationCriteria.PowerRequirement = Power.Medium;
+            locationCriteria.Accuracy = Accuracy.Coarse;
+            locationCriteria.PowerRequirement = Power.Low;
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
 
         }
 
