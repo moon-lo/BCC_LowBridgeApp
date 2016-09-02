@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -11,35 +6,50 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Views;
 using Android.Support.V4.Widget;
-using Java.Lang;
+using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 
 
 namespace BCC.Droid.Views
 {
-    public class Hamburger : Activity
+    /// <summary>
+    /// Author: Lok Sum (Moon) Lo n9050159
+    /// </summary>
+
+    [Activity]
+
+    public class MainActivity : AppCompatActivity
     {
-        private static string[] hamburgerItemTitles = { "Current Vehicle", "Settings", "Help", "About, terms & privacy" };
-        private DrawerLayout drawerLayout;
-        private ListView hambList;
 
-        public class NavigationDrawerActivity : Activity
+        string[] _titles = { "Current vehicle", "Settings", "Help", "About & Terms and Privacy" };
+
+        ActionBarDrawerToggle _drawerToggle;
+
+        ListView _drawerListView;
+
+        DrawerLayout _drawerLayout;
+
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            /* protected override void OnCreate(Bundle savedInstanceState)
-            {
-                base.OnCreate(savedInstanceState);
-                SetContentView(Resource.Layout.Hamburger);
+            base.OnCreate(savedInstanceState);
 
+            SetContentView(Resource.Layout.Hamburger);
 
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
 
-                var mDrawerLayout = (DrawerLayout)FindViewById(Resource.Id.drawer_layout);
-                var mDrawerList = (ListView)FindViewById(Resource.Id.left_drawer);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
-                // Set the adapter for the list view
-                //mDrawerList.Adapter = new ArrayAdapter<string>(this, Resource.Layout.abc_list_menu_item_layout, hamburgerItemTitles);
-                // Set the list's click listener
-                //mDrawerList.OnItemClickListener = new DrawerItemClickListener();
+            _drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
+            
+            _drawerListView.Adapter = new ArrayAdapter<string>(this, global::Android.Resource.Layout.SimpleListItem1, _titles);
 
-            }*/
+            _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
+
+            _drawerToggle = new ActionBarDrawerToggle(this, _drawerLayout, Resource.String.OpenDrawerString, Resource.String.CloseDrawerString);
+
+            _drawerLayout.SetDrawerListener(_drawerToggle);
+
         }
     }
 }

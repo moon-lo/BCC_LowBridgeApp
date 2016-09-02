@@ -1,0 +1,1 @@
+<!-- Author: Lok Sum (Moon) Lo n9050159 --><!-- Toolbar for interactive demo (to be replaced) --><android.support.v7.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android" />
