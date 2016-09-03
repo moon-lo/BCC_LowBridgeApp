@@ -1,1 +1,5 @@
-
+*.suo
+[Oo]bj/
+[Bb]in/
+TestResults/
+Resource.designer.cs
