@@ -1,5 +1,6 @@
+Resource.Designer.cs
 *.suo
 [Oo]bj/
 [Bb]in/
 TestResults/
-BCC/BCC.Droid/Resources/Resource.designer.cs
+
