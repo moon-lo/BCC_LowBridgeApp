@@ -1,1 +1,0 @@
-<!--Author: N9452982, Michael Devenish--><ripple android:color="@color/gray" tools:targetApi="lollipop" xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"><item><shape android:shape="oval"><solid android:color="@color/white" /></shape></item></ripple>
