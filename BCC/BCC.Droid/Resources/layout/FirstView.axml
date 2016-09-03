@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.MapFragment" />
+  <TextView/>
     <LinearLayout
         android:background="@layout/Search_Bg"
         android:layout_width="fill_parent"
