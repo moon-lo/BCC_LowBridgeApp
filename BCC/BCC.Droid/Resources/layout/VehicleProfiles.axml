@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Author: N9017097, Scott Fletcher-->
 <RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
     p1:minWidth="25px"
     p1:minHeight="25px"
@@ -14,34 +13,33 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/linearLayout1">
-      <RelativeLayout
-          p1:layout_width="match_parent"
-          p1:layout_height="wrap_content"
-          p1:layout_marginBottom="10dp"
-          p1:background="@layout/vehicle_Bg">
-        <TextView
-            p1:text="Vehicle Selected: Volvo FH 16"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:id="@+id/textView1"
-            p1:gravity="center"
+        <RelativeLayout
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:layout_marginTop="6.5dp" />
-        <TextView
-            p1:text="Height: 3.9m"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:gravity="center"
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:layout_marginTop="35dp"
-            p1:layout_marginBottom="10dp" />
-      </RelativeLayout>
+            p1:layout_marginBottom="10dp"
+            p1:background="@layout/vehicle_Bg">
+            <TextView
+                p1:text="Vehicle Selected: Volvo FH 16"
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:id="@+id/textView1"
+                p1:gravity="center"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:layout_marginTop="6.5dp" />
+            <TextView
+                p1:text="Height: 3.9m"
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:gravity="center"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:layout_marginTop="35dp"
+                p1:layout_marginBottom="10dp" />
+        </RelativeLayout>
         <Space
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/space1" />
-      <!-- Want to Make this a list with check marks--> 
-      <RadioGroup
+        <RadioGroup
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/radioGroup1">
@@ -63,8 +61,7 @@
                 p1:id="@+id/radioButton4" />
         </RadioGroup>
     </LinearLayout>
-    <!-- Want This button to open a dialog input to create a new vehicle-->
-  <ImageButton
+    <ImageButton
         p1:src="@drawable/plus"
         p1:layout_width="60dp"
         p1:layout_height="60dp"

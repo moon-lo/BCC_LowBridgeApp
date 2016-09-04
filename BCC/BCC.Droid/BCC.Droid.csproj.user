@@ -3,5 +3,6 @@
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
     <SelectedDevice>5.7" Marshmallow %286.0.0%29 XHDPI Phone</SelectedDevice>
+    <AndroidDesignerPreferredTheme>Theme.Holo.Light</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>
