@@ -2,7 +2,7 @@
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
     <string name="search">Search</string>
-    <string name="ApplicationName">BCC.Droid</string>
+    <string name="ApplicationName">Brisbane Bridge Manager</string>
     <string name="APIkey">AIzaSyAhfqXIV1II0VnTsjBieyNk6pjv_bd7u3I</string>
     <string name="OpenDrawerString">Open hamburger menu</string>
     <string name="CloseDrawerString">Close hamburger menu</string>

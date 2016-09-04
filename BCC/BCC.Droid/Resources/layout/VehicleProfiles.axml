@@ -13,14 +13,28 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/linearLayout1">
+      <RelativeLayout
+          p1:layout_width="match_parent"
+          p1:layout_height="wrap_content"
+          p1:layout_marginBottom="10dp"
+          p1:background="@layout/vehicle_Bg">
         <TextView
-            p1:text="Vehicle Profiles"
+            p1:text="Vehicle Selected: Volvo FH 16"
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:id="@+id/textView1"
             p1:gravity="center"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:layout_marginBottom="31.5dp" />
+            p1:layout_marginTop="6.5dp" />
+        <TextView
+            p1:text="Height: 3.9m"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:gravity="center"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:layout_marginTop="35dp"
+            p1:layout_marginBottom="10dp" />
+      </RelativeLayout>
         <Space
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
