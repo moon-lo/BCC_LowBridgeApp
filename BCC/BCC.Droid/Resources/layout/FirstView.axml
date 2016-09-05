@@ -36,10 +36,11 @@
             android:singleLine="true"
             android:scrollHorizontally="true" />
     </LinearLayout>
-<!--
+
     <Mvx.MvxListView
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:visibility="invisible"
         android:background="@layout/Search_Bg"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
@@ -48,7 +49,7 @@
         android:layout_below="@id/search"
         local:MvxItemTemplate="@layout/searchlayout"
         local:MvxBind="ItemsSource SearchData; ItemClick SelectSearchCommand" />
-        -->
+        
 <!-- get this working and make it appear on search enter-->
     <ImageButton
         android:layout_width="60dp"

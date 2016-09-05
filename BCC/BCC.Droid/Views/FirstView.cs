@@ -19,8 +19,11 @@ namespace BCC.Droid.Views
     {
 
         //todo
-        //save and load from previous location
-        //comment
+        //set up event handeler for text entry and show 
+        //the hidden element on text entry
+
+        //handle back button pressed and if text visible
+        //hide it else default
 
         private LocationManager _locationManager;
         private string _locationProvider;
