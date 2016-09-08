@@ -8,6 +8,10 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Views;
 using Android.Widget;
+using Android.Text;
+using Java.Lang;
+using MvvmCross.Platform;
+using MvvmCross.Binding.Droid.Views;
 
 namespace BCC.Droid.Views
 {
@@ -15,15 +19,8 @@ namespace BCC.Droid.Views
     /// author: N9452982,  Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback
+    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback, ITextWatcher
     {
-
-        //todo
-        //set up event handeler for text entry and show 
-        //the hidden element on text entry
-
-        //handle back button pressed and if text visible
-        //hide it else default
 
         private LocationManager _locationManager;
         private string _locationProvider;
@@ -33,6 +30,7 @@ namespace BCC.Droid.Views
         public event EventHandler MapReady;
         private bool disablePositioning = false;
         private int softwareUpdate = 1;
+        private bool visibleSearch = false;
 
         #region gps
         /// <summary>
@@ -135,13 +133,40 @@ namespace BCC.Droid.Views
             }
         }
 
-
-        //unused
+        [Obsolete("Method is unused")]
         public void OnProviderDisabled(string provider) { }
+        [Obsolete("Method is unused")]
         public void OnProviderEnabled(string provider) { }
+        [Obsolete("Method is unused")]
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras) { }
 
         #endregion
+
+        #region searching
+        public void AfterTextChanged(IEditable s)
+        {
+            visibleSearch = true;
+            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
+        }
+
+        [Obsolete("Method is unused")]
+        public void BeforeTextChanged(ICharSequence s, int start, int count, int after){}
+        [Obsolete("Method is unused")]
+        public void OnTextChanged(ICharSequence s, int start, int before, int count){}
+
+        public override void OnBackPressed()
+        {
+            if (!visibleSearch)
+                base.OnBackPressed();
+            else
+            {
+                visibleSearch = false;
+                FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
+            }
+        }
+        #endregion
+
+        #region main functions
         /// <summary>
         /// the function that handles the creation of the view
         /// </summary>
@@ -152,7 +177,7 @@ namespace BCC.Droid.Views
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
             _locationManager = (LocationManager)GetSystemService(LocationService);
-
+            FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
             var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
             GoogleMap map = null;
             this.MapReady += (sender, args) =>
@@ -199,5 +224,7 @@ namespace BCC.Droid.Views
             base.OnPause();
             _locationManager.RemoveUpdates(this);
         }
+
+        #endregion
     }
 }
