@@ -12,6 +12,15 @@ namespace BCC.Core.ViewModels
     public class FirstViewModel
         : MvxViewModel
     {
+        public ICommand ButtonCommand { get; private set; }
+        public ICommand SelectSearchCommand { get; private set; }
+        public FirstViewModel()
+        {
+            SelectSearchCommand = new MvxCommand<Result>(search =>
+            {
+                SearchResult = search.SearchResult;
+            });
+        }
 
         private string searchResult;
         public string SearchResult
@@ -21,65 +30,43 @@ namespace BCC.Core.ViewModels
             {
                 if (value != null)
                 {
-                    AddUnit(new Result(value));
                     SetProperty(ref searchResult, value);
-
+                    AddUnit(new Result(SearchResult));
+                    RaisePropertyChanged(() => SearchData);
                 }
             }
         }
-        public void AddUnit(Result unit)
+
+        public void AddUnit(Result search)
         {
-            if (unit.SearchResult != null)
+            if (search.SearchResult != null)
             {
-                if (unit.SearchResult.Trim() != string.Empty)
-                {
-                    SearchData.Add(unit);
-                }
+                if (search.SearchResult.Trim() != string.Empty)
+                    SearchData.Add(search);
                 else
-                {
                     //Note this code just removes spaces from the EditText if that is all was in them
-                    SearchResult = unit.SearchResult;
-                }
+                    SearchResult = search.SearchResult;
             }
         }
 
-        private string searchText = "";
-        public string SearchText
-        {
-            get { return searchText; }
-            set
-            {
-                if (value != null && value != searchText)
-                {
-                    searchText = value;
-                    RaisePropertyChanged(() => SearchText);
-                    //show results
-                }
-            }
-        }
-        private ObservableCollection<Result> searchData;
+        private ObservableCollection<Result> searchData = new ObservableCollection<Result>();
         public ObservableCollection<Result> SearchData
         {
             get { return searchData; }
-            set { SetProperty(ref searchData, value); }
-        }
-        public class Result
-        {
-            public string SearchResult { get; set; }
-            public Result() { }
-            public Result(string result)
+            set
             {
-                SearchResult = result;
+                SetProperty(ref searchData, value);
             }
         }
-        public ICommand SelectUnitCommand { get; private set; }
-        public FirstViewModel()
-        {
-            SelectUnitCommand = new MvxCommand<Result>(unit =>
-            {
-                SearchResult = unit.SearchResult;
-            });
-        }
+    }
 
+    public class Result
+    {
+        public string SearchResult { get; set; }
+        public Result() { }
+        public Result(string result)
+        {
+            SearchResult = result;
+        }
     }
 }
