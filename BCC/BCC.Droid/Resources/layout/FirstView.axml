@@ -21,7 +21,8 @@
             android:layout_margin="5dp"
             android:background="@color/transparent"
             android:src="@drawable/menu"
-            android:id="@+id/button" />
+            android:id="@+id/button"
+            local:MvxBind="Click ButtonCommand" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
@@ -31,14 +32,14 @@
             android:layout_margin="5dp"
             android:textColorHint="@color/gray"
             android:id="@+id/searchText"
-            local:MvxBind="Text SearchResult"
+            local:MvxBind="Text UnitCode"
             android:maxLines="1"
             android:singleLine="true"
             android:scrollHorizontally="true" />
     </LinearLayout>
     <Mvx.MvxListView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
         android:id="@+id/searching"
         android:background="@layout/Search_Bg"
@@ -47,8 +48,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="0dp"
         android:layout_below="@id/search"
-        local:MvxItemTemplate="@layout/searchlayout"
-        local:MvxBind="ItemsSource SearchData; ItemClick SelectSearchCommand" />
+        local:MvxItemTemplate="@layout/unitcodeitemlayout"
+        local:MvxBind="ItemsSource UnitCodes; ItemClick SelectUnitCommand" />
 <!-- get this working and make it appear on search enter-->
     <ImageButton
         android:layout_width="60dp"

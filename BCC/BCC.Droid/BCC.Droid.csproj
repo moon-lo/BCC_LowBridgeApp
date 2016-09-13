@@ -136,7 +136,7 @@
     <AndroidResource Include="Resources\layout\Hamburger.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\searchLayout.axml">
+    <AndroidResource Include="Resources\layout\UnitCodeItemLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Toolbar.axml">
@@ -188,18 +188,28 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\splash.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\splash.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\floatingbutton.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable-mdpi\floatingbutton.xml" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\floatingbutton.xml" />
-    <AndroidResource Include="Resources\drawable-xhdpi\floatingbutton.xml" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\floatingbutton.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\floatingbutton.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\floatingbutton.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\floatingbutton.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable-xxxhdpi\cars.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\cars.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\cars.png" />
     <AndroidResource Include="Resources\drawable-mdpi\cars.png" />
     <AndroidResource Include="Resources\drawable-hdpi\cars.png" />
     <AndroidResource Include="Resources\drawable-hdpi\floatingbuttonwhite.xml" />
-    <AndroidResource Include="Resources\drawable-mdpi\floatingbuttonwhite.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\floatingbuttonwhite.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable-xhdpi\floatingbuttonwhite.xml" />
     <AndroidResource Include="Resources\drawable-xxhdpi\floatingbuttonwhite.xml" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\floatingbuttonwhite.xml" />

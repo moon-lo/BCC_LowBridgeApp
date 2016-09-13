@@ -12,61 +12,72 @@ namespace BCC.Core.ViewModels
     public class FirstViewModel
         : MvxViewModel
     {
-        public ICommand ButtonCommand { get; private set; }
-        public ICommand SelectSearchCommand { get; private set; }
-        public FirstViewModel()
+
+        private ObservableCollection<Unit> unitCodes;
+        public ObservableCollection<Unit> UnitCodes
         {
-            SelectSearchCommand = new MvxCommand<Result>(search =>
-            {
-                SearchResult = search.SearchResult;
-            });
+            get { return unitCodes; }
+            set { SetProperty(ref unitCodes, value); }
         }
 
-        private string searchResult;
-        public string SearchResult
+        private string unitCode;
+        public string UnitCode
         {
-            get { return searchResult; }
+            get { return unitCode; }
             set
             {
                 if (value != null)
                 {
-                    SetProperty(ref searchResult, value);
-                    AddUnit(new Result(SearchResult));
-                    RaisePropertyChanged(() => SearchData);
+                    SetProperty(ref unitCode, value);
+                    //UnitCodes.Clear();
+                    AddUnit(new Unit(UnitCode));
+                    RaisePropertyChanged(() => UnitCodes);
                 }
             }
         }
 
-        public void AddUnit(Result search)
+        public ICommand ButtonCommand { get; private set; }
+        public ICommand SelectUnitCommand { get; private set; }
+        public FirstViewModel()
         {
-            if (search.SearchResult != null)
+            UnitCodes = new ObservableCollection<Unit>(){
+            new Unit("IAB330") ,
+            new Unit() { UnitCode="IAB230"}
+        };
+
+            ButtonCommand = new MvxCommand(() =>
             {
-                if (search.SearchResult.Trim() != string.Empty)
-                    SearchData.Add(search);
+                AddUnit(new Unit(UnitCode));
+                RaisePropertyChanged(() => UnitCodes);
+            });
+            SelectUnitCommand = new MvxCommand<Unit>(unit =>
+            {
+                UnitCode = unit.UnitCode;
+            });
+        }
+
+
+        public void AddUnit(Unit unit)
+        {
+            if (unit.UnitCode != null)
+            {
+                if (unit.UnitCode.Trim() != string.Empty)
+                    UnitCodes.Add(unit);
                 else
                     //Note this code just removes spaces from the EditText if that is all was in them
-                    SearchResult = search.SearchResult;
+                    UnitCode = UnitCode.Trim();
             }
         }
 
-        private ObservableCollection<Result> searchData = new ObservableCollection<Result>();
-        public ObservableCollection<Result> SearchData
-        {
-            get { return searchData; }
-            set
-            {
-                SetProperty(ref searchData, value);
-            }
-        }
     }
 
-    public class Result
+    public class Unit
     {
-        public string SearchResult { get; set; }
-        public Result() { }
-        public Result(string result)
+        public string UnitCode { get; set; }
+        public Unit() { }
+        public Unit(string unitCode)
         {
-            SearchResult = result;
+            UnitCode = unitCode;
         }
     }
 }
