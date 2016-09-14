@@ -13,7 +13,7 @@ namespace BCC.Core.ViewModels
     {
         public async Task<List<LocationAutoCompleteResult.Result>> GetLocations(string searchTerm)
         {
-            WebRequest request = WebRequest.CreateHttp(string.Format("{0}?key={1}&address={2}",
+            WebRequest request = WebRequest.CreateHttp(string.Format("{0}?key={1}&address={2}&region=au",
                 LocationSearch.LocationsEndpoints,
                 LocationSearch.ApiKey, searchTerm));
             string responseValue = string.Empty;
