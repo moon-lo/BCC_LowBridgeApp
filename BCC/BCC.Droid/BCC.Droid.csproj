@@ -124,6 +124,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="Views\Hamburger.cs" />
+    <Compile Include="Views\VehicleProfilesView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
