@@ -150,9 +150,9 @@ namespace BCC.Droid.Views
         }
 
         [Obsolete("Method is unused")]
-        public void BeforeTextChanged(ICharSequence s, int start, int count, int after){}
+        public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }
         [Obsolete("Method is unused")]
-        public void OnTextChanged(ICharSequence s, int start, int before, int count){}
+        public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
 
         public override void OnBackPressed()
         {
@@ -176,6 +176,7 @@ namespace BCC.Droid.Views
             base.OnCreate(bundle);
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
+            FindViewById<MvxListView>(Resource.Id.searching).BringToFront();
             _locationManager = (LocationManager)GetSystemService(LocationService);
             FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
             var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
