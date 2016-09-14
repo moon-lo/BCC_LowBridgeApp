@@ -13,26 +13,36 @@ namespace BCC.Core.ViewModels
         : MvxViewModel
     {
 
-        private ObservableCollection<Unit> unitCodes;
-        public ObservableCollection<Unit> UnitCodes
+        private ObservableCollection<LocationAutoCompleteResult.Result> locations;
+        public ObservableCollection<LocationAutoCompleteResult.Result> Locations
         {
-            get { return unitCodes; }
-            set { SetProperty(ref unitCodes, value); }
-        }
-
+            get { return locations; }
+            set { SetProperty(ref locations, value); }
+        }
         private string unitCode;
         public string UnitCode
         {
             get { return unitCode; }
             set
             {
-                if (value != null)
+                SetProperty(ref unitCode, value);
+                SearchLocations(value);
+                if (value != null && value != "")
                 {
-                    SetProperty(ref unitCode, value);
-                    //UnitCodes.Clear();
-                    AddUnit(new Unit(UnitCode));
-                    RaisePropertyChanged(() => UnitCodes);
+                    RaisePropertyChanged(() => Locations);
                 }
+
+            }
+        }
+
+        private async void SearchLocations(string searchTerm)
+        {
+            locationService locationService = new locationService();
+            Locations.Clear();
+            var locationResults = await locationService.GetLocations(searchTerm);
+            foreach (var item in locationResults)
+            {
+                Locations.Add(item);
             }
         }
 
@@ -40,44 +50,16 @@ namespace BCC.Core.ViewModels
         public ICommand SelectUnitCommand { get; private set; }
         public FirstViewModel()
         {
-            UnitCodes = new ObservableCollection<Unit>(){
-            new Unit("IAB330") ,
-            new Unit() { UnitCode="IAB230"}
-        };
+            Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
+            SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(unit =>
+            {
+                //search
 
-            ButtonCommand = new MvxCommand(() =>
-            {
-                AddUnit(new Unit(UnitCode));
-                RaisePropertyChanged(() => UnitCodes);
-            });
-            SelectUnitCommand = new MvxCommand<Unit>(unit =>
-            {
-                UnitCode = unit.UnitCode;
             });
         }
 
 
-        public void AddUnit(Unit unit)
-        {
-            if (unit.UnitCode != null)
-            {
-                if (unit.UnitCode.Trim() != string.Empty)
-                    UnitCodes.Add(unit);
-                else
-                    //Note this code just removes spaces from the EditText if that is all was in them
-                    UnitCode = UnitCode.Trim();
-            }
-        }
-
     }
 
-    public class Unit
-    {
-        public string UnitCode { get; set; }
-        public Unit() { }
-        public Unit(string unitCode)
-        {
-            UnitCode = unitCode;
-        }
-    }
+
 }
