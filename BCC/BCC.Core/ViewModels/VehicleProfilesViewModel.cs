@@ -11,6 +11,11 @@ namespace BCC.Core.ViewModels
        : MvxViewModel
     {
 
-
+        public void Init()
+        {
+        }        public override void Start()
+        {
+            base.Start();
+        }
     }
 }

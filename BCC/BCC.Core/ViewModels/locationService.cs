@@ -11,6 +11,12 @@ namespace BCC.Core.ViewModels
 {
     public class locationService
     {
+        /// <summary>
+        /// Takes a search term and uses googles geocoding api to find relavant locations and returns 
+        /// them as a List
+        /// </summary>
+        /// <param name="searchTerm">the term to search</param>
+        /// <returns>the search results</returns>
         public async Task<List<LocationAutoCompleteResult.Result>> GetLocations(string searchTerm)
         {
             WebRequest request = WebRequest.CreateHttp(string.Format("{0}?key={1}&address={2}&region=au",

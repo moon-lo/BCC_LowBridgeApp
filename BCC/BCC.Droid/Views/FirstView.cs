@@ -25,12 +25,12 @@ namespace BCC.Droid.Views
         private LocationManager _locationManager;
         private string _locationProvider;
         private Marker marker = null;
-
-        public GoogleMap Map { get; private set; }
         public event EventHandler MapReady;
         private bool disablePositioning = false;
         private int softwareUpdate = 1;
         private bool visibleSearch = false;
+
+        public GoogleMap Map { get; private set; }
 
         #region gps
         /// <summary>
@@ -41,8 +41,6 @@ namespace BCC.Droid.Views
         public void OnLocationChanged(Location location)
         {
             GoogleMap map = null;
-            //get the map fragment and setup the checks to see if the map is ready
-            var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
 
             //get the map if ready
             this.MapReady += (sender, args) =>
@@ -57,12 +55,10 @@ namespace BCC.Droid.Views
                 }
 
                 marker = SetupMarker(location, map, marker);
-
-                if (map != null && !disablePositioning) map.MoveCamera(cameraUpdate);
+                if (map != null && !disablePositioning) map.AnimateCamera(cameraUpdate);
             };
             //call the above code when map ready
-
-            frag.GetMapAsync(this);
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
 
         }
 
@@ -76,8 +72,7 @@ namespace BCC.Droid.Views
         private Marker SetupMarker(Location location, GoogleMap map, Marker marker)
         {
             //remove the old marker
-            if (marker != null)
-                marker.Remove();
+            if (marker != null) marker.Remove();
 
             //set up and place a marker on the new location
             MarkerOptions userMarker = new MarkerOptions();
@@ -127,33 +122,65 @@ namespace BCC.Droid.Views
                     disablePositioning = true;
                 }
             };
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        [Obsolete("Method is unused")]
-        public void OnProviderDisabled(string provider) { }
-        [Obsolete("Method is unused")]
-        public void OnProviderEnabled(string provider) { }
-        [Obsolete("Method is unused")]
-        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras) { }
+        /// <summary>
+        /// Initalises all of the things required by the map
+        /// </summary>
+        private void SetupMap()
+        {
+            _locationManager = (LocationManager)GetSystemService(LocationService);
+
+            GoogleMap map = null;
+            this.MapReady += (sender, args) =>
+            {
+                map = Map;
+                Map.UiSettings.MapToolbarEnabled = false;
+                Map.UiSettings.CompassEnabled = false;
+            };
+            //call the above code when map ready
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
+
+            //set event handeler for crosshair button
+            FindViewById<ImageButton>(Resource.Id.focusButton).Click += delegate
+            {
+                disablePositioning = false;
+                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
+                if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
+                    OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
+            };
+        }
+
+        /// <summary>
+        /// Deals with resuming all of the stuff required from the map when the app resumes
+        /// </summary>
+        private void MapResume()
+        {
+            Criteria locationCriteria = new Criteria();
+            locationCriteria.Accuracy = Accuracy.Coarse;
+            locationCriteria.PowerRequirement = Power.Low;
+
+            _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
+        }
 
         #endregion
-
         #region searching
+
+        /// <summary>
+        /// makes the search results visible when text is entered into search
+        /// </summary>
+        /// <param name="s"></param>
         public void AfterTextChanged(IEditable s)
         {
             visibleSearch = true;
             FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
         }
 
-        [Obsolete("Method is unused")]
-        public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }
-        [Obsolete("Method is unused")]
-        public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
-
+        /// <summary>
+        /// When back is pressed it hides the results if they are visible before doing anything else
+        /// </summary>
         public override void OnBackPressed()
         {
             if (!visibleSearch)
@@ -164,9 +191,19 @@ namespace BCC.Droid.Views
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
             }
         }
-        #endregion
 
+        /// <summary>
+        /// Sets up all of the required things for the search
+        /// </summary>
+        private void SetupSearch()
+        {
+            FindViewById<MvxListView>(Resource.Id.searching).BringToFront();
+            FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
+        }
+
+        #endregion
         #region main functions
+
         /// <summary>
         /// the function that handles the creation of the view
         /// </summary>
@@ -176,28 +213,9 @@ namespace BCC.Droid.Views
             base.OnCreate(bundle);
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
-            FindViewById<MvxListView>(Resource.Id.searching).BringToFront();
-            _locationManager = (LocationManager)GetSystemService(LocationService);
-            FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
-            var frag = FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map);
-            GoogleMap map = null;
-            this.MapReady += (sender, args) =>
-            {
-                map = Map;
-                Map.UiSettings.MapToolbarEnabled = false;
-                Map.UiSettings.CompassEnabled = false;
-            };
-            //call the above code when map ready
-            frag.GetMapAsync(this);
-            //set event handeler for button
-            FindViewById<ImageButton>(Resource.Id.focusButton).Click += delegate
-            {
-                disablePositioning = false;
-                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
-                if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
-                    OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
-            };
 
+            SetupSearch();
+            SetupMap();
         }
 
         /// <summary>
@@ -206,15 +224,7 @@ namespace BCC.Droid.Views
         protected override void OnResume()
         {
             base.OnResume();
-
-            Criteria locationCriteria = new Criteria();
-
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Low;
-
-            _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
-
+            MapResume();
         }
 
         /// <summary>
@@ -226,6 +236,18 @@ namespace BCC.Droid.Views
             _locationManager.RemoveUpdates(this);
         }
 
+        #endregion
+        #region unused
+        [Obsolete("Method is unused")]
+        public void OnProviderDisabled(string provider) { }
+        [Obsolete("Method is unused")]
+        public void OnProviderEnabled(string provider) { }
+        [Obsolete("Method is unused")]
+        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras) { }
+        [Obsolete("Method is unused")]
+        public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }
+        [Obsolete("Method is unused")]
+        public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
         #endregion
     }
 }

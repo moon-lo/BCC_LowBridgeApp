@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:id="@+id/searching"
+        HasUnevenRows="true"
         android:background="@layout/Search_Bg"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
@@ -52,7 +53,6 @@
         android:layout_below="@id/search"
         local:MvxItemTemplate="@layout/unitcodeitemlayout"
         local:MvxBind="ItemsSource Locations; ItemClick SelectUnitCommand" />
-<!-- get this working and make it appear on search enter-->
     <ImageButton
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -72,5 +72,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:background="@drawable/floatingbutton"
-        android:src="@drawable/cars" />
+        android:src="@drawable/cars"
+        local:MvxBind="Click VehicleButton"/>
 </RelativeLayout>
