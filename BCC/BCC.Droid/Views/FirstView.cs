@@ -12,6 +12,7 @@ using Android.Text;
 using Java.Lang;
 using MvvmCross.Platform;
 using MvvmCross.Binding.Droid.Views;
+using BCC.Core.ViewModels;
 
 namespace BCC.Droid.Views
 {
@@ -19,7 +20,7 @@ namespace BCC.Droid.Views
     /// author: N9452982,  Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback, ITextWatcher
+    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback, ITextWatcher, IView
     {
 
         private LocationManager _locationManager;
@@ -214,6 +215,9 @@ namespace BCC.Droid.Views
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
 
+            var viewModel = DataContext as FirstViewModel;
+            viewModel.View = this;
+
             SetupSearch();
             SetupMap();
         }
@@ -234,6 +238,14 @@ namespace BCC.Droid.Views
         {
             base.OnPause();
             _locationManager.RemoveUpdates(this);
+        }
+
+        public void GoBack()
+        {
+            Toast toast = Toast.MakeText(this, "test", ToastLength.Long);
+            toast.Show();
+            //do stuff here
+
         }
 
         #endregion

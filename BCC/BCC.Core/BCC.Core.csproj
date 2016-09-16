@@ -38,6 +38,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />
     <Compile Include="ViewModels\HamburgerViewModel.cs" />
+    <Compile Include="ViewModels\IView.cs" />
     <Compile Include="ViewModels\LocationAutoCompleteResult.cs" />
     <Compile Include="ViewModels\LocationSearch.cs" />
     <Compile Include="ViewModels\locationService.cs" />

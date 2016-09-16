@@ -34,6 +34,8 @@ namespace BCC.Core.ViewModels
                 }
             }
         }
+        private IView view;
+        public IView View { get; set; }
 
         /// <summary>
         /// Searches for locations containing the search terms and adds the results to the Locations list
@@ -61,6 +63,7 @@ namespace BCC.Core.ViewModels
             Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
             {
+                View.GoBack();
                 //search
                 UnitCode = location.formatted_address;
             });
