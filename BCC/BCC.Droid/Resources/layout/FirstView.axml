@@ -32,7 +32,7 @@
             android:layout_margin="5dp"
             android:textColorHint="@color/gray"
             android:id="@+id/searchText"
-            local:MvxBind="Text UnitCode"
+            local:MvxBind="Text UnitCode; Click OpenSearch"
             android:maxLines="1"
             android:singleLine="true"
             android:scrollHorizontally="true" />

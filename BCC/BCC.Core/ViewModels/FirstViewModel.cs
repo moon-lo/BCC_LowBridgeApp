@@ -28,7 +28,7 @@ namespace BCC.Core.ViewModels
                 SetProperty(ref unitCode, value);
                 RaisePropertyChanged(() => Locations);
                 Locations.Clear();
-                if (value != null && value != "" && value.Length > prevalue.Length)
+                if (value != null && value != "")
                 {
                     SearchLocations(value);
                 }
@@ -52,6 +52,7 @@ namespace BCC.Core.ViewModels
         }
 
         public ICommand ButtonCommand { get; private set; }
+        public ICommand OpenSearch { get; private set; }
         public ICommand VehicleButton { get; private set; }
         public ICommand SelectUnitCommand { get; private set; }
 
@@ -61,9 +62,15 @@ namespace BCC.Core.ViewModels
         public FirstViewModel()
         {
             Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
+            OpenSearch = new MvxCommand(() =>
+            {
+                if (Locations.Count > 0)
+                    View.ShowSearch();
+            });
+
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
             {
-                View.GoBack(location);
+                View.GoTo(location);
                 //search
                 UnitCode = location.formatted_address;
             });

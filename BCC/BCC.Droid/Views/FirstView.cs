@@ -176,8 +176,7 @@ namespace BCC.Droid.Views
         /// <param name="s"></param>
         public void AfterTextChanged(IEditable s)
         {
-            visibleSearch = true;
-            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
+            ShowSearch();
         }
 
         /// <summary>
@@ -241,7 +240,7 @@ namespace BCC.Droid.Views
             _locationManager.RemoveUpdates(this);
         }
 
-        public void GoBack(LocationAutoCompleteResult.Result location)
+        public void GoTo(LocationAutoCompleteResult.Result location)
         {
             disablePositioning = true;
 
@@ -268,6 +267,12 @@ namespace BCC.Droid.Views
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
         }
 
+        public void ShowSearch()
+        {
+            visibleSearch = true;
+            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
+        }
+
         #endregion
         #region unused
         [Obsolete("Method is unused")]
@@ -280,6 +285,7 @@ namespace BCC.Droid.Views
         public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }
         [Obsolete("Method is unused")]
         public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
+
         #endregion
     }
 }

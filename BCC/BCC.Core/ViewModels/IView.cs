@@ -8,6 +8,7 @@ namespace BCC.Core.ViewModels
 {
     public interface IView
     {
-        void GoBack(LocationAutoCompleteResult.Result location);
+        void GoTo(LocationAutoCompleteResult.Result location);
+        void ShowSearch();
     }
 }
