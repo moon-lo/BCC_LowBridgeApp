@@ -63,7 +63,7 @@ namespace BCC.Core.ViewModels
             Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
             {
-                View.GoBack();
+                View.GoBack(location);
                 //search
                 UnitCode = location.formatted_address;
             });

@@ -26,6 +26,7 @@ namespace BCC.Droid.Views
         private LocationManager _locationManager;
         private string _locationProvider;
         private Marker marker = null;
+        private Marker searchMarker = null;
         public event EventHandler MapReady;
         private bool disablePositioning = false;
         private int softwareUpdate = 1;
@@ -55,7 +56,7 @@ namespace BCC.Droid.Views
                     cameraUpdate = GetNewCameraPosition(location);
                 }
 
-                marker = SetupMarker(location, map, marker);
+                marker = SetupMarker(location, map, marker, "Your Location");
                 if (map != null && !disablePositioning) map.AnimateCamera(cameraUpdate);
             };
             //call the above code when map ready
@@ -70,7 +71,7 @@ namespace BCC.Droid.Views
         /// <param name="map">the map it is being placed on</param>
         /// <param name="marker">the old marker</param>
         /// <returns>the new marker</returns>
-        private Marker SetupMarker(Location location, GoogleMap map, Marker marker)
+        private Marker SetupMarker(Location location, GoogleMap map, Marker marker, string title)
         {
             //remove the old marker
             if (marker != null) marker.Remove();
@@ -79,7 +80,7 @@ namespace BCC.Droid.Views
             MarkerOptions userMarker = new MarkerOptions();
             userMarker.SetPosition(new LatLng(location.Latitude, location.Longitude));
             userMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueCyan));
-            userMarker.SetTitle("Your Location");
+            userMarker.SetTitle(title);
             return map.AddMarker(userMarker);
         }
 
@@ -240,12 +241,31 @@ namespace BCC.Droid.Views
             _locationManager.RemoveUpdates(this);
         }
 
-        public void GoBack()
+        public void GoBack(LocationAutoCompleteResult.Result location)
         {
-            Toast toast = Toast.MakeText(this, "test", ToastLength.Long);
-            toast.Show();
-            //do stuff here
+            disablePositioning = true;
 
+            GoogleMap map = null;
+            Location tempLocation = new Location("");
+            tempLocation.Latitude = location.geometry.location.lat;
+            tempLocation.Longitude = location.geometry.location.lng;
+
+            //get the map if ready
+            this.MapReady += (sender, args) =>
+            {
+                map = Map;//receive the Map object
+                CameraUpdate cameraUpdate = null;
+                cameraUpdate = GetNewCameraPosition(tempLocation);
+                searchMarker = SetupMarker(tempLocation, map, searchMarker, location.formatted_address);
+                if (map != null) map.AnimateCamera(cameraUpdate);
+
+                visibleSearch = false;
+                FindViewById<EditText>(Resource.Id.searchText).ClearFocus();
+                FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
+                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.crosshair);
+            };
+            //call the above code when map ready
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
         }
 
         #endregion
