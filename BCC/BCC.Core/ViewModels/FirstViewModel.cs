@@ -27,7 +27,6 @@ namespace BCC.Core.ViewModels
                 string prevalue = unitCode;
                 SetProperty(ref unitCode, value);
                 RaisePropertyChanged(() => Locations);
-                Locations.Clear();
                 if (value != null && value != "")
                 {
                     SearchLocations(value);
@@ -45,6 +44,7 @@ namespace BCC.Core.ViewModels
         {
             locationService locationService = new locationService();
             var locationResults = await locationService.GetLocations(searchTerm);
+            Locations.Clear();
             foreach (var item in locationResults)
             {
                 Locations.Add(item);
