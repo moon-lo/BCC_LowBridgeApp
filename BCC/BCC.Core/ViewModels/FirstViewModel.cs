@@ -1,7 +1,10 @@
+using BCC.Core.json;
 using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace BCC.Core.ViewModels
@@ -35,6 +38,13 @@ namespace BCC.Core.ViewModels
         }
         private IView view;
         public IView View { get; set; }
+
+
+        public List<BridgeData> GetBridges(Stream file)
+        {
+            BridgeService service = new BridgeService();
+            return  service.GetLocations(file);
+        }
 
         /// <summary>
         /// Searches for locations containing the search terms and adds the results to the Locations list

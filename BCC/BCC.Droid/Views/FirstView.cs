@@ -13,6 +13,9 @@ using Java.Lang;
 using MvvmCross.Platform;
 using MvvmCross.Binding.Droid.Views;
 using BCC.Core.ViewModels;
+using System.IO;
+using EmbeddedResources;
+using System.Reflection;
 
 namespace BCC.Droid.Views
 {
@@ -31,6 +34,7 @@ namespace BCC.Droid.Views
         private bool disablePositioning = false;
         private int softwareUpdate = 1;
         private bool visibleSearch = false;
+        System.Collections.Generic.List<BCC.Core.json.BridgeData> bridges;
 
         public GoogleMap Map { get; private set; }
 
@@ -216,6 +220,8 @@ namespace BCC.Droid.Views
             SetContentView(Resource.Layout.FirstView);
 
             var viewModel = DataContext as FirstViewModel;
+            Stream location = ResourceLoader.GetEmbeddedResourceStream(Assembly.GetAssembly(typeof(ResourceLoader)), "lowBridge_2016-04-06.json");
+            bridges = viewModel.GetBridges(location);
             viewModel.View = this;
 
             SetupSearch();

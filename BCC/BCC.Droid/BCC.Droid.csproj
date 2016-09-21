@@ -132,6 +132,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="Views\Hamburger.cs" />
+    <Compile Include="Views\ResourceLoader.cs" />
     <Compile Include="Views\VehicleProfilesView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,9 @@
     <AndroidResource Include="Resources\layout\vehicle_Bg.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <EmbeddedResource Include="Views\lowBridge_2016-04-06.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
