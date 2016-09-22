@@ -16,6 +16,8 @@ using BCC.Core.ViewModels;
 using System.IO;
 using EmbeddedResources;
 using System.Reflection;
+using BCC.Core.json;
+using System.Collections.Generic;
 
 namespace BCC.Droid.Views
 {
@@ -27,14 +29,19 @@ namespace BCC.Droid.Views
     {
 
         private LocationManager _locationManager;
-        private string _locationProvider;
+        private Location currentLocation = null;
         private Marker marker = null;
         private Marker searchMarker = null;
+        private List<BridgeData> bridges;
         public event EventHandler MapReady;
+
+        private string _locationProvider;
+        private bool softwareUpdate = true;
         private bool disablePositioning = false;
-        private int softwareUpdate = 1;
+        private bool crosshairStatus = true;
         private bool visibleSearch = false;
-        System.Collections.Generic.List<BCC.Core.json.BridgeData> bridges;
+
+        private double vehicleHeight = 1.1;
 
         public GoogleMap Map { get; private set; }
 
@@ -47,25 +54,62 @@ namespace BCC.Droid.Views
         public void OnLocationChanged(Location location)
         {
             GoogleMap map = null;
+            currentLocation = location;
 
             //get the map if ready
-            this.MapReady += (sender, args) =>
+            this.MapReady = (sender, args) =>
             {
                 map = Map;//receive the Map object
-                CameraUpdate cameraUpdate = null;
+                    CameraUpdate cameraUpdate = null;
 
                 if (!disablePositioning)
-                {
-                    softwareUpdate++;
                     cameraUpdate = GetNewCameraPosition(location);
-                }
 
                 marker = SetupMarker(location, map, marker, "Your Location");
-                if (map != null && !disablePositioning) map.AnimateCamera(cameraUpdate);
+                if (map != null && !disablePositioning)
+                {
+                    softwareUpdate = true;
+                    map.AnimateCamera(cameraUpdate);
+                }
             };
             //call the above code when map ready
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
 
+
+        }
+
+        /// <summary>
+        /// handles updating the map when it is ready
+        /// </summary>
+        /// <param name="googleMap">the map to update</param>
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            Map = googleMap;
+            var handler = MapReady;
+            Map.CameraChange += (sender, e) => UpdateCamera(sender, e);
+
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        private void UpdateCamera(object sender, GoogleMap.CameraChangeEventArgs e)
+        {
+            {
+                if (softwareUpdate)
+                {
+                    softwareUpdate = false;
+                    if (!crosshairStatus)
+                    {
+                        FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
+                        crosshairStatus = true;
+                    }
+                }
+                else
+                {
+                    FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.crosshair);
+                    crosshairStatus = false;
+                    disablePositioning = true;
+                }
+            };
         }
 
         /// <summary>
@@ -108,28 +152,6 @@ namespace BCC.Droid.Views
         }
 
 
-        /// <summary>
-        /// handles updating the map when it is ready
-        /// </summary>
-        /// <param name="googleMap">the map to update</param>
-        public void OnMapReady(GoogleMap googleMap)
-        {
-            Map = googleMap;
-            var handler = MapReady;
-            Map.CameraChange += (sender, e) =>
-            {
-                if (softwareUpdate > 0)
-                {
-                    softwareUpdate--;
-                }
-                else
-                {
-                    FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.crosshair);
-                    disablePositioning = true;
-                }
-            };
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
 
         /// <summary>
         /// Initalises all of the things required by the map
@@ -152,7 +174,6 @@ namespace BCC.Droid.Views
             FindViewById<ImageButton>(Resource.Id.focusButton).Click += delegate
             {
                 disablePositioning = false;
-                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
                 if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
                     OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
             };
@@ -248,6 +269,7 @@ namespace BCC.Droid.Views
 
         public void GoTo(LocationAutoCompleteResult.Result location)
         {
+            softwareUpdate = false;
             disablePositioning = true;
 
             GoogleMap map = null;
@@ -267,7 +289,6 @@ namespace BCC.Droid.Views
                 visibleSearch = false;
                 FindViewById<EditText>(Resource.Id.searchText).ClearFocus();
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
-                FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.crosshair);
             };
             //call the above code when map ready
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);

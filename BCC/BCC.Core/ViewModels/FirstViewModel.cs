@@ -81,7 +81,6 @@ namespace BCC.Core.ViewModels
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
             {
                 View.GoTo(location);
-                //search
                 UnitCode = location.formatted_address;
             });
             VehicleButton = new MvxCommand(() => ShowViewModel<VehicleProfilesViewModel>());
