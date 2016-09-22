@@ -40,9 +40,10 @@ namespace BCC.Droid.Views
         private bool softwareUpdate = true;
         private bool disablePositioning = false;
         private bool crosshairStatus = true;
+        private bool firstUpdate = true;
         private bool visibleSearch = false;
 
-        private double vehicleHeight = 1.1;
+        private double vehicleHeight = 1;
 
         public GoogleMap Map { get; private set; }
 
@@ -54,23 +55,21 @@ namespace BCC.Droid.Views
         /// <param name="location">the users location</param>
         public void OnLocationChanged(Location location)
         {
-            GoogleMap map = null;
             currentLocation = location;
 
             //sets the mapready event
             this.MapReady = (sender, args) =>
             {
-                map = Map;//receive the Map object
                 CameraUpdate cameraUpdate = null;
 
                 if (!disablePositioning)
                     cameraUpdate = GetNewCameraPosition(location);
 
-                marker = SetupMarker(location, map, marker, "Your Location", "");
-                if (map != null && !disablePositioning)
+                marker = SetupMarker(location, Map, marker, "Your Location", "", BitmapDescriptorFactory.HueCyan);
+                if (Map != null && !disablePositioning)
                 {
                     softwareUpdate = true;
-                    map.AnimateCamera(cameraUpdate);
+                    Map.AnimateCamera(cameraUpdate);
                 }
             };
             //calls the mapready event
@@ -90,12 +89,20 @@ namespace BCC.Droid.Views
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Called whenever the camera is modified, Checks if it was done by software or human and modifies internal states 
+        /// of the class depending
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateCamera(object sender, GoogleMap.CameraChangeEventArgs e)
         {
             {
                 if (softwareUpdate)
                 {
-                    softwareUpdate = false;
+                    if (!firstUpdate)
+                        softwareUpdate = false;
+                    else firstUpdate = false;
                     if (!crosshairStatus)
                     {
                         FindViewById<ImageButton>(Resource.Id.focusButton).SetImageResource(Resource.Drawable.gps_blue);
@@ -118,7 +125,7 @@ namespace BCC.Droid.Views
         /// <param name="map">the map it is being placed on</param>
         /// <param name="marker">the old marker</param>
         /// <returns>the new marker</returns>
-        private Marker SetupMarker(Location location, GoogleMap map, Marker marker, string title, string snippet)
+        private Marker SetupMarker(Location location, GoogleMap map, Marker marker, string title, string snippet, float color)
         {
             //remove the old marker
             if (marker != null) marker.Remove();
@@ -126,7 +133,7 @@ namespace BCC.Droid.Views
             //set up and place a marker on the new location
             MarkerOptions userMarker = new MarkerOptions();
             userMarker.SetPosition(new LatLng(location.Latitude, location.Longitude));
-            userMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueCyan));
+            userMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(color));
             userMarker.SetTitle(title);
             if (snippet != "")
                 userMarker.SetSnippet(snippet);
@@ -161,20 +168,12 @@ namespace BCC.Droid.Views
         {
             _locationManager = (LocationManager)GetSystemService(LocationService);
 
-            GoogleMap map = null;
             this.MapReady = (sender, args) =>
             {
-                map = Map;
-                foreach (BridgeData bridge in bridges)
-                {
-                    Marker tempMarker = null;
-                    Location bridgeLocation = new Location("");
-                    bridgeLocation.Latitude = bridge.Latitude;
-                    bridgeLocation.Longitude = bridge.Longitude;
-                    bridgeMarkers.Add(SetupMarker(bridgeLocation, map, null, bridge.Description, "Height:" + bridge.Signed_Clearance + "m"));
-                }
+                AddBridgesToBridgeMarkersList(bridges, Map);
                 Map.UiSettings.MapToolbarEnabled = false;
                 Map.UiSettings.CompassEnabled = false;
+                HideBridgesOnHeight(0);//add code further down the chan when height is checked to show
             };
 
             //call the above code when map ready
@@ -187,6 +186,7 @@ namespace BCC.Droid.Views
                 if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
                     OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
             };
+
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace BCC.Droid.Views
         private void MapResume()
         {
             Criteria locationCriteria = new Criteria();
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Low;
+            locationCriteria.Accuracy = Accuracy.NoRequirement;
+            locationCriteria.PowerRequirement = Power.NoRequirement;
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
             _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
@@ -237,6 +237,91 @@ namespace BCC.Droid.Views
             FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
         }
 
+        /// <summary>
+        /// places a marker and goes to the supplied location
+        /// </summary>
+        /// <param name="location"></param>
+        public void GoTo(LocationAutoCompleteResult.Result location)
+        {
+            softwareUpdate = false;
+            disablePositioning = true;
+
+            //modifies the mapready event
+            this.MapReady = (sender, args) => NavigateTo(location);
+
+            //calls the mapready event
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
+        }
+
+        /// <summary>
+        /// the navigating code for GoTo
+        /// </summary>
+        /// <param name="location">The Location to navigate to</param>
+        /// <returns></returns>
+        private GoogleMap NavigateTo(LocationAutoCompleteResult.Result location)
+        {
+            Location tempLocation = GenerateLocation(location.geometry.location.lat, location.geometry.location.lng);
+
+            CameraUpdate cameraUpdate = null;
+            cameraUpdate = GetNewCameraPosition(tempLocation);
+            searchMarker = SetupMarker(tempLocation, Map, searchMarker, location.formatted_address, "", BitmapDescriptorFactory.HueCyan);
+            if (Map != null) Map.AnimateCamera(cameraUpdate);
+
+            visibleSearch = false;
+            FindViewById<EditText>(Resource.Id.searchText).ClearFocus();
+            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
+            return Map;
+        }
+
+        /// <summary>
+        /// Shows the search box
+        /// </summary>
+        public void ShowSearch()
+        {
+            visibleSearch = true;
+            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
+        }
+
+        #endregion
+        #region bridge markers
+        /// <summary>
+        /// Adds the items in the supplied list to the map as markers, warning remove all old bridges before calling
+        /// </summary>
+        /// <param name="bridges">the bridges to add</param>
+        /// <param name="map">the map it is being added to</param>
+        private void AddBridgesToBridgeMarkersList(List<BridgeData> bridges, GoogleMap map)
+        {
+            foreach (BridgeData bridge in bridges)
+            {
+                Location bridgeLocation = GenerateLocation(bridge.Latitude, bridge.Longitude);
+                bridgeMarkers.Add(SetupMarker(bridgeLocation, map, null, bridge.Description, "Height:" + bridge.Signed_Clearance + "m", BitmapDescriptorFactory.HueRed));
+            }
+        }
+
+        /// <summary>
+        /// Hides bridges that are taller than a listed ammount from the map
+        /// </summary>
+        /// <param name="height">the min bridge height</param>
+        private void HideBridgesOnHeight(double height)
+        {
+            for (int i = 0; i < bridgeMarkers.Count; i++)
+            {
+                if (bridges[i].Signed_Clearance > height)
+                    bridgeMarkers[i].Visible = false;
+                else bridgeMarkers[i].Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Loads the bridges from a local file
+        /// </summary>
+        /// <param name="viewModel">the current viewmodel</param>
+        private void LoadBridges(FirstViewModel viewModel)
+        {
+            Stream location = ResourceLoader.GetEmbeddedResourceStream(Assembly.GetAssembly(typeof(ResourceLoader)), "lowBridge_2016-04-06.json");
+            bridges = viewModel.GetBridges(location);
+        }
+
         #endregion
         #region main functions
 
@@ -252,8 +337,7 @@ namespace BCC.Droid.Views
             bridgeMarkers = new List<Marker>();
 
             var viewModel = DataContext as FirstViewModel;
-            Stream location = ResourceLoader.GetEmbeddedResourceStream(Assembly.GetAssembly(typeof(ResourceLoader)), "lowBridge_2016-04-06.json");
-            bridges = viewModel.GetBridges(location);
+            LoadBridges(viewModel);
             viewModel.View = this;
 
             SetupSearch();
@@ -278,37 +362,18 @@ namespace BCC.Droid.Views
             _locationManager.RemoveUpdates(this);
         }
 
-        public void GoTo(LocationAutoCompleteResult.Result location)
+        /// <summary>
+        /// Generate a location object from latitude and longatude
+        /// </summary>
+        /// <param name="lat">latitude</param>
+        /// <param name="lon">longatude</param>
+        /// <returns></returns>
+        private static Location GenerateLocation(double lat, double lon)
         {
-            softwareUpdate = false;
-            disablePositioning = true;
-
-            GoogleMap map = null;
             Location tempLocation = new Location("");
-            tempLocation.Latitude = location.geometry.location.lat;
-            tempLocation.Longitude = location.geometry.location.lng;
-
-            //modifies the mapready event
-            this.MapReady = (sender, args) =>
-            {
-                map = Map;//receive the Map object
-                CameraUpdate cameraUpdate = null;
-                cameraUpdate = GetNewCameraPosition(tempLocation);
-                searchMarker = SetupMarker(tempLocation, map, searchMarker, location.formatted_address, "");
-                if (map != null) map.AnimateCamera(cameraUpdate);
-
-                visibleSearch = false;
-                FindViewById<EditText>(Resource.Id.searchText).ClearFocus();
-                FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
-            };
-            //calls the mapready event
-            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
-        }
-
-        public void ShowSearch()
-        {
-            visibleSearch = true;
-            FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
+            tempLocation.Latitude = lat;
+            tempLocation.Longitude = lon;
+            return tempLocation;
         }
 
         #endregion
