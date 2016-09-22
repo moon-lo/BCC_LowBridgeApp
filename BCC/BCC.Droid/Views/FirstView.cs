@@ -32,6 +32,7 @@ namespace BCC.Droid.Views
         private Location currentLocation = null;
         private Marker marker = null;
         private Marker searchMarker = null;
+        private List<Marker> bridgeMarkers;
         private List<BridgeData> bridges;
         public event EventHandler MapReady;
 
@@ -56,26 +57,24 @@ namespace BCC.Droid.Views
             GoogleMap map = null;
             currentLocation = location;
 
-            //get the map if ready
+            //sets the mapready event
             this.MapReady = (sender, args) =>
             {
                 map = Map;//receive the Map object
-                    CameraUpdate cameraUpdate = null;
+                CameraUpdate cameraUpdate = null;
 
                 if (!disablePositioning)
                     cameraUpdate = GetNewCameraPosition(location);
 
-                marker = SetupMarker(location, map, marker, "Your Location");
+                marker = SetupMarker(location, map, marker, "Your Location", "");
                 if (map != null && !disablePositioning)
                 {
                     softwareUpdate = true;
                     map.AnimateCamera(cameraUpdate);
                 }
             };
-            //call the above code when map ready
+            //calls the mapready event
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
-
-
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace BCC.Droid.Views
         /// <param name="map">the map it is being placed on</param>
         /// <param name="marker">the old marker</param>
         /// <returns>the new marker</returns>
-        private Marker SetupMarker(Location location, GoogleMap map, Marker marker, string title)
+        private Marker SetupMarker(Location location, GoogleMap map, Marker marker, string title, string snippet)
         {
             //remove the old marker
             if (marker != null) marker.Remove();
@@ -129,6 +128,8 @@ namespace BCC.Droid.Views
             userMarker.SetPosition(new LatLng(location.Latitude, location.Longitude));
             userMarker.SetIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueCyan));
             userMarker.SetTitle(title);
+            if (snippet != "")
+                userMarker.SetSnippet(snippet);
             return map.AddMarker(userMarker);
         }
 
@@ -156,17 +157,26 @@ namespace BCC.Droid.Views
         /// <summary>
         /// Initalises all of the things required by the map
         /// </summary>
-        private void SetupMap()
+        private void SetupMap(List<BridgeData> bridges)
         {
             _locationManager = (LocationManager)GetSystemService(LocationService);
 
             GoogleMap map = null;
-            this.MapReady += (sender, args) =>
+            this.MapReady = (sender, args) =>
             {
                 map = Map;
+                foreach (BridgeData bridge in bridges)
+                {
+                    Marker tempMarker = null;
+                    Location bridgeLocation = new Location("");
+                    bridgeLocation.Latitude = bridge.Latitude;
+                    bridgeLocation.Longitude = bridge.Longitude;
+                    bridgeMarkers.Add(SetupMarker(bridgeLocation, map, null, bridge.Description, "Height:" + bridge.Signed_Clearance + "m"));
+                }
                 Map.UiSettings.MapToolbarEnabled = false;
                 Map.UiSettings.CompassEnabled = false;
             };
+
             //call the above code when map ready
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
 
@@ -239,6 +249,7 @@ namespace BCC.Droid.Views
             base.OnCreate(bundle);
             ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
+            bridgeMarkers = new List<Marker>();
 
             var viewModel = DataContext as FirstViewModel;
             Stream location = ResourceLoader.GetEmbeddedResourceStream(Assembly.GetAssembly(typeof(ResourceLoader)), "lowBridge_2016-04-06.json");
@@ -246,7 +257,7 @@ namespace BCC.Droid.Views
             viewModel.View = this;
 
             SetupSearch();
-            SetupMap();
+            SetupMap(bridges);
         }
 
         /// <summary>
@@ -277,20 +288,20 @@ namespace BCC.Droid.Views
             tempLocation.Latitude = location.geometry.location.lat;
             tempLocation.Longitude = location.geometry.location.lng;
 
-            //get the map if ready
-            this.MapReady += (sender, args) =>
+            //modifies the mapready event
+            this.MapReady = (sender, args) =>
             {
                 map = Map;//receive the Map object
                 CameraUpdate cameraUpdate = null;
                 cameraUpdate = GetNewCameraPosition(tempLocation);
-                searchMarker = SetupMarker(tempLocation, map, searchMarker, location.formatted_address);
+                searchMarker = SetupMarker(tempLocation, map, searchMarker, location.formatted_address, "");
                 if (map != null) map.AnimateCamera(cameraUpdate);
 
                 visibleSearch = false;
                 FindViewById<EditText>(Resource.Id.searchText).ClearFocus();
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
             };
-            //call the above code when map ready
+            //calls the mapready event
             FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
         }
 
