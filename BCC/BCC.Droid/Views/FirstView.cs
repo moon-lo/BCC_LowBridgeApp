@@ -350,6 +350,34 @@ namespace BCC.Droid.Views
 
         }
 
+        [BroadcastReceiver]
+        public class LocationBroadcastReceiver : BroadcastReceiver
+        {
+            public static readonly string MAP_UPDATE = "MAP_UPDATE";
+            public override void OnReceive(Context context, Intent intent)
+            {
+                if (intent.Action == MAP_UPDATE)
+                {
+                    Toast.MakeText(context, "update", ToastLength.Short).Show();
+                }
+            }
+        }
+
+        private LocationBroadcastReceiver _receiver;
+
+        private void RegisterBroadcastReceiver()
+        {
+            IntentFilter filter = new IntentFilter(LocationBroadcastReceiver.MAP_UPDATE);
+            filter.AddCategory(Intent.CategoryDefault);
+            _receiver = new LocationBroadcastReceiver();
+            RegisterReceiver(_receiver, filter);
+        }
+
+        private void UnRegisterBroadcastReceiver()
+        {
+            UnregisterReceiver(_receiver);
+        }
+
         protected override void OnStart()
         {
             base.OnStart();
@@ -358,6 +386,7 @@ namespace BCC.Droid.Views
             locationServiceConnection = new LocationServiceConnection(this);
             BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
             StartService(demoServiceIntent);
+            RegisterBroadcastReceiver();
         }
 
 
@@ -370,6 +399,7 @@ namespace BCC.Droid.Views
             if (isBound)
                 locationServiceConnection.Binder.GetService().inForeground = true;
             MapResume();
+
         }
 
         /// <summary>
@@ -390,6 +420,7 @@ namespace BCC.Droid.Views
         {
 
             base.OnDestroy();
+            UnRegisterBroadcastReceiver();
             if (!isConfigurationChange)
             {
                 if (isBound)
@@ -398,6 +429,7 @@ namespace BCC.Droid.Views
                     isBound = false;
                 }
             }
+
         }
 
         /// <summary>
@@ -465,5 +497,6 @@ namespace BCC.Droid.Views
         {
             activity.isBound = false;
         }
+
     }
 }

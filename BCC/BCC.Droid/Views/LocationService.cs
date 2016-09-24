@@ -18,7 +18,6 @@ namespace BCC.Droid.Views
     {
         LocationServiceBinder binder;
         public bool inForeground = true;
-        private int test = 0;
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
 
@@ -28,24 +27,22 @@ namespace BCC.Droid.Views
         public override IBinder OnBind(Intent intent)
         {
             binder = new LocationServiceBinder(this);
-            test = 7;
+            BroadcastMapUpdate();
             return binder;
-        }
-
-        public void setTest(int i)
-        {
-            test = i;
-        }
-        public int returnTest()
-        {
-            return test;
+            
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
         }
-
+        private void BroadcastMapUpdate()
+        {
+            Intent BroadcastIntent = new Intent(this, typeof(FirstView.LocationBroadcastReceiver));
+            BroadcastIntent.SetAction(FirstView.LocationBroadcastReceiver.MAP_UPDATE);
+            BroadcastIntent.AddCategory(Intent.CategoryDefault);
+            SendBroadcast(BroadcastIntent);
+        }
 
     }
     public class LocationServiceBinder : Binder
