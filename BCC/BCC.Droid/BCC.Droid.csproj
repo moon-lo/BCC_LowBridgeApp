@@ -132,6 +132,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="Views\Hamburger.cs" />
+    <Compile Include="Views\LocationService.cs" />
     <Compile Include="Views\ResourceLoader.cs" />
     <Compile Include="Views\VehicleProfilesView.cs" />
   </ItemGroup>

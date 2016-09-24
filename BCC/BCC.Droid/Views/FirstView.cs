@@ -18,6 +18,7 @@ using EmbeddedResources;
 using System.Reflection;
 using BCC.Core.json;
 using System.Collections.Generic;
+using Android.Content;
 
 namespace BCC.Droid.Views
 {
@@ -342,7 +343,20 @@ namespace BCC.Droid.Views
 
             SetupSearch();
             SetupMap(bridges);
+
+
         }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            var demoServiceIntent = new Intent(this, typeof(LocationService));
+            locationServiceConnection = new LocationServiceConnection(this);
+            BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
+            StartService(demoServiceIntent);
+        }
+
 
         /// <summary>
         /// when the app resumes it sets up all the map things
@@ -350,6 +364,8 @@ namespace BCC.Droid.Views
         protected override void OnResume()
         {
             base.OnResume();
+            if (isBound)
+                locationServiceConnection.Binder.GetService().inForeground = true;
             MapResume();
         }
 
@@ -359,7 +375,31 @@ namespace BCC.Droid.Views
         protected override void OnPause()
         {
             base.OnPause();
+            binder.GetService().inForeground = false;
             _locationManager.RemoveUpdates(this);
+        }
+
+
+        public bool isBound = false;
+        public bool isConfigurationChange = false;
+        public LocationServiceBinder binder;
+        LocationServiceConnection locationServiceConnection;
+
+        /// <summary>
+        /// pauses all of the map things
+        /// </summary>
+        protected override void OnDestroy()
+        {
+
+            base.OnDestroy();
+            if (!isConfigurationChange)
+            {
+                if (isBound)
+                {
+                    UnbindService(locationServiceConnection);
+                    isBound = false;
+                }
+            }
         }
 
         /// <summary>
@@ -390,5 +430,42 @@ namespace BCC.Droid.Views
         public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
 
         #endregion
+    }
+    class LocationServiceConnection : Java.Lang.Object, IServiceConnection
+    {
+        FirstView activity;
+        LocationServiceBinder binder;
+
+        public LocationServiceBinder Binder
+        {
+            get
+            {
+                return binder;
+            }
+        }
+
+        public LocationServiceConnection(FirstView activity)
+        {
+            this.activity = activity;
+        }
+
+        public void OnServiceConnected(ComponentName name, IBinder service)
+        {
+            var demoServiceBinder = service as LocationServiceBinder;
+            if (demoServiceBinder != null)
+            {
+                var binder = (LocationServiceBinder)service;
+                activity.binder = binder;
+                activity.isBound = true;
+
+                // keep instance for preservation across configuration changes
+                this.binder = (LocationServiceBinder)service;
+            }
+        }
+
+        public void OnServiceDisconnected(ComponentName name)
+        {
+            activity.isBound = false;
+        }
     }
 }
