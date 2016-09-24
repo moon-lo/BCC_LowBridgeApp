@@ -32,6 +32,10 @@ namespace BCC.Droid.Views
             return binder;
         }
 
+        public void setTest(int i)
+        {
+            test = i;
+        }
         public int returnTest()
         {
             return test;

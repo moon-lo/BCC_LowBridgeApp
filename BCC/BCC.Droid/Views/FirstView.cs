@@ -45,6 +45,9 @@ namespace BCC.Droid.Views
         private bool visibleSearch = false;
 
         private double vehicleHeight = 1;
+        public bool isBound = false;
+        public bool isConfigurationChange = false;
+        LocationServiceConnection locationServiceConnection;
 
         public GoogleMap Map { get; private set; }
 
@@ -196,8 +199,8 @@ namespace BCC.Droid.Views
         private void MapResume()
         {
             Criteria locationCriteria = new Criteria();
-            locationCriteria.Accuracy = Accuracy.NoRequirement;
-            locationCriteria.PowerRequirement = Power.NoRequirement;
+            locationCriteria.Accuracy = Accuracy.Coarse;
+            locationCriteria.PowerRequirement = Power.Low;
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
             _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
@@ -375,15 +378,10 @@ namespace BCC.Droid.Views
         protected override void OnPause()
         {
             base.OnPause();
-            binder.GetService().inForeground = false;
+            if (isBound)
+                locationServiceConnection.Binder.GetService().inForeground = false;
             _locationManager.RemoveUpdates(this);
         }
-
-
-        public bool isBound = false;
-        public bool isConfigurationChange = false;
-        public LocationServiceBinder binder;
-        LocationServiceConnection locationServiceConnection;
 
         /// <summary>
         /// pauses all of the map things
@@ -455,11 +453,11 @@ namespace BCC.Droid.Views
             if (demoServiceBinder != null)
             {
                 var binder = (LocationServiceBinder)service;
-                activity.binder = binder;
                 activity.isBound = true;
 
                 // keep instance for preservation across configuration changes
                 this.binder = (LocationServiceBinder)service;
+
             }
         }
 
