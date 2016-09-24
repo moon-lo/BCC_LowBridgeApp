@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Util;
+using Java.Lang;
 
 namespace BCC.Droid.Views
 {
@@ -20,7 +21,7 @@ namespace BCC.Droid.Views
         public bool inForeground = true;
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-
+            //start maps
             return StartCommandResult.Sticky;
         }
 
@@ -29,12 +30,13 @@ namespace BCC.Droid.Views
             binder = new LocationServiceBinder(this);
             BroadcastMapUpdate();
             return binder;
-            
+
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
+            //close location service
         }
         private void BroadcastMapUpdate()
         {
@@ -57,6 +59,10 @@ namespace BCC.Droid.Views
         public LocationService GetService()
         {
             return service;
+        }
+        public void Close()
+        {
+            service.OnDestroy();
         }
     }
 

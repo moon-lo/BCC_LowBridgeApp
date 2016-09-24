@@ -46,6 +46,7 @@ namespace BCC.Droid.Views
 
         private double vehicleHeight = 1;
         public bool isBound = false;
+        public LocationServiceBinder binder;
         public bool isConfigurationChange = false;
         LocationServiceConnection locationServiceConnection;
 
@@ -397,7 +398,7 @@ namespace BCC.Droid.Views
         {
             base.OnResume();
             if (isBound)
-                locationServiceConnection.Binder.GetService().inForeground = true;
+                binder.GetService().inForeground = true;
             MapResume();
 
         }
@@ -409,7 +410,7 @@ namespace BCC.Droid.Views
         {
             base.OnPause();
             if (isBound)
-                locationServiceConnection.Binder.GetService().inForeground = false;
+                binder.GetService().inForeground = false;
             _locationManager.RemoveUpdates(this);
         }
 
@@ -425,6 +426,7 @@ namespace BCC.Droid.Views
             {
                 if (isBound)
                 {
+                    binder.Close();
                     UnbindService(locationServiceConnection);
                     isBound = false;
                 }
@@ -485,6 +487,7 @@ namespace BCC.Droid.Views
             if (demoServiceBinder != null)
             {
                 var binder = (LocationServiceBinder)service;
+                activity.binder = binder;
                 activity.isBound = true;
 
                 // keep instance for preservation across configuration changes
