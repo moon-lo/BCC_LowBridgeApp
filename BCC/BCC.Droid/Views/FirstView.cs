@@ -19,6 +19,7 @@ using System.Reflection;
 using BCC.Core.json;
 using System.Collections.Generic;
 using Android.Content;
+using Android.Support.V4.Content;
 
 namespace BCC.Droid.Views
 {
@@ -26,18 +27,17 @@ namespace BCC.Droid.Views
     /// author: N9452982,  Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity, ILocationListener, IOnMapReadyCallback, ITextWatcher, IView
+    public class FirstView : MvxActivity, IOnMapReadyCallback, ITextWatcher, IView
     {
 
-        private LocationManager _locationManager;
+
         private Location currentLocation = null;
         private Marker marker = null;
         private Marker searchMarker = null;
         private List<Marker> bridgeMarkers;
-        private List<BridgeData> bridges;
+        public List<BridgeData> bridges;
         public event EventHandler MapReady;
 
-        private string _locationProvider;
         private bool softwareUpdate = true;
         private bool disablePositioning = false;
         private bool crosshairStatus = true;
@@ -53,33 +53,8 @@ namespace BCC.Droid.Views
         public GoogleMap Map { get; private set; }
 
         #region gps
-        /// <summary>
-        /// Called when the users location is updated, it moves the user to their new location and places a marker to show them exactly 
-        /// where they are
-        /// </summary>
-        /// <param name="location">the users location</param>
-        public void OnLocationChanged(Location location)
-        {
-            currentLocation = location;
 
-            //sets the mapready event
-            this.MapReady = (sender, args) =>
-            {
-                CameraUpdate cameraUpdate = null;
 
-                if (!disablePositioning)
-                    cameraUpdate = GetNewCameraPosition(location);
-
-                marker = SetupMarker(location, Map, marker, "Your Location", "", BitmapDescriptorFactory.HueCyan);
-                if (Map != null && !disablePositioning)
-                {
-                    softwareUpdate = true;
-                    Map.AnimateCamera(cameraUpdate);
-                }
-            };
-            //calls the mapready event
-            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
-        }
 
         /// <summary>
         /// handles updating the map when it is ready
@@ -171,14 +146,13 @@ namespace BCC.Droid.Views
         /// </summary>
         private void SetupMap(List<BridgeData> bridges)
         {
-            _locationManager = (LocationManager)GetSystemService(LocationService);
+
 
             this.MapReady = (sender, args) =>
             {
                 AddBridgesToBridgeMarkersList(bridges, Map);
                 Map.UiSettings.MapToolbarEnabled = false;
                 Map.UiSettings.CompassEnabled = false;
-                HideBridgesOnHeight(0);//add code further down the chan when height is checked to show
             };
 
             //call the above code when map ready
@@ -188,23 +162,13 @@ namespace BCC.Droid.Views
             FindViewById<ImageButton>(Resource.Id.focusButton).Click += delegate
             {
                 disablePositioning = false;
-                if (_locationManager.GetLastKnownLocation(_locationProvider) != null)
-                    OnLocationChanged(_locationManager.GetLastKnownLocation(_locationProvider));
+                if (binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider) != null)
+                {
+                    binder.GetService().CurrentLocation = binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider);
+                    updateMap();
+                }
             };
 
-        }
-
-        /// <summary>
-        /// Deals with resuming all of the stuff required from the map when the app resumes
-        /// </summary>
-        private void MapResume()
-        {
-            Criteria locationCriteria = new Criteria();
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Low;
-
-            _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
         }
 
         #endregion
@@ -307,12 +271,18 @@ namespace BCC.Droid.Views
         /// Hides bridges that are taller than a listed ammount from the map
         /// </summary>
         /// <param name="height">the min bridge height</param>
-        private void HideBridgesOnHeight(double height)
+        public void HideBridgesOnHeight(double height)
         {
+            if (isBound)
+                binder.GetService().Bridges = new List<BridgeData>(bridges);
             for (int i = 0; i < bridgeMarkers.Count; i++)
             {
                 if (bridges[i].Signed_Clearance > height)
+                {
+                    if (isBound)
+                        binder.GetService().Bridges.Remove(bridges[i]);
                     bridgeMarkers[i].Visible = false;
+                }
                 else bridgeMarkers[i].Visible = true;
             }
         }
@@ -351,33 +321,26 @@ namespace BCC.Droid.Views
 
         }
 
-        [BroadcastReceiver]
-        public class LocationBroadcastReceiver : BroadcastReceiver
+        public void updateMap()
         {
-            public static readonly string MAP_UPDATE = "MAP_UPDATE";
-            public override void OnReceive(Context context, Intent intent)
+            this.MapReady = (sender, args) =>
             {
-                if (intent.Action == MAP_UPDATE)
+                CameraUpdate cameraUpdate = null;
+
+                if (!disablePositioning)
+                    cameraUpdate = GetNewCameraPosition(binder.GetService().CurrentLocation);
+
+                marker = SetupMarker(binder.GetService().CurrentLocation, Map, marker, "Your Location", "", BitmapDescriptorFactory.HueCyan);
+                if (Map != null && !disablePositioning)
                 {
-                    Toast.MakeText(context, "update", ToastLength.Short).Show();
+                    softwareUpdate = true;
+                    Map.AnimateCamera(cameraUpdate);
                 }
-            }
+            };
+            //calls the mapready event
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
         }
 
-        private LocationBroadcastReceiver _receiver;
-
-        private void RegisterBroadcastReceiver()
-        {
-            IntentFilter filter = new IntentFilter(LocationBroadcastReceiver.MAP_UPDATE);
-            filter.AddCategory(Intent.CategoryDefault);
-            _receiver = new LocationBroadcastReceiver();
-            RegisterReceiver(_receiver, filter);
-        }
-
-        private void UnRegisterBroadcastReceiver()
-        {
-            UnregisterReceiver(_receiver);
-        }
 
         protected override void OnStart()
         {
@@ -387,7 +350,6 @@ namespace BCC.Droid.Views
             locationServiceConnection = new LocationServiceConnection(this);
             BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
             StartService(demoServiceIntent);
-            RegisterBroadcastReceiver();
         }
 
 
@@ -399,7 +361,6 @@ namespace BCC.Droid.Views
             base.OnResume();
             if (isBound)
                 binder.GetService().inForeground = true;
-            MapResume();
 
         }
 
@@ -411,7 +372,6 @@ namespace BCC.Droid.Views
             base.OnPause();
             if (isBound)
                 binder.GetService().inForeground = false;
-            _locationManager.RemoveUpdates(this);
         }
 
         /// <summary>
@@ -421,7 +381,6 @@ namespace BCC.Droid.Views
         {
 
             base.OnDestroy();
-            UnRegisterBroadcastReceiver();
             if (!isConfigurationChange)
             {
                 if (isBound)
@@ -450,12 +409,6 @@ namespace BCC.Droid.Views
 
         #endregion
         #region unused
-        [Obsolete("Method is unused")]
-        public void OnProviderDisabled(string provider) { }
-        [Obsolete("Method is unused")]
-        public void OnProviderEnabled(string provider) { }
-        [Obsolete("Method is unused")]
-        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras) { }
         [Obsolete("Method is unused")]
         public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }
         [Obsolete("Method is unused")]
@@ -487,8 +440,10 @@ namespace BCC.Droid.Views
             if (demoServiceBinder != null)
             {
                 var binder = (LocationServiceBinder)service;
+                ((LocationServiceBinder)service).activity = activity;
                 activity.binder = binder;
                 activity.isBound = true;
+                activity.HideBridgesOnHeight(0);//add code further down the chan when height is checked to show
 
                 // keep instance for preservation across configuration changes
                 this.binder = (LocationServiceBinder)service;
