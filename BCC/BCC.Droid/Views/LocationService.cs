@@ -36,6 +36,11 @@ namespace BCC.Droid.Views
             return StartCommandResult.Sticky;
         }
 
+        /// <summary>
+        /// Sets up location tracking and returns the binder
+        /// </summary>
+        /// <param name="intent"></param>
+        /// <returns>the locationservicebinder</returns>
         public override IBinder OnBind(Intent intent)
         {
             binder = new LocationServiceBinder(this);
@@ -57,17 +62,52 @@ namespace BCC.Droid.Views
             //close location service
         }
 
+        /// <summary>
+        /// When the users location is changed this is called
+        /// </summary>
+        /// <param name="location">the users location</param>
         public void OnLocationChanged(Location location)
         {
             CurrentLocation = location;
+
+            bool warning = false;
+            List<BridgeData> warningLocations = new List<BridgeData>();
+
+            warning = CalculateDistanceFromBridges(location, warning, warningLocations);
+
             if (inForeground)
             {
-                binder.activity.updateMap();
+                binder.activity.updateMap(location);
             }
             else
             {
                 Toast.MakeText(this, "closed", ToastLength.Long).Show();
             }
+        }
+
+        /// <summary>
+        /// returns true if the user is close to any bridges and places the bridges 
+        /// that are close in a list
+        /// </summary>
+        /// <param name="location">the user location</param>
+        /// <param name="warning">the current state of if there is any warnings</param>
+        /// <param name="warningLocations">the bridges that are in range</param>
+        /// <returns></returns>
+        private bool CalculateDistanceFromBridges(Location location, bool warning, List<BridgeData> warningLocations)
+        {
+            foreach (BridgeData bridge in bridges)
+            {
+                Location bridgeLoc = new Location("");
+                bridgeLoc.Latitude = bridge.Latitude;
+                bridgeLoc.Longitude = bridge.Longitude;
+                if (location.DistanceTo(bridgeLoc) < 100)
+                {
+                    warning = true;
+                    warningLocations.Add(bridge);
+                }
+            }
+
+            return warning;
         }
         #region unused
         public void OnProviderDisabled(string provider)

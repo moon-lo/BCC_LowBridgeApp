@@ -54,8 +54,6 @@ namespace BCC.Droid.Views
 
         #region gps
 
-
-
         /// <summary>
         /// handles updating the map when it is ready
         /// </summary>
@@ -139,6 +137,43 @@ namespace BCC.Droid.Views
             return cameraUpdate;
         }
 
+        /// <summary>
+        /// Generate a location object from latitude and longatude
+        /// </summary>
+        /// <param name="lat">latitude</param>
+        /// <param name="lon">longatude</param>
+        /// <returns></returns>
+        private static Location GenerateLocation(double lat, double lon)
+        {
+            Location tempLocation = new Location("");
+            tempLocation.Latitude = lat;
+            tempLocation.Longitude = lon;
+            return tempLocation;
+        }
+
+        /// <summary>
+        /// Updates the map with the supplied location
+        /// </summary>
+        public void updateMap(Location location)
+        {
+            binder.GetService().CurrentLocation = location;
+            this.MapReady = (sender, args) =>
+            {
+                CameraUpdate cameraUpdate = null;
+
+                if (!disablePositioning)
+                    cameraUpdate = GetNewCameraPosition(location);
+
+                marker = SetupMarker(location, Map, marker, "Your Location", "", BitmapDescriptorFactory.HueCyan);
+                if (Map != null && !disablePositioning)
+                {
+                    softwareUpdate = true;
+                    Map.AnimateCamera(cameraUpdate);
+                }
+            };
+            //calls the mapready event
+            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
+        }
 
 
         /// <summary>
@@ -146,8 +181,6 @@ namespace BCC.Droid.Views
         /// </summary>
         private void SetupMap(List<BridgeData> bridges)
         {
-
-
             this.MapReady = (sender, args) =>
             {
                 AddBridgesToBridgeMarkersList(bridges, Map);
@@ -163,17 +196,13 @@ namespace BCC.Droid.Views
             {
                 disablePositioning = false;
                 if (binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider) != null)
-                {
-                    binder.GetService().CurrentLocation = binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider);
-                    updateMap();
-                }
+                    updateMap(binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider));   
             };
 
         }
 
         #endregion
         #region searching
-
         /// <summary>
         /// makes the search results visible when text is entered into search
         /// </summary>
@@ -321,27 +350,6 @@ namespace BCC.Droid.Views
 
         }
 
-        public void updateMap()
-        {
-            this.MapReady = (sender, args) =>
-            {
-                CameraUpdate cameraUpdate = null;
-
-                if (!disablePositioning)
-                    cameraUpdate = GetNewCameraPosition(binder.GetService().CurrentLocation);
-
-                marker = SetupMarker(binder.GetService().CurrentLocation, Map, marker, "Your Location", "", BitmapDescriptorFactory.HueCyan);
-                if (Map != null && !disablePositioning)
-                {
-                    softwareUpdate = true;
-                    Map.AnimateCamera(cameraUpdate);
-                }
-            };
-            //calls the mapready event
-            FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
-        }
-
-
         protected override void OnStart()
         {
             base.OnStart();
@@ -393,20 +401,6 @@ namespace BCC.Droid.Views
 
         }
 
-        /// <summary>
-        /// Generate a location object from latitude and longatude
-        /// </summary>
-        /// <param name="lat">latitude</param>
-        /// <param name="lon">longatude</param>
-        /// <returns></returns>
-        private static Location GenerateLocation(double lat, double lon)
-        {
-            Location tempLocation = new Location("");
-            tempLocation.Latitude = lat;
-            tempLocation.Longitude = lon;
-            return tempLocation;
-        }
-
         #endregion
         #region unused
         [Obsolete("Method is unused")]
@@ -434,6 +428,11 @@ namespace BCC.Droid.Views
             this.activity = activity;
         }
 
+        /// <summary>
+        /// When the service is connected it sets variables in the main process 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="service"></param>
         public void OnServiceConnected(ComponentName name, IBinder service)
         {
             var demoServiceBinder = service as LocationServiceBinder;
