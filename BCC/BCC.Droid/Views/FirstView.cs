@@ -196,7 +196,7 @@ namespace BCC.Droid.Views
             {
                 disablePositioning = false;
                 if (binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider) != null)
-                    updateMap(binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider));   
+                    updateMap(binder.GetService().LocationManager.GetLastKnownLocation(binder.GetService().LocationProvider));
             };
 
         }
