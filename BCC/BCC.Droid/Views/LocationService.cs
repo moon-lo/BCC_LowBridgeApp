@@ -80,8 +80,18 @@ namespace BCC.Droid.Views
         /// </summary>
         private void SetupWarningPushNotification()
         {
+            Intent resultIntent = new Intent(this, typeof(FirstView));
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
+            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(FirstView)));
+            stackBuilder.AddNextIntent(resultIntent);
+
+            PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
+
+
             awayNotification = new Notification.Builder(this)
                         .SetContentTitle("Approaching dangerous bridge")
+                        .SetContentIntent(resultPendingIntent)
                         .SetContentText("Hello World! This is my first notification!")
                         .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
                         .SetSmallIcon(Resource.Drawable.cars)
@@ -102,7 +112,7 @@ namespace BCC.Droid.Views
         {
             CurrentLocation = location;
             List<BridgeData> currentNotifiedBridges = new List<BridgeData>(notifiedBridges);
-            bool warning = false;
+            bool warning = true;
             notifiedBridges = new List<BridgeData>();
 
             warning = CalculateDistanceFromBridges(location, warning, notifiedBridges);
