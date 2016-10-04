@@ -73,5 +73,5 @@
         android:layout_margin="16dp"
         android:background="@drawable/floatingbutton"
         android:src="@drawable/cars"
-        local:MvxBind="Click VehicleButton"/>
+        local:MvxBind="Click VehicleButton" />
 </RelativeLayout>
