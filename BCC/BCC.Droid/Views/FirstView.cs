@@ -31,7 +31,7 @@ namespace BCC.Droid.Views
     /// author: N9452982,  Michael Devenish
     /// </summary>
     [Activity(Label = "View for FirstViewModel")]
-    public class FirstView : MvxActivity, IOnMapReadyCallback, ITextWatcher, IView
+    public class FirstView : MvxCachingFragmentCompatActivity<FirstViewModel>, IOnMapReadyCallback, ITextWatcher, IView
     {
 
 
@@ -53,6 +53,12 @@ namespace BCC.Droid.Views
         public LocationServiceBinder binder;
         public bool isConfigurationChange = false;
         LocationServiceConnection locationServiceConnection;
+
+        MvxFragment[] fragments = { new SettingsView(), new HelpView(), new AboutView() };
+        string[] titles = { "Settings", "Help", "About, terms & privacy" };
+        ActionBarDrawerToggle drawerToggle;
+        ListView drawerListView;
+        DrawerLayout drawerLayout;
 
         public GoogleMap Map { get; private set; }
 
@@ -331,6 +337,54 @@ namespace BCC.Droid.Views
         }
 
         #endregion
+        #region nav menu
+        public void SetupNavBar() {
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
+            drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
+            drawerListView.ItemClick += (s, e) => ShowFragmentAt(e.Position);
+            drawerListView.Adapter = new ArrayAdapter<string>(
+                this,
+                Android.Resource.Layout.SimpleListItem1,
+                titles);
+
+            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
+            drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                Resource.String.OpenDrawerString,
+                Resource.String.CloseDrawerString);
+
+            drawerLayout.AddDrawerListener(drawerToggle);
+            var tm = FragmentManager.BeginTransaction();
+            foreach (var item in fragments)
+            {
+                tm.Add(item, item.ToString());
+            }
+            ShowFragmentAt(0);
+        }
+
+        void ShowFragmentAt(int position)
+        {
+            FragmentManager
+                .BeginTransaction()
+                .Replace(Resource.Id.frameLayout, fragments[position])
+                .Commit();
+
+            Title = titles[position];
+            drawerLayout.CloseDrawer(drawerListView);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (drawerToggle.OnOptionsItemSelected(item))
+            {
+                return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        #endregion
         #region main functions
 
         /// <summary>
@@ -350,6 +404,7 @@ namespace BCC.Droid.Views
 
             SetupSearch();
             SetupMap(bridges);
+            SetupNavBar();
 
 
         }
@@ -412,6 +467,68 @@ namespace BCC.Droid.Views
         [Obsolete("Method is unused")]
         public void OnTextChanged(ICharSequence s, int start, int before, int count) { }
 
+        //DrawActivity is merged with FirstView
+
+        /*public class DrawerActivity : MvxCachingFragmentCompatActivity<FirstViewModel>
+        {
+            MvxFragment[] fragments = { new SettingsView(), new HelpView(), new AboutView() };
+            string[] titles = { "Settings", "Help", "About, terms & privacy" };
+            ActionBarDrawerToggle drawerToggle;
+
+            ListView drawerListView;
+
+            DrawerLayout drawerLayout;
+
+            protected override void OnCreate(Bundle savedInstanceState)
+            {
+                base.OnCreate(savedInstanceState);
+                SetContentView(Resource.Layout.FirstView);
+
+                SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
+                drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
+                drawerListView.ItemClick += (s, e) => ShowFragmentAt(e.Position);
+                drawerListView.Adapter = new ArrayAdapter<string>(
+                    this,
+                    Android.Resource.Layout.SimpleListItem1,
+                    titles);
+
+                drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
+                drawerToggle = new ActionBarDrawerToggle(
+                    this,
+                    drawerLayout,
+                    Resource.String.OpenDrawerString,
+                    Resource.String.CloseDrawerString);
+
+                drawerLayout.AddDrawerListener(drawerToggle);
+                var tm = FragmentManager.BeginTransaction();
+                foreach (var item in fragments)
+                {
+                    tm.Add(item, item.ToString());
+                }
+                ShowFragmentAt(0);
+            }
+
+            void ShowFragmentAt(int position)
+            {
+                FragmentManager
+                    .BeginTransaction()
+                    .Replace(Resource.Id.frameLayout, fragments[position])
+                    .Commit();
+
+                Title = titles[position];
+                drawerLayout.CloseDrawer(drawerListView);
+            }
+
+            public override bool OnOptionsItemSelected(IMenuItem item)
+            {
+                if (drawerToggle.OnOptionsItemSelected(item))
+                {
+                    return true;
+                }
+                return base.OnOptionsItemSelected(item);
+            }
+        }*/
         #endregion
     }
     class LocationServiceConnection : Java.Lang.Object, IServiceConnection
@@ -461,63 +578,4 @@ namespace BCC.Droid.Views
 
     }
 
-    public class DrawerActivity : MvxCachingFragmentCompatActivity<FirstViewModel> {
-        MvxFragment[] fragments = { new SettingsView(), new HelpView(), new AboutView() };
-        string[] titles = { "Settings", "Help", "About, terms & privacy" };
-        ActionBarDrawerToggle drawerToggle;
-
-        ListView drawerListView;
-
-        DrawerLayout drawerLayout;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.FirstView);
-
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-
-            drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
-            drawerListView.ItemClick += (s, e) => ShowFragmentAt(e.Position);
-            drawerListView.Adapter = new ArrayAdapter<string>(
-                this,
-                Android.Resource.Layout.SimpleListItem1,
-                titles);
-
-            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
-            drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                Resource.String.OpenDrawerString,
-                Resource.String.CloseDrawerString);
-
-            drawerLayout.AddDrawerListener(drawerToggle);
-            var tm = FragmentManager.BeginTransaction();
-            foreach (var item in fragments)
-            {
-                tm.Add(item, item.ToString());
-            }
-            ShowFragmentAt(0);
-        }
-
-        void ShowFragmentAt(int position)
-        {
-            FragmentManager
-                .BeginTransaction()
-                .Replace(Resource.Id.frameLayout, fragments[position])
-                .Commit();
-
-            Title = titles[position];
-            drawerLayout.CloseDrawer(drawerListView);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            if (drawerToggle.OnOptionsItemSelected(item))
-            {
-                return true;
-            }
-            return base.OnOptionsItemSelected(item);
-        }
-    }
 }
