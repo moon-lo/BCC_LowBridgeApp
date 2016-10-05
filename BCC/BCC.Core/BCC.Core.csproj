@@ -40,7 +40,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />
-    <Compile Include="ViewModels\DrawerViewModel.cs" />
     <Compile Include="ViewModels\HelpMapViewModel.cs" />
     <Compile Include="ViewModels\IView.cs" />
     <Compile Include="json\LocationAutoCompleteResult.cs" />

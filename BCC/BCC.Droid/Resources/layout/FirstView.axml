@@ -21,8 +21,7 @@
             android:layout_margin="5dp"
             android:background="@color/transparent"
             android:src="@drawable/menu"
-            android:id="@+id/button"
-            local:MvxBind="Click ButtonCommand" />
+            android:id="@+id/nav_button" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
@@ -73,5 +72,5 @@
         android:layout_margin="16dp"
         android:background="@drawable/floatingbutton"
         android:src="@drawable/cars"
-        local:MvxBind="Click VehicleButton"/>
+        local:MvxBind="Click VehicleButton" />
 </RelativeLayout>

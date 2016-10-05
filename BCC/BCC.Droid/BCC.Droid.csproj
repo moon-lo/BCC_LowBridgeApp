@@ -144,7 +144,6 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\AboutView.cs" />
     <Compile Include="Views\FirstView.cs" />
-    <Compile Include="Views\DrawerView.cs" />
     <Compile Include="Views\HelpView.cs" />
     <Compile Include="Views\LocationService.cs" />
     <Compile Include="Views\ResourceLoader.cs" />
@@ -163,7 +162,7 @@
     <AndroidResource Include="Resources\layout\VehicleProfiles.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Hamburger.axml">
+    <AndroidResource Include="Resources\layout\NavMenu.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\UnitCodeItemLayout.axml">
