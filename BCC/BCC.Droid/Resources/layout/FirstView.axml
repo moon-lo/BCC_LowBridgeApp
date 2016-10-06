@@ -4,11 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <!--Author: N9452982, Michael Devenish-->
-    <fragment
+      <!--<fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.google.android.gms.maps.MapFragment" />
+        class="com.google.android.gms.maps.MapFragment" /> 
     <LinearLayout
         android:background="@layout/Search_Bg"
         android:layout_width="fill_parent"
@@ -36,7 +36,8 @@
             android:singleLine="true"
             android:scrollHorizontally="true" />
     </LinearLayout>
-    <Mvx.MvxListView
+ 
+  <Mvx.MvxListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
@@ -72,5 +73,7 @@
         android:layout_margin="16dp"
         android:background="@drawable/floatingbutton"
         android:src="@drawable/cars"
-        local:MvxBind="Click VehicleButton" />
+        local:MvxBind="Click VehicleButton" />-->
+  <include
+            layout="@layout/NavMenu" />
 </RelativeLayout>

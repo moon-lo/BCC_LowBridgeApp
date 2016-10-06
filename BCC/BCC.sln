@@ -1,8 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
+
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCC.Droid", "BCC.Droid\BCC.Droid.csproj", "{5BB3E577-AF2C-4D15-B85C-1523B440251E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCC.Core", "BCC.Core\BCC.Core.csproj", "{250BC4C7-993C-4ECF-B9A2-FC26A7B9F641}"

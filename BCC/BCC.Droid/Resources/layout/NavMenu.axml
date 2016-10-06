@@ -1,26 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <!-- content of fragments (each item page in menu list) -->
-    <LinearLayout
+  <fragment
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-    <!-- temporary search bar replacement -->
-        <include
-            layout="@layout/toolbar" />
-        <FrameLayout
+        class="com.google.android.gms.maps.MapFragment" />
+  
+    <!--map-->
+    <RelativeLayout
+      android:background="@layout/Search_Bg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/search">
+
+      <!--android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">-->
+
+      <include
+          layout="@layout/toolbar" />
+        
+      
+      <!--search bar-->
+      <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/transparent"
+            android:src="@drawable/menu"
+            android:id="@+id/nav_button" />
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="fill_parent"
+          android:background="@color/transparent"
+          android:textColor="@color/black"
+          android:hint="@string/search"
+          android:layout_margin="5dp"
+          android:textColorHint="@color/gray"
+          android:id="@+id/searchText"
+          local:MvxBind="Text UnitCode; Click OpenSearch"
+          android:maxLines="1"
+          android:singleLine="true"
+          android:scrollHorizontally="true" />
+      
+    </RelativeLayout>
+
+  <Mvx.MvxListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/searching"
+        HasUnevenRows="true"
+        android:background="@layout/Search_Bg"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:divider="@color/gray"
+        android:dividerHeight="1sp"
+        android:layout_below="@id/search"
+        local:MvxItemTemplate="@layout/unitcodeitemlayout"
+        local:MvxBind="ItemsSource Locations; ItemClick SelectUnitCommand" />
+  <ImageButton
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:id="@+id/focusButton"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginBottom="92dp"
+      android:layout_marginRight="16dp"
+      android:layout_marginLeft="16dp"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/floatingbuttonwhite"
+      android:src="@drawable/gps_blue" />
+  <ImageButton
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_margin="16dp"
+      android:background="@drawable/floatingbutton"
+      android:src="@drawable/cars"
+      local:MvxBind="Click VehicleButton" />
+
+  
+
+  <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            />
+  
+  
 <!--  hamburger menu list -->
     <ListView
         android:id="@+id/drawerListView"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:layout_width="240dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 </android.support.v4.widget.DrawerLayout>

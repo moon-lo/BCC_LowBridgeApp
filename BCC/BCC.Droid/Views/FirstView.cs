@@ -394,7 +394,7 @@ namespace BCC.Droid.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            ActionBar.Hide();
+            //ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
             bridgeMarkers = new List<Marker>();
 
@@ -404,7 +404,34 @@ namespace BCC.Droid.Views
 
             SetupSearch();
             SetupMap(bridges);
-            SetupNavBar();
+            //SetupNavBar();
+
+            //SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
+            drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
+            if (drawerListView != null)
+            {
+                drawerListView.ItemClick += (s, e) => ShowFragmentAt(e.Position);
+                drawerListView.Adapter = new ArrayAdapter<string>(
+                    this,
+                    Android.Resource.Layout.SimpleListItem1,
+                    titles);
+            }
+
+            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
+            drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                Resource.String.OpenDrawerString,
+                Resource.String.CloseDrawerString);
+
+            drawerLayout.AddDrawerListener(drawerToggle);
+            var tm = FragmentManager.BeginTransaction();
+            foreach (var item in fragments)
+            {
+                tm.Add(item, item.ToString());
+            }
+            ShowFragmentAt(1);
 
 
         }
