@@ -395,7 +395,6 @@ namespace BCC.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.FirstView);
-           
             bridgeMarkers = new List<Marker>();
 
             var viewModel = DataContext as FirstViewModel;

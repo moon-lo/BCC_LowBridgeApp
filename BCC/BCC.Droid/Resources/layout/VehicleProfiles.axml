@@ -6,14 +6,7 @@
     p1:layout_height="match_parent"
     p1:id="@+id/relativeLayout1"
     p1:layout_marginBottom="0.0dp">
-    <!--<android.support.v7.widget.Toolbar
-        p1:id="@+id/toolbar"
-        p1:layout_width="match_parent"
-        p1:layout_height="58dp"
-        p1:background="?attr/colorPrimary"
-        p1:minHeight="?attr/actionBarSize"
-        p1:titleTextColor="#ffffff" />-->
-  <!--<include layout="@layout/toolbar" />-->
+  <include  p1:id="@+id/toolbar" layout="@layout/toolbar" /><!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
     <LinearLayout
         p1:orientation="vertical"
         p1:minWidth="25px"
@@ -25,7 +18,8 @@
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:layout_marginBottom="10dp"
-            p1:background="@layout/vehicle_Bg">
+            p1:background="@layout/vehicle_Bg"
+            p1:layout_marginTop="48dp">
             <TextView
                 p1:text="Vehicle Selected: Volvo FH 16"
                 p1:textAppearance="?android:attr/textAppearanceLarge"

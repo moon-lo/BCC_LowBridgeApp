@@ -3,6 +3,8 @@
   <style name="myTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
     <item name="android:colorPrimary">@color/primary</item>
     <item name="android:colorAccent">@color/secondary</item>
+    <item name="colorPrimaryDark">@color/primaryDark</item>
+    <!--<item name="android: ></item>"-->
   </style>
   <!--<style name="primaryTheme" parent="android:Theme.Material.Light">
     <item name="android:colorPrimary">@color/primary</item>
