@@ -4,76 +4,100 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <!--Author: N9452982, Michael Devenish-->
-      <!--<fragment
-        android:id="@+id/map"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.google.android.gms.maps.MapFragment" /> 
-    <LinearLayout
-        android:background="@layout/Search_Bg"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/search">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/transparent"
-            android:src="@drawable/menu"
-            android:id="@+id/nav_button" />
-        <EditText
+        android:layout_height="match_parent">
+
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+       
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.MapFragment" />
+            <LinearLayout
+                android:background="@layout/Search_Bg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:id="@+id/search">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/menu"
+                    android:id="@+id/nav_button"
+                    local:MvxBind="Click ButtonCommand" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/transparent"
+                    android:textColor="@color/black"
+                    android:hint="@string/search"
+                    android:layout_margin="5dp"
+                    android:textColorHint="@color/gray"
+                    android:id="@+id/searchText"
+                    local:MvxBind="Text UnitCode; Click OpenSearch"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true" />
+            </LinearLayout>
+            <Mvx.MvxListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:id="@+id/searching"
+                HasUnevenRows="true"
+                android:background="@layout/Search_Bg"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:divider="@color/gray"
+                android:dividerHeight="1sp"
+                android:layout_below="@id/search"
+                local:MvxItemTemplate="@layout/unitcodeitemlayout"
+                local:MvxBind="ItemsSource Locations; ItemClick SelectUnitCommand" />
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/focusButton"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="92dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/floatingbuttonwhite"
+                android:src="@drawable/gps_blue" />
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="16dp"
+                android:background="@drawable/floatingbutton"
+                android:src="@drawable/cars"
+                local:MvxBind="Click VehicleButton" />
+        </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/transparent"
-            android:textColor="@color/black"
-            android:hint="@string/search"
-            android:layout_margin="5dp"
-            android:textColorHint="@color/gray"
-            android:id="@+id/searchText"
-            local:MvxBind="Text UnitCode; Click OpenSearch"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:scrollHorizontally="true" />
-    </LinearLayout>
- 
-  <Mvx.MvxListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/searching"
-        HasUnevenRows="true"
-        android:background="@layout/Search_Bg"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:divider="@color/gray"
-        android:dividerHeight="1sp"
-        android:layout_below="@id/search"
-        local:MvxItemTemplate="@layout/unitcodeitemlayout"
-        local:MvxBind="ItemsSource Locations; ItemClick SelectUnitCommand" />
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/focusButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="92dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/floatingbuttonwhite"
-        android:src="@drawable/gps_blue" />
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:background="@drawable/floatingbutton"
-        android:src="@drawable/cars"
-        local:MvxBind="Click VehicleButton" />-->
-  <include
-            layout="@layout/NavMenu" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0.0dp" />
+    <!--  hamburger menu list -->
+        <ListView
+            android:id="@+id/drawerListView"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+    </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

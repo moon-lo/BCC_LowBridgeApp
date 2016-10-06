@@ -10,5 +10,6 @@ namespace BCC.Core.ViewModels
     {
         void GoTo(LocationAutoCompleteResult.Result location);
         void ShowSearch();
+        void OpenDrawer();
     }
 }

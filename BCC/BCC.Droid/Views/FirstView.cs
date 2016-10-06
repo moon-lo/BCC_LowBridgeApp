@@ -338,7 +338,8 @@ namespace BCC.Droid.Views
 
         #endregion
         #region nav menu
-        public void SetupNavBar() {
+        public void SetupNavBar()
+        {
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
             drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
@@ -349,19 +350,18 @@ namespace BCC.Droid.Views
                 titles);
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
-            drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                Resource.String.OpenDrawerString,
-                Resource.String.CloseDrawerString);
 
-            drawerLayout.AddDrawerListener(drawerToggle);
             var tm = FragmentManager.BeginTransaction();
             foreach (var item in fragments)
             {
                 tm.Add(item, item.ToString());
             }
             ShowFragmentAt(0);
+        }
+
+        public void OpenDrawer()
+        {
+            drawerLayout.OpenDrawer(drawerListView);
         }
 
         void ShowFragmentAt(int position)
@@ -394,8 +394,8 @@ namespace BCC.Droid.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            //ActionBar.Hide();
             SetContentView(Resource.Layout.FirstView);
+           
             bridgeMarkers = new List<Marker>();
 
             var viewModel = DataContext as FirstViewModel;
@@ -404,9 +404,6 @@ namespace BCC.Droid.Views
 
             SetupSearch();
             SetupMap(bridges);
-            //SetupNavBar();
-
-            //SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
             drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
             if (drawerListView != null)

@@ -43,7 +43,7 @@ namespace BCC.Core.ViewModels
         public List<BridgeData> GetBridges(Stream file)
         {
             BridgeService service = new BridgeService();
-            return  service.GetLocations(file);
+            return service.GetLocations(file);
         }
 
         /// <summary>
@@ -76,6 +76,11 @@ namespace BCC.Core.ViewModels
             {
                 if (Locations.Count > 0)
                     View.ShowSearch();
+            });
+
+            ButtonCommand = new MvxCommand(() =>
+            {
+                View.OpenDrawer();
             });
 
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
