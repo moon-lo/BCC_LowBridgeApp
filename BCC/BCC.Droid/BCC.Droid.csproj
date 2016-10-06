@@ -183,6 +183,9 @@
     <EmbeddedResource Include="Views\lowBridge_2016-04-06.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <AndroidResource Include="Resources\layout\AddVehicle.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -270,6 +273,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\back.png" />
     <AndroidResource Include="Resources\drawable-mdpi\back.png" />
     <AndroidResource Include="Resources\drawable-hdpi\back.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tick.png" />
     <Content Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>
