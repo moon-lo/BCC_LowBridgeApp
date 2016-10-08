@@ -13,6 +13,9 @@ using Android.Util;
 using Java.Lang;
 using Android.Locations;
 using BCC.Core.json;
+using Android;
+using Android.Content.PM;
+using Android.Support.V4.App;
 
 namespace BCC.Droid.Views
 {
@@ -30,6 +33,9 @@ namespace BCC.Droid.Views
         private Notification.Builder awayNotification;
         const int notificationId = 0;
         private bool awayNotificationShown = false;
+
+        static string[] PERMISSIONS_LOCATION = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
+        const int RequestLocationId = 0;
 
         //have a global for the push notification
         //modify the push when you are close to a bridge if it is already shown
@@ -55,7 +61,7 @@ namespace BCC.Droid.Views
             binder = new LocationServiceBinder(this);
 
             SetupWarningPushNotification();
-            SetupLocationTracking();
+
             return binder;
 
         }
@@ -63,7 +69,7 @@ namespace BCC.Droid.Views
         /// <summary>
         /// Sets up the required objects to follow the user
         /// </summary>
-        private void SetupLocationTracking()
+        public void SetupLocationTracking()
         {
             _locationManager = (LocationManager)GetSystemService(LocationService);
             Criteria locationCriteria = new Criteria();
@@ -72,6 +78,45 @@ namespace BCC.Droid.Views
 
             _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
             _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
+            bool result = _locationManager.IsProviderEnabled(LocationManager.GpsProvider);
+        }
+
+        private Criteria RequestLocation()
+        {
+            Criteria locationCriteria = new Criteria();
+            if ((int)Build.VERSION.SdkInt < 23)
+            {
+                locationCriteria.Accuracy = Accuracy.Fine;
+                locationCriteria.PowerRequirement = Power.High;
+            }
+            else
+            {
+                //Check to see if any permission in our group is available, if one, then all are
+                const string permission = Manifest.Permission.AccessFineLocation;
+                if (CheckSelfPermission(permission) == (int)Permission.Granted)
+                {
+                    locationCriteria.Accuracy = Accuracy.Fine;
+                    locationCriteria.PowerRequirement = Power.High;
+                }
+
+                //need to request permission
+                else if (ActivityCompat.ShouldShowRequestPermissionRationale(binder.activity, permission))
+                {
+                    //Explain to the user why we need to read the contacts
+                    ActivityCompat.RequestPermissions(binder.activity, PERMISSIONS_LOCATION, RequestLocationId);
+                    if (CheckSelfPermission(permission) == (int)Permission.Granted)
+                    {
+                        locationCriteria.Accuracy = Accuracy.Fine;
+                        locationCriteria.PowerRequirement = Power.High;
+                    }
+                }
+                else
+                {
+                    locationCriteria.Accuracy = Accuracy.Coarse;
+                    locationCriteria.PowerRequirement = Power.Low;
+                }
+            }
+            return locationCriteria;
         }
 
         /// <summary>
