@@ -71,50 +71,46 @@ namespace BCC.Droid.Views
         /// </summary>
         public void SetupLocationTracking()
         {
-            _locationManager = (LocationManager)GetSystemService(LocationService);
-            Criteria locationCriteria = new Criteria();
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Low;
 
-            _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
-            bool result = _locationManager.IsProviderEnabled(LocationManager.GpsProvider);
+            _locationManager = (LocationManager)GetSystemService(LocationService);
+
+            _locationProvider = _locationManager.GetBestProvider(RequestLocation(), true);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
         }
 
         private Criteria RequestLocation()
         {
             Criteria locationCriteria = new Criteria();
             if ((int)Build.VERSION.SdkInt < 23)
+                locationCriteria = SetAccurate(locationCriteria, _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+
+            else
+            {
+                //Check to see if any permission in our group is available, if one, then all are
+                const string permission = Manifest.Permission.AccessFineLocation;
+                if (CheckSelfPermission(permission) == (int)Permission.Granted)
+                    locationCriteria = SetAccurate(locationCriteria, _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+                else
+                {
+                    ActivityCompat.RequestPermissions(binder.activity, PERMISSIONS_LOCATION, RequestLocationId);
+                    locationCriteria = SetAccurate(locationCriteria, CheckSelfPermission(permission) == (int)Permission.Granted
+                        && _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+                }
+            }
+            return locationCriteria;
+        }
+
+        private Criteria SetAccurate(Criteria locationCriteria, bool avaliable)
+        {
+            if (avaliable)
             {
                 locationCriteria.Accuracy = Accuracy.Fine;
                 locationCriteria.PowerRequirement = Power.High;
             }
             else
             {
-                //Check to see if any permission in our group is available, if one, then all are
-                const string permission = Manifest.Permission.AccessFineLocation;
-                if (CheckSelfPermission(permission) == (int)Permission.Granted)
-                {
-                    locationCriteria.Accuracy = Accuracy.Fine;
-                    locationCriteria.PowerRequirement = Power.High;
-                }
-
-                //need to request permission
-                else if (ActivityCompat.ShouldShowRequestPermissionRationale(binder.activity, permission))
-                {
-                    //Explain to the user why we need to read the contacts
-                    ActivityCompat.RequestPermissions(binder.activity, PERMISSIONS_LOCATION, RequestLocationId);
-                    if (CheckSelfPermission(permission) == (int)Permission.Granted)
-                    {
-                        locationCriteria.Accuracy = Accuracy.Fine;
-                        locationCriteria.PowerRequirement = Power.High;
-                    }
-                }
-                else
-                {
-                    locationCriteria.Accuracy = Accuracy.Coarse;
-                    locationCriteria.PowerRequirement = Power.Low;
-                }
+                locationCriteria.Accuracy = Accuracy.Coarse;
+                locationCriteria.PowerRequirement = Power.Low;
             }
             return locationCriteria;
         }
@@ -127,7 +123,7 @@ namespace BCC.Droid.Views
         {
             Intent resultIntent = new Intent(this, typeof(FirstView));
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
+            Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(this);
             stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(FirstView)));
             stackBuilder.AddNextIntent(resultIntent);
 

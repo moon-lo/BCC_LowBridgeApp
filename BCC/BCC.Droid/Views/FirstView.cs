@@ -590,6 +590,7 @@ namespace BCC.Droid.Views
 
                 // keep instance for preservation across configuration changes
                 this.binder = (LocationServiceBinder)service;
+                activity.binder.GetService().SetupLocationTracking();
 
             }
         }
