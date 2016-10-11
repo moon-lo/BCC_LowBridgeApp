@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <include
+<!-- //Author Scott Fletcher N9017097-->
+    <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
-  <!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
+<!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
     <EditText
         android:hint="Profile Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editProfileName" />
+        local:MvxBind="Text ProfileName" />
     <EditText
         android:hint="Vehicle Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editVehicleName" />
+        local:MvxBind="Text VehicleName" />
     <EditText
         android:hint="Registration Number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editRegistrationNumber" />
+        local:MvxBind="Text RegNumber" />
     <EditText
-        android:hint="Vehicle Height (m)"
+        android:hint="Vehicle Height (cm)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editVehicleHeight" />
+        local:MvxBind="Text VehicleHeight" />
     <RelativeLayout
         android:minWidth="25px"
         android:minHeight="25px"
@@ -42,6 +44,7 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/tickButton"
             android:background="@drawable/floatingbutton"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            local:MvxBind="Click SaveAddVehicle" />
     </RelativeLayout>
 </LinearLayout>

@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
-    <SelectedDevice>5.7" Marshmallow %286.0.0%29 XHDPI Phone</SelectedDevice>
+    <SelectedDevice>Nexus 5 %28Lollipop%29</SelectedDevice>
     <AndroidDesignerPreferredTheme>Theme.Holo.Light</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>

@@ -4,18 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BCC.Core.ViewModels
 {
-    public class VehicleProfilesViewModel
-       : MvxViewModel
+    public class VehicleProfilesViewModel : MvxViewModel
     {
 
-        public void Init()
+        public ICommand NavigateCreateAddVehicle
         {
-        }        public override void Start()
+            get
+            {
+                return new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>());
+            }
+        }
+
+        public ICommand NavigateAllAddVehicle
         {
-            base.Start();
-        }
+            get
+            {
+                
+                return new MvxCommand(() => ShowViewModel<AllAddVehiclesViewModel>());
+
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@ using Android.Content;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
+using BCC.Core;
+using MvvmCross.Platform;
 
 
 namespace BCC.Droid
@@ -14,6 +16,8 @@ namespace BCC.Droid
 
         protected override IMvxApplication CreateApp()
         {
+            var dbConn = FileAccessHelper.GetLocalFilePath("profiles.db3");
+            Mvx.RegisterSingleton(new Repository(dbConn));
             return new BCC.Core.App();
         
         }

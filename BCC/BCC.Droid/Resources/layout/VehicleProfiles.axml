@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     p1:minWidth="25px"
     p1:minHeight="25px"
     p1:layout_width="match_parent"
@@ -10,62 +11,12 @@
         p1:id="@+id/toolbar"
         layout="@layout/toolbar" />
 <!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
-    <LinearLayout
-        p1:orientation="vertical"
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/linearLayout1">
-        <RelativeLayout
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:layout_marginBottom="10dp"
-            p1:background="@layout/vehicle_Bg"
-            p1:layout_marginTop="48dp">
-            <TextView
-                p1:text="Vehicle Selected: Volvo FH 16"
-                p1:textAppearance="?android:attr/textAppearanceLarge"
-                p1:id="@+id/textView1"
-                p1:gravity="center"
-                p1:layout_width="match_parent"
-                p1:layout_height="wrap_content"
-                p1:layout_marginTop="6.5dp" />
-            <TextView
-                p1:text="Height: 3.9m"
-                p1:textAppearance="?android:attr/textAppearanceLarge"
-                p1:gravity="center"
-                p1:layout_width="match_parent"
-                p1:layout_height="wrap_content"
-                p1:layout_marginTop="35dp"
-                p1:layout_marginBottom="10dp" />
-        </RelativeLayout>
-        <Space
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/space1" />
-        <RadioGroup
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/radioGroup1">
-            <RadioButton
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:checked="true"
-                p1:text="Volvo FH 16"
-                p1:id="@+id/radioButton2" />
-            <RadioButton
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:text="Iveco GH280"
-                p1:id="@+id/radioButton3" />
-            <RadioButton
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:text="Mack TerraPro"
-                p1:id="@+id/radioButton4" />
-        </RadioGroup>
-    </LinearLayout>
+    <Mvx.MvxListView
+        p1:layout_width="fill_parent"
+        p1:layout_height="fill_parent"
+        local:MvxBind="ItemsSource AllVehicleProfiles"
+        local:MvxItemTemplate="@layout/addvehiclelist" 
+        p1:textColor="#ff0000"/>
     <ImageButton
         p1:src="@drawable/plus"
         p1:layout_width="60dp"
@@ -74,5 +25,6 @@
         p1:layout_alignParentBottom="true"
         p1:id="@+id/plusButton"
         p1:background="@drawable/floatingbutton"
-        p1:layout_margin="16dp" />
+        p1:layout_margin="16dp"
+        local:MvxBind="Click NavigateCreateAddVehicle" />
 </RelativeLayout>
