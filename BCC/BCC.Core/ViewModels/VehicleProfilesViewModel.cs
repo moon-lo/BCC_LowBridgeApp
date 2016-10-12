@@ -26,49 +26,50 @@ namespace BCC.Core.ViewModels
         public string CurrVehicle
         {
             get { return currVehicle; }
-            set { SetProperty(ref currVehicle, "Vehicle: " + value); }
+            set
+            {
+                SetProperty(ref currVehicle, "Vehicle: " + value);
+                RaisePropertyChanged(() => CurrVehicle);
+            }
         }
         private string currHeight;
         public string CurrHeight
         {
             get { return currHeight; }
-            set { SetProperty(ref currHeight, "Height: " + value + "m"); }
-        }
-
-        private string vehicle_name;
-        public string Vehicle_name
-        {
-            get { return vehicle_name; }
             set
             {
-                string prevalue = vehicle_name;
-                SetProperty(ref vehicle_name, value);
+                SetProperty(ref currHeight, "Height: " + value + "m");
+                RaisePropertyChanged(() => CurrHeight);
             }
         }
-        private string vehicle_height;
-        public string Vehicle_height
+
+        private string profileName;
+        public string ProfileName
         {
-            get { return vehicle_name; }
+            get { return profileName; }
             set
             {
-                string prevalue = vehicle_name;
-                SetProperty(ref vehicle_name, value);
+                string prevalue = profileName;
+                SetProperty(ref profileName, value);
+            }
+        }
+        private string vehicleHeight;
+        public string VehicleHeight
+        {
+            get { return vehicleHeight; }
+            set
+            {
+                string prevalue = vehicleHeight;
+                SetProperty(ref vehicleHeight, value);
             }
         }
 
         public ICommand SelectUnitCommand { get; private set; }
+        public ICommand NavigateCreateAddVehicle { get; private set; }
+
         public VehicleProfilesViewModel()
         {
-            AddVehicle tempveh = new AddVehicle();
-            tempveh.ProfileName = "car1";
-            tempveh.VehicleName = "potato";
-            tempveh.RegNumber = "770LXY";
-            tempveh.VehicleHeight = "100.1";
-            //Repository repo = new Repository();
-            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
-            result.Wait();
-            AllAddVehicles = new ObservableCollection<AddVehicle>(result.Result);
-            AllAddVehicles.Add(tempveh);
+            UpdateList();
 
             SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle =>
             {
@@ -76,24 +77,26 @@ namespace BCC.Core.ViewModels
                 CurrHeight = vehicle.VehicleHeight;
                 //place code to switch bools in the database here
             });
+            NavigateCreateAddVehicle = new MvxCommand(() =>
+            {
+                ShowViewModel<AddVehiclesViewModel>();
+            });
+
         }
 
-        public ICommand NavigateCreateAddVehicle
+        private void UpdateList()
         {
-            get
-            {
-                return new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>());
-            }
-        }
-
-        public ICommand NavigateAllAddVehicle
-        {
-            get
-            {
-
-                return new MvxCommand(() => ShowViewModel<AllAddVehiclesViewModel>());
-
-            }
+            AddVehicle tempveh = new AddVehicle();//tempoary
+            tempveh.ProfileName = "car1";//tempoary
+            tempveh.VehicleName = "potato";//tempoary
+            tempveh.RegNumber = "770LXY";//tempoary
+            tempveh.VehicleHeight = "100.1";//tempoary
+            //Repository repo = new Repository(); //set this up
+            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
+            result.Wait();
+            AllAddVehicles = new ObservableCollection<AddVehicle>(result.Result);
+            AllAddVehicles.Add(tempveh);//tempoary
+            RaisePropertyChanged(() => AllAddVehicles);
         }
     }
 }
