@@ -13,7 +13,9 @@ namespace BCC.Core.ViewModels
         public string ProfileName
         {
             get { return _addVehicle.ProfileName; }
-            set { _addVehicle.ProfileName = value;
+            set
+            {
+                _addVehicle.ProfileName = value;
                 RaisePropertyChanged(() => ProfileName);
             }
         }
@@ -77,7 +79,7 @@ namespace BCC.Core.ViewModels
             RaiseAllPropertiesChanged();
         }
 
-       
-        
+
+
     }
 }

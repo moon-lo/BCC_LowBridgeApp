@@ -241,6 +241,7 @@ namespace BCC.Droid.Views
         /// </summary>
         private void SetupSearch()
         {
+            var res = Resource.Id.beginning;
             FindViewById<MvxListView>(Resource.Id.searching).BringToFront();
             FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
         }

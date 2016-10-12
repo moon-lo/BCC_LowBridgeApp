@@ -20,13 +20,9 @@ namespace BCC.Core.Models
         [NotNull]
         public string VehicleHeight { get; set; }
 
-        
+
         public AddVehicle()
         {
-            ProfileName = string.Empty;
-            VehicleName = string.Empty; ;
-            RegNumber = string.Empty;
-            VehicleHeight = string.Empty;
         }
 
         public bool IsValid()
@@ -35,4 +31,4 @@ namespace BCC.Core.Models
         }
     }
 }
-    
+

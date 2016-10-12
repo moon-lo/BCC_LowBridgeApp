@@ -11,12 +11,43 @@
         p1:id="@+id/toolbar"
         layout="@layout/toolbar" />
 <!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
-    <Mvx.MvxListView
-        p1:layout_width="fill_parent"
-        p1:layout_height="fill_parent"
-        local:MvxBind="ItemsSource AllVehicleProfiles"
-        local:MvxItemTemplate="@layout/addvehiclelist" 
-        p1:textColor="#ff0000"/>
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/linearLayout1">
+        <RelativeLayout
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:background="@layout/vehicle_Bg"
+            p1:layout_marginTop="48dp">
+            <TextView
+                p1:text="Vehicle Selected:"
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:id="@+id/textView1"
+                p1:gravity="center"
+                p1:layout_width="match_parent"
+                local:MvxBind="ItemsSource currVehicle"
+                p1:layout_height="wrap_content"
+                p1:layout_marginTop="6.5dp" />
+            <TextView
+                p1:text="Height: "
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:gravity="center"
+                p1:layout_width="match_parent"
+                local:MvxBind="ItemsSource currHeight"
+                p1:layout_height="wrap_content"
+                p1:layout_marginTop="35dp"
+                p1:layout_marginBottom="10dp" />
+        </RelativeLayout>
+        <Mvx.MvxListView
+            p1:layout_width="fill_parent"
+            p1:layout_height="fill_parent"
+            local:MvxItemTemplate="@layout/addvehiclelist"
+            local:MvxBind="ItemsSource AllVehicleProfiles; ItemClick SelectUnitCommand" />
+    </LinearLayout>
     <ImageButton
         p1:src="@drawable/plus"
         p1:layout_width="60dp"
