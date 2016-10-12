@@ -4,6 +4,7 @@ using BCC.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Plugins.Messenger;
 
 namespace BCC.Core.ViewModels
 {
@@ -11,15 +12,6 @@ namespace BCC.Core.ViewModels
     {
         public List<AddVehicle> AllAddVehicles { get; set; }
 
-        public ICommand NavBack
-        {
-            get
-            {
-                return new MvxCommand(() => Close(this));
-            }
-        }
-
-        
         public void Init()
         {
             Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();

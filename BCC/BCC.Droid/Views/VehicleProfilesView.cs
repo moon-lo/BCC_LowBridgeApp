@@ -12,18 +12,25 @@ using Android.Widget;
 using MvvmCross.Droid.Views;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using BCC.Core.ViewModels;
+using MvvmCross.Plugins.Messenger;
+using MvvmCross.Platform;
 
 namespace BCC.Droid.Views
 {
     [Activity(Label = "Vehicle Profiles")]
 
-    public class VehicleProfilesView : MvxAppCompatActivity<VehicleProfilesViewModel>
+    public class VehicleProfilesView : MvxAppCompatActivity<VehicleProfilesViewModel>, IVehicle
     {
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.VehicleProfiles);
+
+            var viewModel = DataContext as VehicleProfilesViewModel;
+            viewModel.View = this;
+            viewModel.UpdateList();
+
 
             //Setting up the layout for the toolbar 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -54,7 +61,11 @@ namespace BCC.Droid.Views
             }
         }
 
+        public string LoadFile(string file)
+        {
+            return FileAccessHelper.GetLocalFilePath(file);
+        }
     }
-   
+
 }
 

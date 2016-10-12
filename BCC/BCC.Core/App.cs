@@ -11,6 +11,7 @@ namespace BCC.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
+
             RegisterAppStart<ViewModels.FirstViewModel>();
         }
     }

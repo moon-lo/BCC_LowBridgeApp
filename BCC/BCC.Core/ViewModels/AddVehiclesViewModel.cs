@@ -2,6 +2,7 @@
 using MvvmCross.Platform;
 using BCC.Core.Models;
 using System.Windows.Input;
+using MvvmCross.Plugins.Messenger;
 
 //Author Scott Fletcher N9017097
 namespace BCC.Core.ViewModels
@@ -65,6 +66,9 @@ namespace BCC.Core.ViewModels
                 {
                     if (_addVehicle.IsValid())
                     {
+                        IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
+                        var message = new ViewModelCommunication(this, "reload");
+                        messenger.Publish(message);
                         Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
                         Close(this);
                     }

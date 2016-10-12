@@ -104,8 +104,8 @@ namespace BCC.Droid.Views
         {
             if (avaliable)
             {
-                locationCriteria.Accuracy = Accuracy.Fine;
-                locationCriteria.PowerRequirement = Power.High;
+                locationCriteria.Accuracy = Accuracy.Coarse;
+                locationCriteria.PowerRequirement = Power.Low;
             }
             else
             {

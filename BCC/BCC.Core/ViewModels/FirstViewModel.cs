@@ -1,5 +1,7 @@
 using BCC.Core.json;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -61,6 +63,15 @@ namespace BCC.Core.ViewModels
             }
         }
 
+        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        {
+            if (locationMessage.Msg == "vehicleChanged")
+            {
+                //reload vehicleHeight
+            }
+        }
+
+        private readonly MvxSubscriptionToken _token;
         public ICommand ButtonCommand { get; private set; }
         public ICommand OpenSearch { get; private set; }
         public ICommand VehicleButton { get; private set; }
@@ -71,6 +82,7 @@ namespace BCC.Core.ViewModels
         /// </summary>
         public FirstViewModel()
         {
+            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
             Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
             OpenSearch = new MvxCommand(() =>
             {

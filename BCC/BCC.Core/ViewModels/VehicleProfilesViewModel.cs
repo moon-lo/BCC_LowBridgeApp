@@ -1,6 +1,7 @@
 ﻿using BCC.Core.Models;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -64,18 +65,40 @@ namespace BCC.Core.ViewModels
             }
         }
 
+        public IVehicle View { get; set; }
+
         public ICommand SelectUnitCommand { get; private set; }
         public ICommand NavigateCreateAddVehicle { get; private set; }
 
+        private readonly MvxSubscriptionToken _token;
+
+
+        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        {
+            if (locationMessage.Msg == "reload")
+            {
+                UpdateList();
+            }
+        }
+
+
         public VehicleProfilesViewModel()
         {
-            UpdateList();
+            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
 
             SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle =>
             {
+                //send message to notify main window
+                IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
+                var message = new ViewModelCommunication(this, "vehicleChanged");
+                messenger.Publish(message);
+
+                //change text
                 CurrVehicle = vehicle.ProfileName;
                 CurrHeight = vehicle.VehicleHeight;
+
                 //place code to switch bools in the database here
+                //TODO
             });
             NavigateCreateAddVehicle = new MvxCommand(() =>
             {
@@ -84,18 +107,19 @@ namespace BCC.Core.ViewModels
 
         }
 
-        private void UpdateList()
+        public void UpdateList()
         {
-            AddVehicle tempveh = new AddVehicle();//tempoary
-            tempveh.ProfileName = "car1";//tempoary
-            tempveh.VehicleName = "potato";//tempoary
-            tempveh.RegNumber = "770LXY";//tempoary
-            tempveh.VehicleHeight = "100.1";//tempoary
-            //Repository repo = new Repository(); //set this up
+            //AddVehicle tempveh = new AddVehicle();//tempoary
+            //tempveh.ProfileName = "car1";//tempoary
+            //tempveh.VehicleName = "potato";//tempoary
+            //tempveh.RegNumber = "456REF";//tempoary
+            //tempveh.VehicleHeight = "100.1";//tempoary
+            string file = View.LoadFile("profiles.db3");
+            Repository repo = new Repository(file);
             Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
             result.Wait();
             AllAddVehicles = new ObservableCollection<AddVehicle>(result.Result);
-            AllAddVehicles.Add(tempveh);//tempoary
+            //AllAddVehicles.Add(tempveh);//tempoary
             RaisePropertyChanged(() => AllAddVehicles);
         }
     }
