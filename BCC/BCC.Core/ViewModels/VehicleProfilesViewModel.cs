@@ -84,6 +84,11 @@ namespace BCC.Core.ViewModels
 
         public VehicleProfilesViewModel()
         {
+
+            //Load the current vehicle
+            //todo
+
+            UpdateList();
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
 
             SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle =>
