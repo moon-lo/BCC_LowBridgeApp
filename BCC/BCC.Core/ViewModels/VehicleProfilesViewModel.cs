@@ -113,6 +113,7 @@ namespace BCC.Core.ViewModels
                 CurrVehicle = vehicle.ProfileName;
                 CurrHeight = vehicle.VehicleHeight;
 
+
                 //place code to switch bools in the database here
                 //TODO
             });
@@ -125,7 +126,7 @@ namespace BCC.Core.ViewModels
 
         public void UpdateList()
         {
-           
+
             //AddVehicle tempveh = new AddVehicle();//tempoary
             //tempveh.ProfileName = "car1";//tempoary
             //tempveh.VehicleName = "potato";//tempoary
@@ -136,6 +137,11 @@ namespace BCC.Core.ViewModels
             Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
             result.Wait();
             AllAddVehicles = new ObservableCollection<AddVehicle>(result.Result);
+
+            foreach (AddVehicle vehicle in AllAddVehicles)
+                if (vehicle.VehicleSelection == 1)
+                    currentVehicle = vehicle;
+
             //AllAddVehicles.Add(tempveh);//tempoary
             RaisePropertyChanged(() => AllAddVehicles);
         }

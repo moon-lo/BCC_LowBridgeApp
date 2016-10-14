@@ -1,4 +1,5 @@
 using BCC.Core.json;
+using BCC.Core.Models;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -38,8 +39,16 @@ namespace BCC.Core.ViewModels
                 }
             }
         }
+
+        private int currentVehicleHeight;
+        public int CurrentVehicleHeight
+        {
+            get { return currentVehicleHeight; }
+        }
         private IView view;
         public IView View { get; set; }
+
+
 
 
         public List<BridgeData> GetBridges(Stream file)
@@ -63,15 +72,20 @@ namespace BCC.Core.ViewModels
             }
         }
 
-        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        public void UpdateHeight()
         {
-            if (locationMessage.Msg == "vehicleChanged")
-            {
-                //reload vehicleHeight
-            }
+
+            Repository repo = new Repository(View.LoadFile("profiles.db3"));
+            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
+            result.Wait();
+
+            if (result.Result.Count == 0)
+                currentVehicleHeight = 0;
+            else foreach (AddVehicle vehicle in result.Result)
+                    if (vehicle.VehicleSelection == 1)
+                        currentVehicleHeight = int.Parse(vehicle.VehicleHeight);
         }
 
-        private readonly MvxSubscriptionToken _token;
         public ICommand ButtonCommand { get; private set; }
         public ICommand OpenSearch { get; private set; }
         public ICommand VehicleButton { get; private set; }
@@ -82,7 +96,6 @@ namespace BCC.Core.ViewModels
         /// </summary>
         public FirstViewModel()
         {
-            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
             Locations = new ObservableCollection<LocationAutoCompleteResult.Result>();
             OpenSearch = new MvxCommand(() =>
             {

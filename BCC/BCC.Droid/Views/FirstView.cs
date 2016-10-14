@@ -24,6 +24,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.FullFragging.Fragments;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using MvvmCross.Plugins.Messenger;
 
 namespace BCC.Droid.Views
 {
@@ -387,7 +388,7 @@ namespace BCC.Droid.Views
 
         #endregion
         #region main functions
-
+        private MvxSubscriptionToken _token;
         /// <summary>
         /// the function that handles the creation of the view
         /// </summary>
@@ -430,9 +431,18 @@ namespace BCC.Droid.Views
             }
             ShowFragmentAt(1);
 
+            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
 
         }
-
+        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        {
+            if (locationMessage.Msg == "vehicleChanged")
+            {
+                var viewModel = DataContext as FirstViewModel;
+                viewModel.UpdateHeight();
+                HideBridgesOnHeight(viewModel.CurrentVehicleHeight);
+            }
+        }
         protected override void OnStart()
         {
             base.OnStart();
@@ -484,6 +494,10 @@ namespace BCC.Droid.Views
 
         }
 
+        public string LoadFile(string file)
+        {
+            return FileAccessHelper.GetLocalFilePath(file);
+        }
         #endregion
         #region unused
         [Obsolete("Method is unused")]
@@ -587,7 +601,9 @@ namespace BCC.Droid.Views
                 ((LocationServiceBinder)service).activity = activity;
                 activity.binder = binder;
                 activity.isBound = true;
-                activity.HideBridgesOnHeight(0);//add code further down the chan when height is checked to show
+                var viewModel = activity.DataContext as FirstViewModel;
+                viewModel.UpdateHeight();
+                activity.HideBridgesOnHeight(viewModel.CurrentVehicleHeight);//add code further down the chan when height is checked to show
 
                 // keep instance for preservation across configuration changes
                 this.binder = (LocationServiceBinder)service;

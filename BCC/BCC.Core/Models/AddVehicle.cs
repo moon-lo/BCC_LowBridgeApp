@@ -11,16 +11,12 @@ namespace BCC.Core.Models
         [PrimaryKey,]
         public string ProfileName { get; set; }
 
-        [NotNull]
         public string VehicleName { get; set; }
 
-        [NotNull]
         public string RegNumber { get; set; }
 
-        [NotNull]
         public string VehicleHeight { get; set; }
 
-        [NotNull]
         public int VehicleSelection { get; set; }
 
 
