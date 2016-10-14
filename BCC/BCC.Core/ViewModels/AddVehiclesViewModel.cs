@@ -49,6 +49,17 @@ namespace BCC.Core.ViewModels
                 _addVehicle.VehicleHeight = value;
                 RaisePropertyChanged(() => VehicleHeight);
             }
+
+       
+        }
+        public int VehicleSelection
+        {
+            get { return _addVehicle.VehicleSelection; }
+            set
+            {
+                _addVehicle.VehicleSelection = value;
+                RaisePropertyChanged(() => VehicleSelection);
+            }
         }
         public ICommand NavBack
         {
@@ -65,7 +76,12 @@ namespace BCC.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     if (_addVehicle.IsValid())
-                    {
+                    {AddVehicle tempveh = new AddVehicle();
+                        tempveh.ProfileName = ProfileName;
+                        tempveh.VehicleName = VehicleName;
+                        tempveh.RegNumber = RegNumber;
+                        tempveh.VehicleHeight = VehicleHeight;
+                        tempveh.VehicleSelection = 0;
                         IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
                         var message = new ViewModelCommunication(this, "reload");
                         messenger.Publish(message);

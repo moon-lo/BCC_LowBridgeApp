@@ -9,13 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SQLite;
+
 
 namespace BCC.Core.ViewModels
 {
     public class VehicleProfilesViewModel : MvxViewModel
     {
-
-
+        private AddVehicle currentVehicle;
         private ObservableCollection<AddVehicle> allAddVehicles;
         public ObservableCollection<AddVehicle> AllAddVehicles
         {
@@ -62,6 +63,17 @@ namespace BCC.Core.ViewModels
             {
                 string prevalue = vehicleHeight;
                 SetProperty(ref vehicleHeight, value);
+            }
+        }
+
+        private int vehicleSelection;
+        public int VehicleSelection
+        {
+            get { return vehicleSelection; }
+            set
+            {
+                int prevalue = vehicleSelection;
+                SetProperty(ref vehicleSelection, value);
             }
         }
 
@@ -113,6 +125,7 @@ namespace BCC.Core.ViewModels
 
         public void UpdateList()
         {
+           
             //AddVehicle tempveh = new AddVehicle();//tempoary
             //tempveh.ProfileName = "car1";//tempoary
             //tempveh.VehicleName = "potato";//tempoary

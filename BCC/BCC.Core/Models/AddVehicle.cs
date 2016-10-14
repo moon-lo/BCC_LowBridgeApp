@@ -20,6 +20,9 @@ namespace BCC.Core.Models
         [NotNull]
         public string VehicleHeight { get; set; }
 
+        [NotNull]
+        public int VehicleSelection { get; set; }
+
 
         public AddVehicle()
         {
