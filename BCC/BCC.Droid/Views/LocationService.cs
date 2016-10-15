@@ -153,7 +153,7 @@ namespace BCC.Droid.Views
         {
             CurrentLocation = location;
             List<BridgeData> currentNotifiedBridges = new List<BridgeData>(notifiedBridges);
-            bool warning = true;
+            bool warning = false;
             notifiedBridges = new List<BridgeData>();
 
             warning = CalculateDistanceFromBridges(location, warning, notifiedBridges);
