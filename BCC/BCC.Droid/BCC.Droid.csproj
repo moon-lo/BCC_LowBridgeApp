@@ -297,7 +297,6 @@
     <AndroidResource Include="Resources\drawable-mdpi\plus.png" />
     <AndroidResource Include="Resources\drawable-hdpi\plus.png" />
     <AndroidResource Include="Resources\values\dimens.xml" />
-    <AndroidResource Include="Resources\mipmap\icon.png" />
     <AndroidResource Include="Resources\values-v21\styles.xml" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\back.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\back.png" />
@@ -315,6 +314,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\mipmap\icon.png" />
     <Content Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

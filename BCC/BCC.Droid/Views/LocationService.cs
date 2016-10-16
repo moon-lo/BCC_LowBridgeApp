@@ -74,8 +74,13 @@ namespace BCC.Droid.Views
 
             _locationManager = (LocationManager)GetSystemService(LocationService);
 
-            _locationProvider = _locationManager.GetBestProvider(RequestLocation(), true);
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
+            Criteria avalibleCriteria = RequestLocation();
+            _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
+            while (LocationProvider == null)
+            {
+                _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
+            }
+                _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
         }
 
         private Criteria RequestLocation()
