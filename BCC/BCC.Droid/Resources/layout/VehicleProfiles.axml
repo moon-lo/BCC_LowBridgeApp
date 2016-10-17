@@ -49,6 +49,19 @@
             local:MvxBind="ItemsSource AllAddVehicles; ItemClick SelectUnitCommand; ItemLongClick DeleteCommand" />
     </LinearLayout>
     <ImageButton
+        p1:src="@drawable/edit"
+        p1:layout_width="60dp"
+        p1:layout_height="60dp"
+        p1:layout_marginBottom="92dp"
+        p1:layout_marginRight="16dp"
+        p1:layout_marginLeft="16dp"
+        p1:layout_marginTop="16dp"
+        p1:background="@drawable/floatingbuttonwhite"
+        p1:layout_alignParentRight="true"
+        p1:layout_alignParentBottom="true"
+        p1:id="@+id/editButton"
+        local:MvxBind="Click AlterVehicle" />
+    <ImageButton
         p1:src="@drawable/plus"
         p1:layout_width="60dp"
         p1:layout_height="60dp"

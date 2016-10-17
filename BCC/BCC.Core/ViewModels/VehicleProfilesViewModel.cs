@@ -77,16 +77,6 @@ namespace BCC.Core.ViewModels
             }
         }
 
-        public IVehicle View { get; set; }
-        public ICommand DeleteCommand { get; set; }
-
-
-        public ICommand SelectUnitCommand { get; private set; }
-        public ICommand NavigateCreateAddVehicle { get; private set; }
-
-        private readonly MvxSubscriptionToken _token;
-
-
         private void OnUpdateMessage(ViewModelCommunication locationMessage)
         {
             if (locationMessage.Msg == "reload")
@@ -94,6 +84,15 @@ namespace BCC.Core.ViewModels
                 UpdateList();
             }
         }
+
+        private readonly MvxSubscriptionToken _token;
+
+        public IVehicle View { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+        public ICommand AlterVehicle { get; set; }
+        public ICommand SelectUnitCommand { get; private set; }
+        public ICommand NavigateCreateAddVehicle { get; private set; }
 
 
         public VehicleProfilesViewModel()
@@ -110,6 +109,8 @@ namespace BCC.Core.ViewModels
                 CurrVehicle = vehicle.ProfileName;
                 CurrHeight = vehicle.VehicleHeight;
 
+                View.EditVisibility(true);
+
                 //switch bools in the database here
                 switchVehicles(vehicle);
 
@@ -119,6 +120,11 @@ namespace BCC.Core.ViewModels
                 messenger.Publish(message);
 
             });
+            AlterVehicle = new MvxCommand(() =>
+            {
+                ShowViewModel<AddVehiclesViewModel>(new { val = currentVehicle.ProfileName });
+            });
+
             NavigateCreateAddVehicle = new MvxCommand(() =>
             {
                 ShowViewModel<AddVehiclesViewModel>();
@@ -140,10 +146,12 @@ namespace BCC.Core.ViewModels
 
         public async void DeleteVehicle(AddVehicle vehicle)
         {
+            if (vehicle == currentVehicle) View.EditVisibility(false);
             bool result = await Mvx.Resolve<Repository>().DeleteVehicle(vehicle);
             IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
             var message = new ViewModelCommunication(this, "reload");
             messenger.Publish(message);
+
 
         }
 
@@ -167,6 +175,11 @@ namespace BCC.Core.ViewModels
                     CurrVehicle = vehicle.ProfileName;
                     CurrHeight = vehicle.VehicleHeight;
                     currentVehicle = vehicle;
+                    View.EditVisibility(true);
+                }
+                else
+                {
+                    View.EditVisibility(false);
                 }
 
             //AllAddVehicles.Add(tempveh);//tempoary

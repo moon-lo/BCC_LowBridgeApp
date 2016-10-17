@@ -3,6 +3,8 @@ using MvvmCross.Platform;
 using BCC.Core.Models;
 using System.Windows.Input;
 using MvvmCross.Plugins.Messenger;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 //Author Scott Fletcher N9017097
 namespace BCC.Core.ViewModels
@@ -10,6 +12,7 @@ namespace BCC.Core.ViewModels
     public class AddVehiclesViewModel : MvxViewModel
     {
         AddVehicle _addVehicle;
+        bool external = false;
 
         public string ProfileName
         {
@@ -50,7 +53,7 @@ namespace BCC.Core.ViewModels
                 RaisePropertyChanged(() => VehicleHeight);
             }
 
-       
+
         }
         public int VehicleSelection
         {
@@ -75,28 +78,56 @@ namespace BCC.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    if (_addVehicle.IsValid())
-                    {AddVehicle tempveh = new AddVehicle();
-                        tempveh.ProfileName = ProfileName;
-                        tempveh.VehicleName = VehicleName;
-                        tempveh.RegNumber = RegNumber;
-                        tempveh.VehicleHeight = VehicleHeight;
-                        tempveh.VehicleSelection = 0;
-                        Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
-                        IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
-                        var message = new ViewModelCommunication(this, "reload");
-                        messenger.Publish(message);
-                        Close(this);
+                    double result;
+                    bool close = true;
+                    if (_addVehicle.IsValid() && double.TryParse(VehicleHeight, out result))
+                    {
+                        Task<List<AddVehicle>> vehicles = Mvx.Resolve<Repository>().GetAllAddVehicles();
+                        vehicles.Wait();
+
+                        if (!external)
+                        {
+                            foreach (AddVehicle vehicle in new List<AddVehicle>(vehicles.Result))
+                                if (vehicle.ProfileName == _addVehicle.ProfileName)
+                                {
+                                    close = false;
+                                    Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "contains"));
+                                }
+                                else Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
+                        }
+                        else update();
+                        if (close)
+                        {
+                            IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
+                            var message = new ViewModelCommunication(this, "reload");
+                            messenger.Publish(message);
+                            Close(this);
+                        }
                     }
+                    else Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "string"));
+
                 });
             }
         }
 
-
-        public void Init(AddVehicle addVehicle = null)
+        private async void update()
         {
-            _addVehicle = addVehicle == null ? new AddVehicle() : addVehicle;
-            RaiseAllPropertiesChanged();
+            await Mvx.Resolve<Repository>().UpdateVehicle(_addVehicle);
+        }
+
+        public void Init(string val)
+        {
+            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
+            result.Wait();
+            foreach (AddVehicle vehicle in new List<AddVehicle>(result.Result))
+            {
+                if (vehicle.ProfileName == val)
+                {
+                    _addVehicle = vehicle;
+                    external = true;
+                }
+            }
+            if (_addVehicle == null) _addVehicle = new AddVehicle();
         }
 
 

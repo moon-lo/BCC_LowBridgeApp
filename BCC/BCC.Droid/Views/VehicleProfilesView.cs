@@ -85,6 +85,12 @@ namespace BCC.Droid.Views
             Dialog dialog = alert.Create();
             dialog.Show();
         }
+
+        public void EditVisibility(bool state)
+        {
+            if (state) FindViewById<ImageButton>(Resource.Id.editButton).Visibility = ViewStates.Visible;
+            else FindViewById<ImageButton>(Resource.Id.editButton).Visibility = ViewStates.Invisible;
+        }
     }
 
 }

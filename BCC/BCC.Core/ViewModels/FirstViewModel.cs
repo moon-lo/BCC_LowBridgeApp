@@ -48,9 +48,6 @@ namespace BCC.Core.ViewModels
         private IView view;
         public IView View { get; set; }
 
-
-
-
         public List<BridgeData> GetBridges(Stream file)
         {
             BridgeService service = new BridgeService();

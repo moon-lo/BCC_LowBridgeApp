@@ -61,7 +61,6 @@ namespace BCC.Core
 
         public Task<List<AddVehicle>> GetAllAddVehicles()
         {
-
             return conn.Table<AddVehicle>().ToListAsync();
         }
     }

@@ -20,6 +20,8 @@ namespace BCC.Droid.Views
     [Activity(Label = "Add Vehicle Profiles", NoHistory = true)]
     public class AddVehicleView : MvxAppCompatActivity<AddVehiclesViewModel>
     {
+        private MvxSubscriptionToken _token;
+
         /// <summary>
         /// Use OnViewModelSet to inflate the view's ContentView from AXML.
         /// </summary>
@@ -36,6 +38,8 @@ namespace BCC.Droid.Views
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.back);
+
+            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
         }
         /// <summary>
         /// This detects if any of the buttons in the toolbar have been pressed
@@ -57,6 +61,13 @@ namespace BCC.Droid.Views
                     return base.OnOptionsItemSelected(item);
             }
 
+        }
+        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        {
+            if (locationMessage.Msg == "contains")
+                Toast.MakeText(this, "vehicle already exists", ToastLength.Short).Show();
+            if (locationMessage.Msg == "string")
+                Toast.MakeText(this, "height must be a number", ToastLength.Short).Show();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace BCC.Core.ViewModels
     {
         string LoadFile(string file);
         void DeleteItem(AddVehicle name);
+
+        void EditVisibility(bool state);
     }
 }
