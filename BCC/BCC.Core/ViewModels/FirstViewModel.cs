@@ -40,8 +40,8 @@ namespace BCC.Core.ViewModels
             }
         }
 
-        private int currentVehicleHeight;
-        public int CurrentVehicleHeight
+        private double currentVehicleHeight;
+        public double CurrentVehicleHeight
         {
             get { return currentVehicleHeight; }
         }
@@ -83,7 +83,7 @@ namespace BCC.Core.ViewModels
                 currentVehicleHeight = 0;
             else foreach (AddVehicle vehicle in result.Result)
                     if (vehicle.VehicleSelection == 1)
-                        currentVehicleHeight = int.Parse(vehicle.VehicleHeight);
+                        currentVehicleHeight = double.Parse(vehicle.VehicleHeight);
         }
 
         public ICommand ButtonCommand { get; private set; }

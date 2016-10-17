@@ -14,6 +14,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using BCC.Core.ViewModels;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
+using BCC.Core.Models;
 
 namespace BCC.Droid.Views
 {
@@ -64,6 +65,25 @@ namespace BCC.Droid.Views
         public string LoadFile(string file)
         {
             return FileAccessHelper.GetLocalFilePath(file);
+        }
+
+        public void DeleteItem(AddVehicle name)
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.SetTitle("Confirm delete");
+            alert.SetMessage("Do you wish to delete " + name.ProfileName);
+            alert.SetPositiveButton("Delete", (senderAlert, args) =>
+            {
+                var viewModel = DataContext as VehicleProfilesViewModel;
+                viewModel.DeleteVehicle(name);
+            });
+
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+            });
+
+            Dialog dialog = alert.Create();
+            dialog.Show();
         }
     }
 

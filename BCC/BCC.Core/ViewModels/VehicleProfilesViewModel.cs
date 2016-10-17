@@ -78,6 +78,8 @@ namespace BCC.Core.ViewModels
         }
 
         public IVehicle View { get; set; }
+        public ICommand DeleteCommand { get; set; }
+
 
         public ICommand SelectUnitCommand { get; private set; }
         public ICommand NavigateCreateAddVehicle { get; private set; }
@@ -96,31 +98,52 @@ namespace BCC.Core.ViewModels
 
         public VehicleProfilesViewModel()
         {
-
-            //Load the current vehicle
-            //todo
-
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
+            DeleteCommand = new MvxCommand<AddVehicle>(vehicle =>
+            {
+                View.DeleteItem(vehicle);
+            });
 
             SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle =>
             {
+                //change text
+                CurrVehicle = vehicle.ProfileName;
+                CurrHeight = vehicle.VehicleHeight;
+
+                //switch bools in the database here
+                switchVehicles(vehicle);
+
                 //send message to notify main window
                 IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
                 var message = new ViewModelCommunication(this, "vehicleChanged");
                 messenger.Publish(message);
 
-                //change text
-                CurrVehicle = vehicle.ProfileName;
-                CurrHeight = vehicle.VehicleHeight;
-
-
-                //place code to switch bools in the database here
-                //TODO
             });
             NavigateCreateAddVehicle = new MvxCommand(() =>
             {
                 ShowViewModel<AddVehiclesViewModel>();
             });
+
+        }
+
+        private async void switchVehicles(AddVehicle vehicle)
+        {
+            if (currentVehicle != null)
+            {
+                currentVehicle.VehicleSelection = 0;
+                await Mvx.Resolve<Repository>().UpdateVehicle(currentVehicle);
+            }
+            vehicle.VehicleSelection = 1;
+            await Mvx.Resolve<Repository>().UpdateVehicle(vehicle);
+            currentVehicle = vehicle;
+        }
+
+        public async void DeleteVehicle(AddVehicle vehicle)
+        {
+            bool result = await Mvx.Resolve<Repository>().DeleteVehicle(vehicle);
+            IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
+            var message = new ViewModelCommunication(this, "reload");
+            messenger.Publish(message);
 
         }
 
@@ -140,7 +163,11 @@ namespace BCC.Core.ViewModels
 
             foreach (AddVehicle vehicle in AllAddVehicles)
                 if (vehicle.VehicleSelection == 1)
+                {
+                    CurrVehicle = vehicle.ProfileName;
+                    CurrHeight = vehicle.VehicleHeight;
                     currentVehicle = vehicle;
+                }
 
             //AllAddVehicles.Add(tempveh);//tempoary
             RaisePropertyChanged(() => AllAddVehicles);

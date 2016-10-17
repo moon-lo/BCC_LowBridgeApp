@@ -21,23 +21,47 @@ namespace BCC.Core
         {
             try
             {
-                
+
                 if (string.IsNullOrWhiteSpace(addVehicle.ProfileName))
                     throw new Exception("Profile Name is Required");
 
-                
+
                 var result = await conn.InsertAsync(addVehicle).ConfigureAwait(continueOnCapturedContext: false);
-                
+
             }
             catch (Exception ex)
             {
-                
+
+            }
+        }
+
+        public async Task UpdateVehicle(AddVehicle addVehicle)
+        {
+            try
+            {
+                    await conn.UpdateAsync(addVehicle);
+            }
+            catch (SQLiteException ex)
+            {
+            }
+        }
+
+        public async Task<bool> DeleteVehicle(AddVehicle addVehicle)
+        {
+            try
+            {
+                await conn.DeleteAsync(addVehicle);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 
         public Task<List<AddVehicle>> GetAllAddVehicles()
         {
-            
+
             return conn.Table<AddVehicle>().ToListAsync();
         }
     }

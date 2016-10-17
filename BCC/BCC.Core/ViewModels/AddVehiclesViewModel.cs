@@ -82,10 +82,10 @@ namespace BCC.Core.ViewModels
                         tempveh.RegNumber = RegNumber;
                         tempveh.VehicleHeight = VehicleHeight;
                         tempveh.VehicleSelection = 0;
+                        Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
                         IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
                         var message = new ViewModelCommunication(this, "reload");
                         messenger.Publish(message);
-                        Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
                         Close(this);
                     }
                 });
