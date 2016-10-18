@@ -80,7 +80,7 @@ namespace BCC.Droid.Views
             {
                 _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
             }
-                _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
         }
 
         private Criteria RequestLocation()
@@ -179,13 +179,12 @@ namespace BCC.Droid.Views
         private void ShowBackgroundWarning()
         {
             awayNotificationShown = true;
-            string result = "The bridges you are close to are:\n";
+            string result = "The bridges you are close to are: ";
             foreach (BridgeData bridge in notifiedBridges)
-                result += bridge.Description + "\n";
+                result += bridge.Description + ", ";
 
-            awayNotification.SetContentText(result);
             // Publish the notification
-            (GetSystemService(Context.NotificationService) as NotificationManager).Notify(notificationId, awayNotification.Build());
+            (GetSystemService(Context.NotificationService) as NotificationManager).Notify(notificationId, awayNotification.SetContentText(result).SetStyle(new Notification.BigTextStyle().BigText(result)).Build());
         }
 
         /// <summary>
@@ -220,7 +219,7 @@ namespace BCC.Droid.Views
                 Location bridgeLoc = new Location("");
                 bridgeLoc.Latitude = bridge.Latitude;
                 bridgeLoc.Longitude = bridge.Longitude;
-                if (location.DistanceTo(bridgeLoc) < 100)
+                if (location.DistanceTo(bridgeLoc) < 1000)
                 {
                     warning = true;
                     warningLocations.Add(bridge);

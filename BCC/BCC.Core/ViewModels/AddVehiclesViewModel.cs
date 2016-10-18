@@ -93,7 +93,7 @@ namespace BCC.Core.ViewModels
                                     close = false;
                                     Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "contains"));
                                 }
-                                else Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
+                            if (close) Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
                         }
                         else update();
                         if (close)

@@ -158,6 +158,7 @@ namespace BCC.Core.ViewModels
         public void UpdateList()
         {
 
+            bool visible = false;
             //AddVehicle tempveh = new AddVehicle();//tempoary
             //tempveh.ProfileName = "car1";//tempoary
             //tempveh.VehicleName = "potato";//tempoary
@@ -175,12 +176,12 @@ namespace BCC.Core.ViewModels
                     CurrVehicle = vehicle.ProfileName;
                     CurrHeight = vehicle.VehicleHeight;
                     currentVehicle = vehicle;
+                    visible = true;
                     View.EditVisibility(true);
                 }
-                else
-                {
-                    View.EditVisibility(false);
-                }
+            if (!visible)
+                View.EditVisibility(false);
+
 
             //AllAddVehicles.Add(tempveh);//tempoary
             RaisePropertyChanged(() => AllAddVehicles);
