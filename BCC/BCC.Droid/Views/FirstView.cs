@@ -25,6 +25,7 @@ using MvvmCross.Droid.FullFragging.Fragments;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using MvvmCross.Plugins.Messenger;
+using Android.Preferences;
 
 namespace BCC.Droid.Views
 {
@@ -405,6 +406,7 @@ namespace BCC.Droid.Views
 
             SetupSearch();
             SetupMap(bridges);
+            SetupPreferences();
 
             drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
             if (drawerListView != null)
@@ -432,7 +434,17 @@ namespace BCC.Droid.Views
             ShowFragmentAt(1);
 
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
+            
 
+        }
+
+        private void SetupPreferences() {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+            ISharedPreferencesEditor editor = prefs.Edit();
+            if (!prefs.Contains("distance")) {
+                editor.PutInt("distance", 5000);
+                editor.Apply();
+            }
         }
         private void OnUpdateMessage(ViewModelCommunication locationMessage)
         {

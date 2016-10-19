@@ -16,6 +16,7 @@ using BCC.Core.json;
 using Android;
 using Android.Content.PM;
 using Android.Support.V4.App;
+using Android.Preferences;
 
 namespace BCC.Droid.Views
 {
@@ -214,12 +215,15 @@ namespace BCC.Droid.Views
         /// <returns></returns>
         private bool CalculateDistanceFromBridges(Location location, bool warning, List<BridgeData> warningLocations)
         {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(binder.activity);
+            int dist = prefs.GetInt("distance", 50);
+
             foreach (BridgeData bridge in bridges)
             {
                 Location bridgeLoc = new Location("");
                 bridgeLoc.Latitude = bridge.Latitude;
                 bridgeLoc.Longitude = bridge.Longitude;
-                if (location.DistanceTo(bridgeLoc) < 1000)
+                if (location.DistanceTo(bridgeLoc) < dist)
                 {
                     warning = true;
                     warningLocations.Add(bridge);
