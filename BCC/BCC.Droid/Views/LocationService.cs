@@ -38,11 +38,6 @@ namespace BCC.Droid.Views
         static string[] PERMISSIONS_LOCATION = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
         const int RequestLocationId = 0;
 
-        //have a global for the push notification
-        //modify the push when you are close to a bridge if it is already shown
-        //if it is not shown create one
-        //
-
         public List<BridgeData> Bridges { get { return bridges; } set { bridges = value; } }
         public Location CurrentLocation { get { return currentLocation; } set { currentLocation = value; } }
         public LocationManager LocationManager { get { return _locationManager; } }
@@ -60,11 +55,36 @@ namespace BCC.Droid.Views
         public override IBinder OnBind(Intent intent)
         {
             binder = new LocationServiceBinder(this);
-
             SetupWarningPushNotification();
-
             return binder;
+        }
 
+        public override void OnDestroy()
+        {
+            LocationManager.RemoveUpdates(this);
+            base.OnDestroy();
+        }
+
+        /// <summary>
+        /// When the users location is changed this is called
+        /// </summary>
+        /// <param name="location">the users location</param>
+        public void OnLocationChanged(Location location)
+        {
+            CurrentLocation = location;
+            List<BridgeData> currentNotifiedBridges = new List<BridgeData>(notifiedBridges);
+            bool warning = false;
+            notifiedBridges = new List<BridgeData>();
+
+            warning = CalculateDistanceFromBridges(location, warning, notifiedBridges);
+            if (inForeground)
+            {
+                if (warning && !showingActiveAlert)
+                    ShowActiveWarning();
+                binder.activity.updateMap(location);
+            }
+            else if (warning && (!awayNotificationShown || !currentNotifiedBridges.All(notifiedBridges.Contains)))
+                ShowBackgroundWarning();
         }
 
         /// <summary>
@@ -72,7 +92,6 @@ namespace BCC.Droid.Views
         /// </summary>
         public void SetupLocationTracking()
         {
-
             _locationManager = (LocationManager)GetSystemService(LocationService);
 
             Criteria avalibleCriteria = RequestLocation();
@@ -81,9 +100,13 @@ namespace BCC.Droid.Views
             {
                 _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
             }
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 1, this);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
         }
 
+        /// <summary>
+        /// requests for fine location if sdk >22 else just sets to fine
+        /// </summary>
+        /// <returns>the set location criteria</returns>
         private Criteria RequestLocation()
         {
             Criteria locationCriteria = new Criteria();
@@ -92,23 +115,27 @@ namespace BCC.Droid.Views
 
             else
             {
-                //Check to see if any permission in our group is available, if one, then all are
                 const string permission = Manifest.Permission.AccessFineLocation;
                 if (CheckSelfPermission(permission) == (int)Permission.Granted)
-                    locationCriteria = SetAccurate(locationCriteria, _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+                    locationCriteria = SetAccurate(locationCriteria, true);
                 else
                 {
                     ActivityCompat.RequestPermissions(binder.activity, PERMISSIONS_LOCATION, RequestLocationId);
-                    locationCriteria = SetAccurate(locationCriteria, CheckSelfPermission(permission) == (int)Permission.Granted
-                        && _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+                    locationCriteria = SetAccurate(locationCriteria, CheckSelfPermission(permission) == (int)Permission.Granted);
                 }
             }
             return locationCriteria;
         }
 
+        /// <summary>
+        /// sets the location to accurate if it is avlalible
+        /// </summary>
+        /// <param name="locationCriteria"></param>
+        /// <param name="avaliable"></param>
+        /// <returns></returns>
         private Criteria SetAccurate(Criteria locationCriteria, bool avaliable)
         {
-            if (avaliable)
+            if (avaliable && _locationManager.IsProviderEnabled(LocationManager.GpsProvider))
             {
                 locationCriteria.Accuracy = Accuracy.Coarse;
                 locationCriteria.PowerRequirement = Power.Low;
@@ -135,7 +162,6 @@ namespace BCC.Droid.Views
 
             PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
 
-
             awayNotification = new Notification.Builder(this)
                         .SetContentTitle("Approaching dangerous bridge")
                         .SetContentIntent(resultPendingIntent)
@@ -145,35 +171,6 @@ namespace BCC.Droid.Views
                         .SetPriority(2);
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            //close location service
-        }
-
-        /// <summary>
-        /// When the users location is changed this is called
-        /// </summary>
-        /// <param name="location">the users location</param>
-        public void OnLocationChanged(Location location)
-        {
-            CurrentLocation = location;
-            List<BridgeData> currentNotifiedBridges = new List<BridgeData>(notifiedBridges);
-            bool warning = false;
-            notifiedBridges = new List<BridgeData>();
-
-            warning = CalculateDistanceFromBridges(location, warning, notifiedBridges);
-            if (inForeground)
-            {
-                if (warning && !showingActiveAlert)
-                    ShowActiveWarning();
-                binder.activity.updateMap(location);
-
-            }
-            else if (warning && (!awayNotificationShown || !currentNotifiedBridges.All(notifiedBridges.Contains)))
-                ShowBackgroundWarning();
-        }
-
         /// <summary>
         /// sends a push notification telling the user they are close to a bridge 
         /// </summary>
@@ -181,11 +178,15 @@ namespace BCC.Droid.Views
         {
             awayNotificationShown = true;
             string result = "The bridges you are close to are: ";
-            foreach (BridgeData bridge in notifiedBridges)
-                result += bridge.Description + ", ";
+            for (int i = 0; i < notifiedBridges.Count; i++)
+            {
+                result += notifiedBridges[i].Description;
+                if (i != notifiedBridges.Count - 1) result += ", ";
+            }
 
             // Publish the notification
-            (GetSystemService(Context.NotificationService) as NotificationManager).Notify(notificationId, awayNotification.SetContentText(result).SetStyle(new Notification.BigTextStyle().BigText(result)).Build());
+            (GetSystemService(Context.NotificationService) as NotificationManager).Notify(notificationId,
+                awayNotification.SetContentText(result).SetStyle(new Notification.BigTextStyle().BigText(result)).Build());
         }
 
         /// <summary>
@@ -194,13 +195,11 @@ namespace BCC.Droid.Views
         private void ShowActiveWarning()
         {
             showingActiveAlert = true;
-            AlertDialog.Builder alert = new AlertDialog.Builder(binder.activity);
-            alert.SetTitle("Alert!");
-            alert.SetMessage("You are approaching a bridge that is too short for your vehicle!");//change this to mention what bridges
-            alert.SetPositiveButton("Ok", (senderAlert, args) =>
-            {
-                showingActiveAlert = false;
-            });
+            AlertDialog.Builder alert = new AlertDialog.Builder(binder.activity)
+                .SetTitle("Alert!")
+                .SetMessage("You are approaching a bridge that is too short for your vehicle!")
+                .SetPositiveButton("Ok", (senderAlert, args) => showingActiveAlert = false);
+
             Dialog dialog = alert.Create();
             dialog.Show();
         }
@@ -229,7 +228,6 @@ namespace BCC.Droid.Views
                     warningLocations.Add(bridge);
                 }
             }
-
             return warning;
         }
         #region unused
@@ -258,7 +256,6 @@ namespace BCC.Droid.Views
         {
             this.service = mnservice;
         }
-
         public LocationService GetService()
         {
             return service;

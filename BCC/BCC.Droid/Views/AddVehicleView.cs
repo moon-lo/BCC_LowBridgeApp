@@ -33,7 +33,7 @@ namespace BCC.Droid.Views
             //Setting up the layout for the toolbar 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Add Profile";//all you really need to change is this
+            SupportActionBar.Title = "Add Profile";
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
@@ -48,20 +48,21 @@ namespace BCC.Droid.Views
         /// <returns></returns>
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            switch (item.ItemId)//this is the case for the home button (the only button that can be left of the text in the header)
+            switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
-                    var message = new ViewModelCommunication(this, "reload");
-                    messenger.Publish(message);
-                    Finish();//go back
+                    Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "reload"));
+                    Finish();
                     return true;
 
                 default:
                     return base.OnOptionsItemSelected(item);
             }
-
         }
+        /// <summary>
+        /// Displays an error when notified and the string matches 
+        /// </summary>
+        /// <param name="locationMessage">the notified message</param>
         private void OnUpdateMessage(ViewModelCommunication locationMessage)
         {
             if (locationMessage.Msg == "contains")

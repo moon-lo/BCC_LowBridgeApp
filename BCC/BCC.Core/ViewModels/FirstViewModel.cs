@@ -45,43 +45,9 @@ namespace BCC.Core.ViewModels
         {
             get { return currentVehicleHeight; }
         }
+
         private IView view;
         public IView View { get; set; }
-
-        public List<BridgeData> GetBridges(Stream file)
-        {
-            BridgeService service = new BridgeService();
-            return service.GetLocations(file);
-        }
-
-        /// <summary>
-        /// Searches for locations containing the search terms and adds the results to the Locations list
-        /// </summary>
-        /// <param name="searchTerm"></param>
-        private async void SearchLocations(string searchTerm)
-        {
-            locationService locationService = new locationService();
-            var locationResults = await locationService.GetLocations(searchTerm);
-            Locations.Clear();
-            foreach (var item in locationResults)
-            {
-                Locations.Add(item);
-            }
-        }
-
-        public void UpdateHeight()
-        {
-
-            Repository repo = new Repository(View.LoadFile("profiles.db3"));
-            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
-            result.Wait();
-
-            if (result.Result.Count == 0)
-                currentVehicleHeight = 0;
-            else foreach (AddVehicle vehicle in result.Result)
-                    if (vehicle.VehicleSelection == 1)
-                        currentVehicleHeight = double.Parse(vehicle.VehicleHeight);
-        }
 
         public ICommand ButtonCommand { get; private set; }
         public ICommand OpenSearch { get; private set; }
@@ -100,18 +66,52 @@ namespace BCC.Core.ViewModels
                     View.ShowSearch();
             });
 
-            ButtonCommand = new MvxCommand(() =>
-            {
-                View.OpenDrawer();
-            });
-
             SelectUnitCommand = new MvxCommand<LocationAutoCompleteResult.Result>(location =>
             {
                 View.GoTo(location);
                 UnitCode = location.formatted_address;
             });
+
             VehicleButton = new MvxCommand(() => ShowViewModel<VehicleProfilesViewModel>());
+            ButtonCommand = new MvxCommand(() => View.OpenDrawer());
         }
+
+        public List<BridgeData> GetBridges(Stream file)
+        {
+            BridgeService service = new BridgeService();
+            return service.GetLocations(file);
+        }
+
+        /// <summary>
+        /// Searches for locations containing the search terms and adds the results to the Locations list
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        private async void SearchLocations(string searchTerm)
+        {
+            locationService locationService = new locationService();
+            var locationResults = await locationService.GetLocations(searchTerm);
+            Locations.Clear();
+
+            foreach (var item in locationResults)
+                Locations.Add(item);
+
+        }
+
+        /// <summary>
+        /// Loads the current vehicle from the database and sets the current height to its height
+        /// </summary>
+        public void UpdateHeight()
+        {
+            Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
+            result.Wait();
+
+            if (result.Result.Count == 0)
+                currentVehicleHeight = 0;
+            else foreach (AddVehicle vehicle in result.Result)
+                    if (vehicle.VehicleSelection == 1)
+                        currentVehicleHeight = double.Parse(vehicle.VehicleHeight);
+        }
+
 
         #region Nav menu
         readonly Type[] menuItemTypes =

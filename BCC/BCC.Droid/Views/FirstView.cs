@@ -35,35 +35,139 @@ namespace BCC.Droid.Views
     [Activity(Label = "View for FirstViewModel")]
     public class FirstView : MvxCachingFragmentCompatActivity<FirstViewModel>, IOnMapReadyCallback, ITextWatcher, IView
     {
-
-
-        private Location currentLocation = null;
+        //map
         private Marker marker = null;
-        private Marker searchMarker = null;
         private List<Marker> bridgeMarkers;
         public List<BridgeData> bridges;
         public event EventHandler MapReady;
-
-        private bool softwareUpdate = true;
-        private bool disablePositioning = false;
-        private bool crosshairStatus = true;
         private bool firstUpdate = true;
-        private bool visibleSearch = false;
+        private bool disablePositioning = false;
+        private bool softwareUpdate = true;
+        private bool crosshairStatus = true;
 
-        private double vehicleHeight = 1;
+        //search
+        private bool visibleSearch = false;
+        private Marker searchMarker = null;
+
+        //location service
         public bool isBound = false;
         public LocationServiceBinder binder;
         public bool isConfigurationChange = false;
         LocationServiceConnection locationServiceConnection;
 
+        //drawer
         MvxFragment[] fragments = { new SettingsView(), new HelpView(), new AboutView() };
         string[] titles = { "Settings", "Help", "About, terms & privacy" };
         ActionBarDrawerToggle drawerToggle;
         ListView drawerListView;
         DrawerLayout drawerLayout;
 
+        //notifications
+        private MvxSubscriptionToken _token;
+
         public GoogleMap Map { get; private set; }
 
+        #region main functions
+        /// <summary>
+        /// the function that handles the creation of the view
+        /// </summary>
+        /// <param name="bundle"></param>
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
+            SetContentView(Resource.Layout.FirstView);
+            bridgeMarkers = new List<Marker>();
+
+            var viewModel = DataContext as FirstViewModel;
+            LoadBridges(viewModel);
+            viewModel.View = this;
+
+            SetupSearch();
+            SetupMap(bridges);
+            SetupPreferences();
+
+            SetupNavMenu();
+
+            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
+        }
+
+        /// <summary>
+        /// Sets the default settings prefrences if they are not set
+        /// </summary>
+        private void SetupPreferences()
+        {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+            ISharedPreferencesEditor editor = prefs.Edit();
+            if (!prefs.Contains("distance"))
+            {
+                editor.PutInt("distance", 5000);
+                editor.Apply();
+            }
+        }
+
+        /// <summary>
+        /// when notified update things depending on the string supplied
+        /// </summary>
+        /// <param name="locationMessage"></param>
+        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        {
+            if (locationMessage.Msg == "vehicleChanged")
+            {
+                var viewModel = DataContext as FirstViewModel;
+                viewModel.UpdateHeight();
+                HideBridgesOnHeight(viewModel.CurrentVehicleHeight);
+            }
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            var demoServiceIntent = new Intent(this, typeof(LocationService));
+            locationServiceConnection = new LocationServiceConnection(this);
+            BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
+            StartService(demoServiceIntent);
+        }
+
+        /// <summary>
+        /// when the app resumes it sets up all the map things
+        /// </summary>
+        protected override void OnResume()
+        {
+            base.OnResume();
+            if (isBound)
+                binder.GetService().inForeground = true;
+
+        }
+        /// <summary>
+        /// pauses all of the map things
+        /// </summary>
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (isBound)
+                binder.GetService().inForeground = false;
+        }
+
+        /// <summary>
+        /// pauses all of the map things
+        /// </summary>
+        protected override void OnDestroy()
+        {
+
+            base.OnDestroy();
+            if (!isConfigurationChange)
+            {
+                if (isBound)
+                {
+                    binder.Close();
+                    UnbindService(locationServiceConnection);
+                    isBound = false;
+                }
+            }
+        }
+
+        #endregion
         #region gps
 
         /// <summary>
@@ -243,7 +347,6 @@ namespace BCC.Droid.Views
         /// </summary>
         private void SetupSearch()
         {
-            var res = Resource.Id.beginning;
             FindViewById<MvxListView>(Resource.Id.searching).BringToFront();
             FindViewById<EditText>(Resource.Id.searchText).AddTextChangedListener(this);
         }
@@ -341,73 +444,8 @@ namespace BCC.Droid.Views
 
         #endregion
         #region nav menu
-        public void SetupNavBar()
+        private void SetupNavMenu()
         {
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-
-            drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
-            drawerListView.ItemClick += (s, e) => ShowFragmentAt(e.Position);
-            drawerListView.Adapter = new ArrayAdapter<string>(
-                this,
-                Android.Resource.Layout.SimpleListItem1,
-                titles);
-
-            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
-
-            var tm = FragmentManager.BeginTransaction();
-            foreach (var item in fragments)
-            {
-                tm.Add(item, item.ToString());
-            }
-            ShowFragmentAt(0);
-        }
-
-        public void OpenDrawer()
-        {
-            drawerLayout.OpenDrawer(drawerListView);
-        }
-
-        void ShowFragmentAt(int position)
-        {
-            FragmentManager
-                .BeginTransaction()
-                .Replace(Resource.Id.frameLayout, fragments[position])
-                .Commit();
-
-            Title = titles[position];
-            drawerLayout.CloseDrawer(drawerListView);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            if (drawerToggle.OnOptionsItemSelected(item))
-            {
-                return true;
-            }
-            return base.OnOptionsItemSelected(item);
-        }
-
-        #endregion
-        #region main functions
-        private MvxSubscriptionToken _token;
-        /// <summary>
-        /// the function that handles the creation of the view
-        /// </summary>
-        /// <param name="bundle"></param>
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
-            SetContentView(Resource.Layout.FirstView);
-            bridgeMarkers = new List<Marker>();
-
-            var viewModel = DataContext as FirstViewModel;
-            LoadBridges(viewModel);
-            viewModel.View = this;
-
-            SetupSearch();
-            SetupMap(bridges);
-            SetupPreferences();
-
             drawerListView = FindViewById<ListView>(Resource.Id.drawerListView);
             if (drawerListView != null)
             {
@@ -432,84 +470,31 @@ namespace BCC.Droid.Views
                 tm.Add(item, item.ToString());
             }
             ShowFragmentAt(1);
-
-            _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
-            
-
         }
 
-        private void SetupPreferences() {
-            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
-            ISharedPreferencesEditor editor = prefs.Edit();
-            if (!prefs.Contains("distance")) {
-                editor.PutInt("distance", 5000);
-                editor.Apply();
-            }
-        }
-        private void OnUpdateMessage(ViewModelCommunication locationMessage)
+        public void OpenDrawer()
         {
-            if (locationMessage.Msg == "vehicleChanged")
-            {
-                var viewModel = DataContext as FirstViewModel;
-                viewModel.UpdateHeight();
-                HideBridgesOnHeight(viewModel.CurrentVehicleHeight);
-            }
+            drawerLayout.OpenDrawer(drawerListView);
         }
-        protected override void OnStart()
+
+        void ShowFragmentAt(int position)
         {
-            base.OnStart();
+            FragmentManager
+                .BeginTransaction()
+                .Replace(Resource.Id.frameLayout, fragments[position])
+                .Commit();
 
-            var demoServiceIntent = new Intent(this, typeof(LocationService));
-            locationServiceConnection = new LocationServiceConnection(this);
-            BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
-            StartService(demoServiceIntent);
+            Title = titles[position];
+            drawerLayout.CloseDrawer(drawerListView);
         }
 
-
-        /// <summary>
-        /// when the app resumes it sets up all the map things
-        /// </summary>
-        protected override void OnResume()
+        public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            base.OnResume();
-            if (isBound)
-                binder.GetService().inForeground = true;
-
+            if (drawerToggle.OnOptionsItemSelected(item))
+                return true;
+            return base.OnOptionsItemSelected(item);
         }
 
-        /// <summary>
-        /// pauses all of the map things
-        /// </summary>
-        protected override void OnPause()
-        {
-            base.OnPause();
-            if (isBound)
-                binder.GetService().inForeground = false;
-        }
-
-        /// <summary>
-        /// pauses all of the map things
-        /// </summary>
-        protected override void OnDestroy()
-        {
-
-            base.OnDestroy();
-            if (!isConfigurationChange)
-            {
-                if (isBound)
-                {
-                    binder.Close();
-                    UnbindService(locationServiceConnection);
-                    isBound = false;
-                }
-            }
-
-        }
-
-        public string LoadFile(string file)
-        {
-            return FileAccessHelper.GetLocalFilePath(file);
-        }
         #endregion
         #region unused
         [Obsolete("Method is unused")]
@@ -615,7 +600,7 @@ namespace BCC.Droid.Views
                 activity.isBound = true;
                 var viewModel = activity.DataContext as FirstViewModel;
                 viewModel.UpdateHeight();
-                activity.HideBridgesOnHeight(viewModel.CurrentVehicleHeight);//add code further down the chan when height is checked to show
+                activity.HideBridgesOnHeight(viewModel.CurrentVehicleHeight);
 
                 // keep instance for preservation across configuration changes
                 this.binder = (LocationServiceBinder)service;

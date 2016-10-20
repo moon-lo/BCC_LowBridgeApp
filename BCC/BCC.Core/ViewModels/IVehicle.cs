@@ -9,7 +9,6 @@ namespace BCC.Core.ViewModels
 {
     public interface IVehicle
     {
-        string LoadFile(string file);
         void DeleteItem(AddVehicle name);
 
         void EditVisibility(bool state);

@@ -79,42 +79,54 @@ namespace BCC.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     double result;
-                    bool close = true;
                     if (_addVehicle.IsValid() && double.TryParse(VehicleHeight, out result))
-                    {
-                        Task<List<AddVehicle>> vehicles = Mvx.Resolve<Repository>().GetAllAddVehicles();
-                        vehicles.Wait();
-
-                        if (!external)
+                        if (ProcessVehicle(_addVehicle))
                         {
-                            foreach (AddVehicle vehicle in new List<AddVehicle>(vehicles.Result))
-                                if (vehicle.ProfileName == _addVehicle.ProfileName)
-                                {
-                                    close = false;
-                                    Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "contains"));
-                                }
-                            if (close) Mvx.Resolve<Repository>().CreateAddVehicle(_addVehicle).Wait();
-                        }
-                        else update();
-                        if (close)
-                        {
-                            IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
-                            var message = new ViewModelCommunication(this, "reload");
-                            messenger.Publish(message);
+                            Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "reload"));
                             Close(this);
                         }
-                    }
-                    else Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "string"));
-
+                        else Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "string"));
                 });
             }
         }
 
+        /// <summary>
+        /// deals with updating/creating a supplied vehicle
+        /// </summary>
+        /// <param name="addVehicle">the vehilce to update/create</param>
+        /// <returns>if successful</returns>
+        private bool ProcessVehicle(AddVehicle addVehicle)
+        {
+            Task<List<AddVehicle>> vehicles = Mvx.Resolve<Repository>().GetAllAddVehicles();
+            vehicles.Wait();
+            bool close = true;
+            if (!external)
+            {
+                foreach (AddVehicle vehicle in new List<AddVehicle>(vehicles.Result))
+                    if (vehicle.ProfileName == addVehicle.ProfileName)
+                    {
+                        close = false;
+                        Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "contains"));
+                    }
+                if (close) Mvx.Resolve<Repository>().CreateAddVehicle(addVehicle).Wait();
+            }
+            else update();
+            return close;
+        }
+
+        /// <summary>
+        /// when called updates the current vehicle profile in the database
+        /// </summary>
         private async void update()
         {
             await Mvx.Resolve<Repository>().UpdateVehicle(_addVehicle);
         }
 
+        /// <summary>
+        /// Initalises the function by looking for vehicles related to the supplied string, if the string is not found
+        /// it initalises a new vehicle
+        /// </summary>
+        /// <param name="val"></param>
         public void Init(string val)
         {
             Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
@@ -129,8 +141,5 @@ namespace BCC.Core.ViewModels
             }
             if (_addVehicle == null) _addVehicle = new AddVehicle();
         }
-
-
-
     }
 }

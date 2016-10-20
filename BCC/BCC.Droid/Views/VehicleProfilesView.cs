@@ -36,7 +36,7 @@ namespace BCC.Droid.Views
             //Setting up the layout for the toolbar 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Vehicle Profiles";//all you really need to change is this
+            SupportActionBar.Title = "Vehicle Profiles";
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
@@ -51,7 +51,7 @@ namespace BCC.Droid.Views
         /// <returns></returns>
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            switch (item.ItemId)//this is the case for the home button (the only button that can be left of the text in the header)
+            switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
                     Finish();//go back
@@ -62,30 +62,30 @@ namespace BCC.Droid.Views
             }
         }
 
-        public string LoadFile(string file)
-        {
-            return FileAccessHelper.GetLocalFilePath(file);
-        }
-
+        /// <summary>
+        /// asks the user if they want to delete the supplied vehicle, if they press Delete then delete
+        /// </summary>
+        /// <param name="name">the vehicle to delete</param>
         public void DeleteItem(AddVehicle name)
         {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.SetTitle("Confirm delete");
-            alert.SetMessage("Do you wish to delete " + name.ProfileName);
-            alert.SetPositiveButton("Delete", (senderAlert, args) =>
-            {
-                var viewModel = DataContext as VehicleProfilesViewModel;
-                viewModel.DeleteVehicle(name);
-            });
-
-            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
-            {
-            });
+            AlertDialog.Builder alert = new AlertDialog.Builder(this)
+                .SetTitle("Confirm delete")
+                .SetMessage("Do you wish to delete " + name.ProfileName)
+                .SetPositiveButton("Delete", (senderAlert, args) =>
+                {
+                    var viewModel = DataContext as VehicleProfilesViewModel;
+                    viewModel.DeleteVehicle(name);
+                })
+                .SetNegativeButton("Cancel", (senderAlert, args) => { });
 
             Dialog dialog = alert.Create();
             dialog.Show();
         }
 
+        /// <summary>
+        /// Edits the visibility of the edit button 
+        /// </summary>
+        /// <param name="state">visible or invisible</param>
         public void EditVisibility(bool state)
         {
             if (state) FindViewById<ImageButton>(Resource.Id.editButton).Visibility = ViewStates.Visible;

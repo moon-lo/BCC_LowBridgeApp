@@ -80,9 +80,7 @@ namespace BCC.Core.ViewModels
         private void OnUpdateMessage(ViewModelCommunication locationMessage)
         {
             if (locationMessage.Msg == "reload")
-            {
                 UpdateList();
-            }
         }
 
         private readonly MvxSubscriptionToken _token;
@@ -94,46 +92,29 @@ namespace BCC.Core.ViewModels
         public ICommand SelectUnitCommand { get; private set; }
         public ICommand NavigateCreateAddVehicle { get; private set; }
 
-
         public VehicleProfilesViewModel()
         {
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
-            DeleteCommand = new MvxCommand<AddVehicle>(vehicle =>
-            {
-                View.DeleteItem(vehicle);
-            });
 
-            SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle =>
-            {
-                //change text
-                CurrVehicle = vehicle.ProfileName;
-                CurrHeight = vehicle.VehicleHeight;
-
-                View.EditVisibility(true);
-
-                //switch bools in the database here
-                switchVehicles(vehicle);
-
-                //send message to notify main window
-                IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
-                var message = new ViewModelCommunication(this, "vehicleChanged");
-                messenger.Publish(message);
-
-            });
-            AlterVehicle = new MvxCommand(() =>
-            {
-                ShowViewModel<AddVehiclesViewModel>(new { val = currentVehicle.ProfileName });
-            });
-
-            NavigateCreateAddVehicle = new MvxCommand(() =>
-            {
-                ShowViewModel<AddVehiclesViewModel>();
-            });
-
+            DeleteCommand = new MvxCommand<AddVehicle>(vehicle => View.DeleteItem(vehicle));
+            SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle => SwitchVehicle(vehicle));
+            AlterVehicle = new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>(new { val = currentVehicle.ProfileName }));
+            NavigateCreateAddVehicle = new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>());
         }
 
-        private async void switchVehicles(AddVehicle vehicle)
+        /// <summary>
+        /// Switches the currentVehicle to the supplied vehicle
+        /// </summary>
+        /// <param name="vehicle">the vehicle to switch to</param>
+        private async void SwitchVehicle(AddVehicle vehicle)
         {
+            //switch title
+            CurrVehicle = vehicle.ProfileName;
+            CurrHeight = vehicle.VehicleHeight;
+
+            View.EditVisibility(true);
+
+            //switch bools in the database
             if (currentVehicle != null)
             {
                 currentVehicle.VehicleSelection = 0;
@@ -142,30 +123,28 @@ namespace BCC.Core.ViewModels
             vehicle.VehicleSelection = 1;
             await Mvx.Resolve<Repository>().UpdateVehicle(vehicle);
             currentVehicle = vehicle;
+
+            //send message to notify main window
+            Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "vehicleChanged"));
         }
 
+        /// <summary>
+        /// Deletes the current vehicle
+        /// </summary>
+        /// <param name="vehicle"></param>
         public async void DeleteVehicle(AddVehicle vehicle)
         {
             if (vehicle == currentVehicle) View.EditVisibility(false);
             bool result = await Mvx.Resolve<Repository>().DeleteVehicle(vehicle);
-            IMvxMessenger messenger = Mvx.Resolve<IMvxMessenger>();
-            var message = new ViewModelCommunication(this, "reload");
-            messenger.Publish(message);
-
-
+            Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "reload"));
         }
 
+        /// <summary>
+        /// reloads the mvxlistview using the database and sets the current vehicle
+        /// </summary>
         public void UpdateList()
         {
-
             bool visible = false;
-            //AddVehicle tempveh = new AddVehicle();//tempoary
-            //tempveh.ProfileName = "car1";//tempoary
-            //tempveh.VehicleName = "potato";//tempoary
-            //tempveh.RegNumber = "456REF";//tempoary
-            //tempveh.VehicleHeight = "100.1";//tempoary
-            string file = View.LoadFile("profiles.db3");
-            Repository repo = new Repository(file);
             Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
             result.Wait();
             AllAddVehicles = new ObservableCollection<AddVehicle>(result.Result);
@@ -182,8 +161,6 @@ namespace BCC.Core.ViewModels
             if (!visible)
                 View.EditVisibility(false);
 
-
-            //AllAddVehicles.Add(tempveh);//tempoary
             RaisePropertyChanged(() => AllAddVehicles);
         }
     }
