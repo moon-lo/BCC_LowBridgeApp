@@ -45,38 +45,6 @@ namespace BCC.Core.ViewModels
             }
         }
 
-        private string profileName;
-        public string ProfileName
-        {
-            get { return profileName; }
-            set
-            {
-                string prevalue = profileName;
-                SetProperty(ref profileName, value);
-            }
-        }
-        private string vehicleHeight;
-        public string VehicleHeight
-        {
-            get { return vehicleHeight; }
-            set
-            {
-                string prevalue = vehicleHeight;
-                SetProperty(ref vehicleHeight, value);
-            }
-        }
-
-        private int vehicleSelection;
-        public int VehicleSelection
-        {
-            get { return vehicleSelection; }
-            set
-            {
-                int prevalue = vehicleSelection;
-                SetProperty(ref vehicleSelection, value);
-            }
-        }
-
         private void OnUpdateMessage(ViewModelCommunication locationMessage)
         {
             if (locationMessage.Msg == "reload")

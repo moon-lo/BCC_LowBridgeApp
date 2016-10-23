@@ -27,19 +27,22 @@
                 p1:text="Vehicle Selected:"
                 p1:textAppearance="?android:attr/textAppearanceLarge"
                 p1:id="@+id/textView1"
-                p1:gravity="center"
+                p1:gravity="left"
                 p1:layout_width="match_parent"
                 local:MvxBind="Text CurrVehicle"
                 p1:layout_height="wrap_content"
-                p1:layout_marginTop="6.5dp" />
+                p1:layout_marginTop="15dp"
+                p1:layout_marginLeft="10dp"
+                p1:layout_marginBottom="10dp" />
             <TextView
                 p1:text="Height: "
                 p1:textAppearance="?android:attr/textAppearanceLarge"
-                p1:gravity="center"
+                p1:gravity="left"
                 p1:layout_width="match_parent"
                 local:MvxBind="Text CurrHeight"
                 p1:layout_height="wrap_content"
-                p1:layout_marginTop="35dp"
+                p1:layout_marginTop="40dp"
+                p1:layout_marginLeft="10dp"
                 p1:layout_marginBottom="10dp" />
         </RelativeLayout>
         <Mvx.MvxListView

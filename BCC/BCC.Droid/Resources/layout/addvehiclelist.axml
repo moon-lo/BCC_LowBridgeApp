@@ -7,18 +7,33 @@
 <!-- //Author Scott Fletcher N9017097-->
     <TextView
         android:text="Name"
+        android:textSize="@dimen/layoutText"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         local:MvxBind="Text ProfileName" />
-    <TextView
-        android:text="Height"
+    <LinearLayout
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        local:MvxBind="Text VehicleHeight" />
+        android:orientation="horizontal">
+        <TextView
+            android:text="Height"
+            android:textSize="@dimen/layoutText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            local:MvxBind="Text VehicleHeight"
+            android:id="@+id/textView1" />
+        <TextView
+            android:text=" Metres"
+            android:textSize="@dimen/layoutText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray" />
+    </LinearLayout>
 </LinearLayout>
