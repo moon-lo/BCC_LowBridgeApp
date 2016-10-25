@@ -1,6 +1,8 @@
-﻿namespace BCC.Core.ViewModels
+﻿using MvvmCross.Core.ViewModels;
+
+namespace BCC.Core.ViewModels
 {
-    internal class AboutViewModel
+    public class AboutViewModel : MvxViewModel
     {
     }
 }

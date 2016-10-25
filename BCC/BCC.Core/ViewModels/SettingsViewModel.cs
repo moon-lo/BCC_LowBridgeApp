@@ -1,6 +1,8 @@
-﻿namespace BCC.Core.ViewModels
+﻿using MvvmCross.Core.ViewModels;
+
+namespace BCC.Core.ViewModels
 {
-    internal class SettingsViewModel
+    public class SettingsViewModel : MvxViewModel
     {
     }
 }

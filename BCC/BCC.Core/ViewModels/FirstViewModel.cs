@@ -116,13 +116,15 @@ namespace BCC.Core.ViewModels
         #region Nav menu
         readonly Type[] menuItemTypes =
         {
+            typeof(MapViewModel),
+            typeof(ScanViewModel),
             typeof(SettingsViewModel),
             typeof(HelpMapViewModel),
             typeof(AboutViewModel)
         };
 
         public IEnumerable<string> MenuItems { get; private set; }
-            = new[] { "Settings", "Help", "About, terms & privacy" };
+            = new[] { "Map", "Scan QR code", "Settings", "Help", "About, terms & privacy" };
 
         public void ShowDefaultMenuItem()
         {

@@ -56,8 +56,8 @@ namespace BCC.Droid.Views
         LocationServiceConnection locationServiceConnection;
 
         //drawer
-        MvxFragment[] fragments = { new SettingsView(), new HelpView(), new AboutView() };
-        string[] titles = { "Settings", "Help", "About, terms & privacy" };
+        MvxFragment[] fragments = { new MapView(), new ScanView(), new SettingsView(), new HelpView(), new AboutView() };
+        string[] titles = { "Map", "Scan QR code", "Settings", "Help", "About, terms & privacy" };
         ActionBarDrawerToggle drawerToggle;
         ListView drawerListView;
         DrawerLayout drawerLayout;
@@ -469,7 +469,7 @@ namespace BCC.Droid.Views
             {
                 tm.Add(item, item.ToString());
             }
-            ShowFragmentAt(1);
+            ShowFragmentAt(0);
         }
 
         public void OpenDrawer()

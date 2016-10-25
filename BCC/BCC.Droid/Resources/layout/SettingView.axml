@@ -1,8 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Author: Lok Sum (Moon) Lo n9050159 -->
-<!-- Setting page to be implemented -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tag="SettingView"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
- />
+    android:id="@+id/settingLayout"
+    android:background="#FFFFFF">
+
+  <TextView
+        android:text="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_weight="0.03"
+        android:paddingBottom="8dp"
+        android:paddingTop="20dp"
+        android:textSize="25sp"
+        android:paddingLeft="30dp"
+        android:background="?attr/colorControlHighlight" />
+
+  <TextView
+      android:text="Change bridge detection notification distance when approaching bridge (meters):"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.03"
+      android:textSize="18sp"
+      android:padding="10dp"
+      android:layout_margin="5dp"
+      android:id="@+id/detection_text"/>
+
+  <EditText
+      android:layout_width="184dp"
+      android:layout_height="wrap_content"
+      android:inputType="number"
+      android:ems="10"
+      android:id="@+id/detectionDist"
+      android:layout_marginLeft="10dp" />
+
+  <Button
+      android:text="Confirm"
+      android:layout_width="189dp"
+      android:layout_height="wrap_content"
+      android:id="@+id/confirmDist"
+      android:layout_margin="10dp" />
+  
+    <Button
+        android:text="Back (testing)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonCloseFragment" />
+</LinearLayout>

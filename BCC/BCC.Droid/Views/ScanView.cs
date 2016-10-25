@@ -1,4 +1,4 @@
-﻿using Android.App;
+using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -8,14 +8,14 @@ using MvvmCross.Droid.Shared.Attributes;
 
 namespace BCC.Droid.Views
 {
-    [MvxFragment(typeof(AboutViewModel), Resource.Id.frameLayout)]
-    [Register("mvvmcrossdemo.droid.AboutView")]
-    public class AboutView : MvxFragment<AboutViewModel>
+    [MvxFragment(typeof(ScanViewModel), Resource.Id.frameLayout)]
+    [Register("mvvmcrossdemo.droid.ScanView")]
+    public class ScanView : MvxFragment<ScanViewModel>
     {
         
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
-            View view = inflater.Inflate(Resource.Layout.AboutView, container, false);
+            View view = inflater.Inflate(Resource.Layout.ScanView, container, false);
             return view;
         }
     }

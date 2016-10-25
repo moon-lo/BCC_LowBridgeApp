@@ -50,6 +50,8 @@
     <Compile Include="json\LocationAutoCompleteResult.cs" />
     <Compile Include="json\LocationSearch.cs" />
     <Compile Include="json\locationService.cs" />
+    <Compile Include="ViewModels\MapViewModel.cs" />
+    <Compile Include="ViewModels\ScanViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\VehicleProfilesViewModel.cs" />
     <Compile Include="ViewModels\ViewModelCommunication.cs" />

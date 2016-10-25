@@ -16,7 +16,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -175,7 +175,9 @@
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="Views\HelpView.cs" />
     <Compile Include="Views\LocationService.cs" />
+    <Compile Include="Views\MapView.cs" />
     <Compile Include="Views\ResourceLoader.cs" />
+    <Compile Include="Views\ScanView.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Views\VehicleProfilesView.cs" />
   </ItemGroup>
@@ -216,6 +218,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\addvehiclelist.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ScanView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\AboutView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

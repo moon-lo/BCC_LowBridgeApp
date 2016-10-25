@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/aboutLayout"
+    android:background="#FFFFFF">
+
+<TextView
+        android:text="About, terms and privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_weight="0.03"
+        android:paddingBottom="8dp"
+        android:paddingTop="20dp"
+        android:textSize="25sp"
+        android:paddingLeft="30dp"
+        android:background="?attr/colorControlHighlight" />
+
+    <TextView
+        android:text="Brisbane Bridge Detector \nVersion: 1.0 \nDeveloped by InnoSoft (2016) \nContact us: innosoftbrisbane@gmail.com"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_weight="0.03"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
+
+</LinearLayout>

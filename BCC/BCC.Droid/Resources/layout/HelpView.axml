@@ -2,4 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:id="@+id/helpLayout"
+    android:background="#FFFFFF">
+
+<TextView
+        android:text="Help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_weight="0.03"
+        android:paddingBottom="8dp"
+        android:paddingTop="20dp"
+        android:textSize="25sp"
+        android:paddingLeft="30dp"
+        android:background="?attr/colorControlHighlight" />
+
+<TextView
+    android:text="FAQs"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/textView2"
+    android:layout_weight="0.03"
+    android:textSize="18sp"
+    android:layout_margin="15dp"
+    android:textStyle="normal|bold" />
+
+<TextView
+    android:text="-What can I scan with the scan QR code function? \n\tQR codes on various registered vehicles can be scanned to autofill truck information. Unregistered vehicles cannot use this function. \n\n-Is there a routing function in this app? /n/tNo. Currently this app only gives bridge warnings near a search location or the GPS location. \n\nIf you have more questions, contact us at innosoftbrisbane@gmail.com"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/textView4"
+    android:layout_weight="0.03"
+    android:textSize="12sp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp" />
+
+</LinearLayout>
