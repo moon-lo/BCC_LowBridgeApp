@@ -334,6 +334,9 @@ namespace BCC.Droid.Views
         /// </summary>
         public override void OnBackPressed()
         {
+            Fragment currentFragment = FragmentManager.FindFragmentById(Resource.Id.frameLayout);
+
+
             if (visibleSearch) {
                 visibleSearch = false;
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
@@ -342,7 +345,10 @@ namespace BCC.Droid.Views
             {
                 drawerLayout.CloseDrawers();
             }
-            
+            else if (currentFragment != null) {
+                FragmentManager.BeginTransaction().Remove(currentFragment).Commit(); 
+                
+            }
             else base.OnBackPressed();
 
         }
