@@ -8,8 +8,8 @@ using MvvmCross.Droid.Shared.Attributes;
 
 namespace BCC.Droid.Views
 {
-    [MvxFragment(typeof(AboutViewModel), Resource.Id.frameLayout)]
-    [Register("mvvmcrossdemo.droid.AboutView")]
+    [MvxFragment(typeof(FirstViewModel), Resource.Id.frameLayout)]
+    [Register("bcc.droid.AboutView")]
     public class AboutView : MvxFragment<AboutViewModel>
     {
         

@@ -26,6 +26,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using MvvmCross.Plugins.Messenger;
 using Android.Preferences;
+using Android.Support.V4.View;
 
 namespace BCC.Droid.Views
 {
@@ -333,13 +334,17 @@ namespace BCC.Droid.Views
         /// </summary>
         public override void OnBackPressed()
         {
-            if (!visibleSearch)
-                base.OnBackPressed();
-            else
-            {
+            if (visibleSearch) {
                 visibleSearch = false;
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
             }
+            else if (drawerLayout != null && drawerLayout.IsDrawerOpen(GravityCompat.Start))
+            {
+                drawerLayout.CloseDrawers();
+            }
+            
+            else base.OnBackPressed();
+
         }
 
         /// <summary>

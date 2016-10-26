@@ -8,8 +8,8 @@ using MvvmCross.Droid.Shared.Attributes;
 
 namespace BCC.Droid.Views
 {
-    [MvxFragment(typeof(HelpMapViewModel), Resource.Id.frameLayout)]
-    [Register("mvvmcrossdemo.droid.HelpView")]
+    [MvxFragment(typeof(FirstViewModel), Resource.Id.frameLayout)]
+    [Register("bcc.droid.HelpView")]
     public class HelpView : MvxFragment<HelpMapViewModel>
     {
         

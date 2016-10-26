@@ -8,8 +8,8 @@ using MvvmCross.Droid.Shared.Attributes;
 
 namespace BCC.Droid.Views
 {
-    [MvxFragment(typeof(ScanViewModel), Resource.Id.frameLayout)]
-    [Register("mvvmcrossdemo.droid.ScanView")]
+    [MvxFragment(typeof(FirstViewModel), Resource.Id.frameLayout)]
+    [Register("bcc.droid.ScanView")]
     public class ScanView : MvxFragment<ScanViewModel>
     {
         
