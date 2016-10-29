@@ -557,8 +557,13 @@ namespace BCC.Droid.Views
             alert.SetTitle("Vehicle Detected");
             alert.SetMessage(msg);
             alert.SetPositiveButton("Use Vehicle", (senderAlert, args) => {
-                string txt = results[0] + " selected";
-                Toast.MakeText(this, txt, ToastLength.Short).Show();
+                //string txt = results[0] + " selected";
+                //Toast.MakeText(this, txt, ToastLength.Short).Show();
+                var selectVehicleIntent = new Intent(this, typeof(VehicleProfilesView));
+                selectVehicleIntent.PutExtra("vName", results[0]);
+                selectVehicleIntent.PutExtra("vRegNo", results[1]);
+                selectVehicleIntent.PutExtra("vHeight", results[2]);
+                StartActivity(selectVehicleIntent);
             });
 
             alert.SetNegativeButton("Edit & Save Profile", (senderAlert, args) => {

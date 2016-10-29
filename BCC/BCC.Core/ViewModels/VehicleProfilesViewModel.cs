@@ -74,7 +74,7 @@ namespace BCC.Core.ViewModels
         /// Switches the currentVehicle to the supplied vehicle
         /// </summary>
         /// <param name="vehicle">the vehicle to switch to</param>
-        private async void SwitchVehicle(AddVehicle vehicle)
+        public async void SwitchVehicle(AddVehicle vehicle)
         {
             //switch title
             CurrVehicle = vehicle.ProfileName;

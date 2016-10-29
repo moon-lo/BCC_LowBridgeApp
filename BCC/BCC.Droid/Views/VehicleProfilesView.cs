@@ -42,6 +42,8 @@ namespace BCC.Droid.Views
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.back);
 
+            SelectScannedVehicle();
+
         }
 
         /// <summary>
@@ -91,7 +93,30 @@ namespace BCC.Droid.Views
             if (state) FindViewById<ImageButton>(Resource.Id.editButton).Visibility = ViewStates.Visible;
             else FindViewById<ImageButton>(Resource.Id.editButton).Visibility = ViewStates.Invisible;
         }
+
+        private void SelectScannedVehicle()
+        {
+            string vName = Intent.GetStringExtra("vName");
+            string vRegNo = Intent.GetStringExtra("vRegNo");
+            string vHeight = Intent.GetStringExtra("vHeight");
+
+            if (vName != null && vRegNo != null && vHeight != null)
+            {
+                AddVehicle vehicle = new AddVehicle();
+                vehicle.ProfileName = vName;
+                vehicle.VehicleName = vName;
+                vehicle.RegNumber = vRegNo;
+                vehicle.VehicleHeight = vHeight;
+
+                var viewModel = DataContext as VehicleProfilesViewModel;
+                viewModel.SwitchVehicle(vehicle);
+
+                //Finish();
+            }
+        }
     }
+
+    
 
 }
 
