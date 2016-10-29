@@ -17,6 +17,7 @@ using MvvmCross.Droid.Views;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
+using Android.Preferences;
 
 namespace BCC.Droid.Views
 {
@@ -25,18 +26,19 @@ namespace BCC.Droid.Views
     public class SettingsView : MvxFragment<SettingsViewModel>
     {
         FragmentManager settingsFrag;
+        ImageButton btn;
+        EditText newDist;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
             View view = inflater.Inflate(Resource.Layout.SettingView, container, false);
 
-            //Setting up the layout for the toolbar 
-            /*var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Settings";
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
-            SupportActionBar.SetDisplayShowHomeEnabled(true);
-            SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.back); */
+            btn = (ImageButton) view.FindViewById(Resource.Id.confirmButton);
+            newDist = view.FindViewById<EditText>(Resource.Id.inputDist);
+            newDist.Text = GetDist().ToString();
+
+            btn.Click += (object sender, EventArgs e) => {
+                CheckDist(sender, e);
+            };
 
             return view;
             
@@ -45,37 +47,43 @@ namespace BCC.Droid.Views
         
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
-            /*var backButton = (Button) GetView().findViewById(Resource.Id.buttonCloseFragment);
             
-            backButton.Click += delegate
-            {
-                settingsFrag = getSupportFragmentManager();
-                settingsFrag.beginTransaction();
-                settingsFrag.remove(settingsFrag);
-                settingsFrag.commit();
-            };*/
         }
-        /// <summary>
-        /// This detects if any of the buttons in the toolbar have been pressed
-        /// </summary>
-        /// <param name="item">the item that was pressed</param>
-        /// <returns></returns>
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Android.Resource.Id.Home:
-                    
-                    return true;
-
-                default:
-                    return base.OnOptionsItemSelected(item);
-            }
-        }
-
+        
         public override void OnResume()
         {
             base.OnResume();
+        }
+
+        private void CheckDist(object sender, EventArgs e) {
+            int dist;
+            if (int.TryParse(newDist.Text, out dist)) {
+                if (dist >= 1)
+                {
+                    ChangeDist(dist);
+                    Toast.MakeText(Application.Context, "Detection distance updated.", ToastLength.Short).Show();
+                }
+                else
+                {
+                    Toast.MakeText(Application.Context, "Please enter a valid distance.", ToastLength.Short).Show();
+                }
+            }
+            
+        }
+
+        public void ChangeDist(int newDist)
+        {
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+            ISharedPreferencesEditor editor = prefs.Edit();
+            editor.PutInt("distance", newDist);
+            editor.Apply();
+        }
+
+        public int GetDist() {
+            int dist = 100;
+            ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+            dist = prefs.GetInt("distance", 100);
+            return dist;
         }
 
 

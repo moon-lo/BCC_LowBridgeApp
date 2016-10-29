@@ -101,10 +101,12 @@ namespace BCC.Droid.Views
             ISharedPreferencesEditor editor = prefs.Edit();
             if (!prefs.Contains("distance"))
             {
-                editor.PutInt("distance", 5000);
+                editor.PutInt("distance", 1000);
                 editor.Apply();
             }
         }
+
+        
 
         /// <summary>
         /// when notified update things depending on the string supplied
@@ -337,7 +339,8 @@ namespace BCC.Droid.Views
             Fragment currentFragment = FragmentManager.FindFragmentById(Resource.Id.frameLayout);
 
 
-            if (visibleSearch) {
+            if (visibleSearch)
+            {
                 visibleSearch = false;
                 FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Invisible;
             }
@@ -345,11 +348,17 @@ namespace BCC.Droid.Views
             {
                 drawerLayout.CloseDrawers();
             }
-            else if (currentFragment != null) {
-                FragmentManager.BeginTransaction().Remove(currentFragment).Commit(); 
-                
+            else if (currentFragment != null && currentFragment != fragments[0])
+            {
+                FragmentManager
+                .BeginTransaction()
+                .Replace(Resource.Id.frameLayout, fragments[0])
+                .AddToBackStack(null)
+                .Commit();
             }
-            else base.OnBackPressed();
+            else {
+                Finish();
+                base.OnBackPressed(); }
 
         }
 
@@ -493,6 +502,7 @@ namespace BCC.Droid.Views
             FragmentManager
                 .BeginTransaction()
                 .Replace(Resource.Id.frameLayout, fragments[position])
+                .AddToBackStack(null)
                 .Commit();
 
             Title = titles[position];
