@@ -27,6 +27,9 @@ using Android.Support.V7.App;
 using MvvmCross.Plugins.Messenger;
 using Android.Preferences;
 using Android.Support.V4.View;
+using ZXing.Mobile;
+using System.Linq;
+using BCC.Core.Interfaces;
 
 namespace BCC.Droid.Views
 {
@@ -90,6 +93,9 @@ namespace BCC.Droid.Views
             SetupNavMenu();
 
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
+
+            MobileBarcodeScanner.Initialize(Application);
+            ScanDialogue();
         }
 
         /// <summary>
@@ -130,6 +136,7 @@ namespace BCC.Droid.Views
             locationServiceConnection = new LocationServiceConnection(this);
             BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
             StartService(demoServiceIntent);
+            
         }
 
         /// <summary>
@@ -499,12 +506,18 @@ namespace BCC.Droid.Views
 
         void ShowFragmentAt(int position)
         {
-            FragmentManager
-                .BeginTransaction()
-                .Replace(Resource.Id.frameLayout, fragments[position])
-                .AddToBackStack(null)
-                .Commit();
-
+            if (position == 1)
+            {
+                ScanCode();
+            }
+            else {
+                FragmentManager
+                    .BeginTransaction()
+                    .Replace(Resource.Id.frameLayout, fragments[position])
+                    .AddToBackStack(null)
+                    .Commit();
+            }
+            
             Title = titles[position];
             drawerLayout.CloseDrawer(drawerListView);
         }
@@ -517,6 +530,63 @@ namespace BCC.Droid.Views
         }
 
         #endregion
+        #region QR code scanner
+        private async void ScanCode()
+        {
+            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+            scanner.CancelButtonText = "Cancel";
+            var result = await scanner.Scan();
+            OnResult(result);
+        }
+
+        private void OnResult(ZXing.Result result)
+        {   
+            List<string> results = SortReading(result.Text);
+            ScanInfoDialogue(results);
+        }
+
+        private List<string> SortReading(string text) {
+            List<string> texts = text.Split(',').ToList<string>();
+            return texts;
+        }
+
+        private void ScanInfoDialogue(List<string> results)
+        {
+            string msg = "Vehicle Name: " + results[0] + "\nRegistration Number: " + results[1] + "\nVehicle Height: " + results[2];
+            Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
+            alert.SetTitle("Vehicle Detected");
+            alert.SetMessage(msg);
+            alert.SetPositiveButton("Use Vehicle", (senderAlert, args) => {
+                string txt = results[0] + " selected";
+                Toast.MakeText(this, txt, ToastLength.Short).Show();
+            });
+
+            alert.SetNegativeButton("Edit & Save Profile", (senderAlert, args) => {
+                Toast.MakeText(this, "edit", ToastLength.Short).Show();
+            });
+
+            Dialog dialog = alert.Create();
+            dialog.Show();
+        }
+
+        private void ScanDialogue() {
+            Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
+            alert.SetTitle("QR Code Scanning");
+            alert.SetMessage("Scan QR code for vehicle information?");
+            alert.SetPositiveButton("Scan", (senderAlert, args) => {
+                ScanCode();
+                Toast.MakeText(this, "Scanning", ToastLength.Short).Show();
+            });
+
+            alert.SetNegativeButton("Cancel", (senderAlert, args) => {
+                Toast.MakeText(this, "Cancelled", ToastLength.Short).Show();
+            });
+
+            Dialog dialog = alert.Create();
+            dialog.Show();
+        }
+        #endregion
+
         #region unused
         [Obsolete("Method is unused")]
         public void BeforeTextChanged(ICharSequence s, int start, int count, int after) { }

@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Interfaces\IToast.cs" />
     <Compile Include="json\BridgeData.cs" />
     <Compile Include="json\BridgeService.cs" />
     <Compile Include="Models\AddVehicle.cs" />
@@ -43,6 +44,7 @@
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\AddVehiclesViewModel.cs" />
     <Compile Include="ViewModels\AllAddVehiclesViewModel.cs" />
+    <Compile Include="ViewModels\BarcodeViewModel.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />
     <Compile Include="ViewModels\HelpMapViewModel.cs" />
     <Compile Include="ViewModels\IVehicle.cs" />
@@ -57,6 +59,9 @@
     <Compile Include="ViewModels\ViewModelCommunication.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v7.0\Mono.Android.dll</HintPath>
+    </Reference>
     <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
       <Private>True</Private>

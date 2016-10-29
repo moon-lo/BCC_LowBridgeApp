@@ -15,7 +15,7 @@ namespace BCC.Droid.Views
         
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
-            View view = inflater.Inflate(Resource.Layout.ScanView, container, false);
+            View view = inflater.Inflate(Resource.Layout.EmptyScanLayout, container, false);
             return view;
         }
     }
