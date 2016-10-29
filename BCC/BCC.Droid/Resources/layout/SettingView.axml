@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:tag="SettingView"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/settingLayout"
     android:background="#FFFFFF">
-
-  <TextView
+    <TextView
         android:text="Settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,34 +18,29 @@
         android:textSize="25sp"
         android:paddingLeft="30dp"
         android:background="?attr/colorControlHighlight" />
-
-  <TextView
-      android:text="Change bridge detection notification distance when approaching bridge (meters):"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_weight="0.03"
-      android:textSize="18sp"
-      android:padding="10dp"
-      android:layout_margin="5dp"
-      android:id="@+id/detection_text"/>
-
-  <EditText
-      android:layout_width="184dp"
-      android:layout_height="wrap_content"
-      android:inputType="number"
-      android:ems="10"
-      android:id="@+id/inputDist"
-      android:layout_marginLeft="10dp" />
-
-  <ImageButton
-            android:src="@drawable/tick"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/confirmButton"
-            android:background="@drawable/floatingbutton"
-            android:layout_margin="16dp"
-            />
-  
+    <TextView
+        android:text="Change bridge detection notification distance when approaching bridge (meters):"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:id="@+id/detection_text" />
+    <EditText
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/inputDist"
+        android:layout_marginLeft="10dp" />
+    <ImageButton
+        android:src="@drawable/tick"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/confirmButton"
+        android:background="@drawable/floatingbutton"
+        android:layout_margin="16dp" />
 </LinearLayout>

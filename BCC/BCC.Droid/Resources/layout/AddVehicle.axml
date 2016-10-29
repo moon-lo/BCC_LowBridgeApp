@@ -13,21 +13,25 @@
         android:hint="Profile Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/profileName"
         local:MvxBind="Text ProfileName" />
     <EditText
         android:hint="Vehicle Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/vehicleName"
         local:MvxBind="Text VehicleName" />
     <EditText
         android:hint="Registration Number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/regNumber"
         local:MvxBind="Text RegNumber" />
     <EditText
         android:hint="Vehicle Height (m)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/vehicleHeight"
         local:MvxBind="Text VehicleHeight" />
     <RelativeLayout
         android:minWidth="25px"

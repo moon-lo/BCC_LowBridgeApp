@@ -40,6 +40,8 @@ namespace BCC.Droid.Views
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.back);
 
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
+
+            CheckIntents();
         }
         /// <summary>
         /// This detects if any of the buttons in the toolbar have been pressed
@@ -69,6 +71,26 @@ namespace BCC.Droid.Views
                 Toast.MakeText(this, "vehicle already exists", ToastLength.Short).Show();
             if (locationMessage.Msg == "string")
                 Toast.MakeText(this, "height must be a number", ToastLength.Short).Show();
+        }
+
+        private void CheckIntents()
+        {
+            string vName = Intent.GetStringExtra("vName");
+            string vRegNo = Intent.GetStringExtra("vRegNo");
+            string vHeight = Intent.GetStringExtra("vHeight");
+
+            if (vName != null && vRegNo != null && vHeight != null)
+            {
+                EditText pNameTxt = FindViewById<EditText>(Resource.Id.profileName);
+                EditText vNameTxt = FindViewById<EditText>(Resource.Id.vehicleName);
+                EditText vRegNoTxt = FindViewById<EditText>(Resource.Id.regNumber);
+                EditText vHeightTxt = FindViewById<EditText>(Resource.Id.vehicleHeight);
+
+                pNameTxt.Text = vName;
+                vNameTxt.Text = vName;
+                vRegNoTxt.Text = vRegNo;
+                vHeightTxt.Text = vHeight;
+            } 
         }
     }
 }

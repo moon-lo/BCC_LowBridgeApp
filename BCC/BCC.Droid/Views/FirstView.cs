@@ -542,7 +542,7 @@ namespace BCC.Droid.Views
         private void OnResult(ZXing.Result result)
         {   
             List<string> results = SortReading(result.Text);
-            ScanInfoDialogue(results);
+            ScanInfoDialogue(results, result.Text);
         }
 
         private List<string> SortReading(string text) {
@@ -550,7 +550,7 @@ namespace BCC.Droid.Views
             return texts;
         }
 
-        private void ScanInfoDialogue(List<string> results)
+        private void ScanInfoDialogue(List<string> results, string resultStr)
         {
             string msg = "Vehicle Name: " + results[0] + "\nRegistration Number: " + results[1] + "\nVehicle Height: " + results[2];
             Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
@@ -562,7 +562,12 @@ namespace BCC.Droid.Views
             });
 
             alert.SetNegativeButton("Edit & Save Profile", (senderAlert, args) => {
-                Toast.MakeText(this, "edit", ToastLength.Short).Show();
+                //Toast.MakeText(this, "Opening vehicle editor", ToastLength.Short).Show();
+                var addVehicleIntent = new Intent(this, typeof(AddVehicleView));
+                addVehicleIntent.PutExtra("vName", results[0]);
+                addVehicleIntent.PutExtra("vRegNo", results[1]);
+                addVehicleIntent.PutExtra("vHeight", results[2]);
+                StartActivity(addVehicleIntent);
             });
 
             Dialog dialog = alert.Create();
