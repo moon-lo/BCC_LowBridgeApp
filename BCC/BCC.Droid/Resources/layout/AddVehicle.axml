@@ -9,24 +9,52 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 <!--ADD THIS ONE LINE HERE TO ADD TOOLBAR-->
+    <TextView
+        android:text="Profile Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/textView1" />
     <EditText
         android:hint="Profile Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/profileName"
         local:MvxBind="Text ProfileName" />
+    <TextView
+        android:text="Vehicle Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/textView2" />
     <EditText
         android:hint="Vehicle Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vehicleName"
         local:MvxBind="Text VehicleName" />
+    <TextView
+        android:text="Registration Number"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/textView3" />
     <EditText
         android:hint="Registration Number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/regNumber"
         local:MvxBind="Text RegNumber" />
+    <TextView
+        android:text="Vehicle Height (m)"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4" />
     <EditText
         android:hint="Vehicle Height (m)"
         android:layout_width="match_parent"
