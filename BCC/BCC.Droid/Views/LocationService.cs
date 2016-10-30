@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace BCC.Droid.Views
         private bool awayNotificationShown = false;
 
         static string[] PERMISSIONS_LOCATION = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
-        const int RequestLocationId = 0;
+        public const int RequestLocationId = 0;
 
         public List<BridgeData> Bridges { get { return bridges; } set { bridges = value; } }
         public Location CurrentLocation { get { return currentLocation; } set { currentLocation = value; } }
@@ -79,7 +80,7 @@ namespace BCC.Droid.Views
             warning = CalculateDistanceFromBridges(location, warning, notifiedBridges);
             if (inForeground)
             {
-                if (warning && !showingActiveAlert)
+                if (warning && (!showingActiveAlert || !currentNotifiedBridges.All(notifiedBridges.Contains)))
                     ShowActiveWarning();
                 binder.activity.updateMap(location);
             }
@@ -93,38 +94,27 @@ namespace BCC.Droid.Views
         public void SetupLocationTracking()
         {
             _locationManager = (LocationManager)GetSystemService(LocationService);
-
-            Criteria avalibleCriteria = RequestLocation();
-            _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
-            while (LocationProvider == null)
-            {
-                _locationProvider = _locationManager.GetBestProvider(avalibleCriteria, true);
-            }
-            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
-        }
-
-        /// <summary>
-        /// requests for fine location if sdk >22 else just sets to fine
-        /// </summary>
-        /// <returns>the set location criteria</returns>
-        private Criteria RequestLocation()
-        {
-            Criteria locationCriteria = new Criteria();
             if ((int)Build.VERSION.SdkInt < 23)
-                locationCriteria = SetAccurate(locationCriteria, _locationManager.IsProviderEnabled(LocationManager.GpsProvider));
+                CallLocation();
 
             else
             {
                 const string permission = Manifest.Permission.AccessFineLocation;
                 if (CheckSelfPermission(permission) == (int)Permission.Granted)
-                    locationCriteria = SetAccurate(locationCriteria, true);
+                    CallLocation();
                 else
                 {
                     ActivityCompat.RequestPermissions(binder.activity, PERMISSIONS_LOCATION, RequestLocationId);
-                    locationCriteria = SetAccurate(locationCriteria, CheckSelfPermission(permission) == (int)Permission.Granted);
                 }
             }
-            return locationCriteria;
+        }
+
+        public void CallLocation()
+        {
+            Criteria locationCriteria = new Criteria();
+            locationCriteria = SetAccurate(locationCriteria, true);
+            _locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
+            _locationManager.RequestLocationUpdates(_locationProvider, 100, 0, this);
         }
 
         /// <summary>

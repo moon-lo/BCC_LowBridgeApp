@@ -30,6 +30,8 @@ using Android.Support.V4.View;
 using ZXing.Mobile;
 using System.Linq;
 using BCC.Core.Interfaces;
+using Android.Content.PM;
+using BCC.Droid.Views;
 
 namespace BCC.Droid.Views
 {
@@ -112,7 +114,7 @@ namespace BCC.Droid.Views
             }
         }
 
-        
+
 
         /// <summary>
         /// when notified update things depending on the string supplied
@@ -136,7 +138,7 @@ namespace BCC.Droid.Views
             locationServiceConnection = new LocationServiceConnection(this);
             BindService(demoServiceIntent, locationServiceConnection, Bind.AutoCreate);
             StartService(demoServiceIntent);
-            
+
         }
 
         /// <summary>
@@ -220,6 +222,21 @@ namespace BCC.Droid.Views
                     disablePositioning = true;
                 }
             };
+        }
+
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            switch (requestCode)
+            {
+                case BCC.Droid.Views.LocationService.RequestLocationId:
+                    {
+                        if (grantResults[0] == Permission.Granted)
+                        {
+                            binder.GetService().CallLocation();
+                        }
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -365,7 +382,8 @@ namespace BCC.Droid.Views
             }
             else {
                 Finish();
-                base.OnBackPressed(); }
+                base.OnBackPressed();
+            }
 
         }
 
@@ -422,6 +440,8 @@ namespace BCC.Droid.Views
             visibleSearch = true;
             FindViewById<MvxListView>(Resource.Id.searching).Visibility = ViewStates.Visible;
         }
+
+
 
         #endregion
         #region bridge markers
@@ -517,7 +537,7 @@ namespace BCC.Droid.Views
                     .AddToBackStack(null)
                     .Commit();
             }
-            
+
             Title = titles[position];
             drawerLayout.CloseDrawer(drawerListView);
         }
@@ -540,12 +560,16 @@ namespace BCC.Droid.Views
         }
 
         private void OnResult(ZXing.Result result)
-        {   
-            List<string> results = SortReading(result.Text);
-            ScanInfoDialogue(results, result.Text);
+        {
+            if (result != null)
+            {
+                List<string> results = SortReading(result.Text);
+                ScanInfoDialogue(results, result.Text);
+            }
         }
 
-        private List<string> SortReading(string text) {
+        private List<string> SortReading(string text)
+        {
             List<string> texts = text.Split(',').ToList<string>();
             return texts;
         }
@@ -556,7 +580,8 @@ namespace BCC.Droid.Views
             Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
             alert.SetTitle("Vehicle Detected");
             alert.SetMessage(msg);
-            alert.SetPositiveButton("Use Vehicle", (senderAlert, args) => {
+            alert.SetPositiveButton("Use Vehicle", (senderAlert, args) =>
+            {
                 //string txt = results[0] + " selected";
                 //Toast.MakeText(this, txt, ToastLength.Short).Show();
                 var selectVehicleIntent = new Intent(this, typeof(VehicleProfilesView));
@@ -566,7 +591,8 @@ namespace BCC.Droid.Views
                 StartActivity(selectVehicleIntent);
             });
 
-            alert.SetNegativeButton("Edit & Save Profile", (senderAlert, args) => {
+            alert.SetNegativeButton("Edit & Save Profile", (senderAlert, args) =>
+            {
                 //Toast.MakeText(this, "Opening vehicle editor", ToastLength.Short).Show();
                 var addVehicleIntent = new Intent(this, typeof(AddVehicleView));
                 addVehicleIntent.PutExtra("vName", results[0]);
@@ -579,16 +605,19 @@ namespace BCC.Droid.Views
             dialog.Show();
         }
 
-        private void ScanDialogue() {
+        private void ScanDialogue()
+        {
             Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
             alert.SetTitle("QR Code Scanning");
             alert.SetMessage("Scan QR code for vehicle information?");
-            alert.SetPositiveButton("Scan", (senderAlert, args) => {
+            alert.SetPositiveButton("Scan", (senderAlert, args) =>
+            {
                 ScanCode();
                 Toast.MakeText(this, "Scanning", ToastLength.Short).Show();
             });
 
-            alert.SetNegativeButton("Cancel", (senderAlert, args) => {
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
                 Toast.MakeText(this, "Cancelled", ToastLength.Short).Show();
             });
 

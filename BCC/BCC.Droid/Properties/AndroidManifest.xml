@@ -9,8 +9,8 @@
 	<permission android:name="bcc.droid.bcc.droid.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.CAMERA" />
-  <uses-permission android:name="android.permission.FLASHLIGHT" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
 	<application android:label="@string/ApplicationName" android:theme="@style/myTheme">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/APIkey" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
