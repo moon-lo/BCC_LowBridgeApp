@@ -15,6 +15,8 @@ using BCC.Core.ViewModels;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
 using BCC.Core.Models;
+using BCC.Core;
+using System.Threading.Tasks;
 
 namespace BCC.Droid.Views
 {
@@ -108,15 +110,22 @@ namespace BCC.Droid.Views
                 vehicle.RegNumber = vRegNo;
                 vehicle.VehicleHeight = vHeight;
 
+                Task<List<AddVehicle>> result = Mvx.Resolve<Repository>().GetAllAddVehicles();
+
+                AddVehicle CurrVehicle = null;
+                foreach (AddVehicle vehicleSearch in result.Result)
+                    if (vehicleSearch.VehicleSelection == 1)
+                        CurrVehicle = vehicleSearch;
+
                 var viewModel = DataContext as VehicleProfilesViewModel;
-                viewModel.SwitchVehicle(vehicle);
+                viewModel.SwitchVehicle(vehicle, CurrVehicle);
 
                 //Finish();
             }
         }
     }
 
-    
+
 
 }
 

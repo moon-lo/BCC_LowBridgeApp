@@ -65,7 +65,7 @@ namespace BCC.Core.ViewModels
             _token = Mvx.Resolve<IMvxMessenger>().Subscribe<ViewModelCommunication>(OnUpdateMessage);
 
             DeleteCommand = new MvxCommand<AddVehicle>(vehicle => View.DeleteItem(vehicle));
-            SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle => SwitchVehicle(vehicle));
+            SelectUnitCommand = new MvxCommand<AddVehicle>(vehicle => SwitchVehicle(vehicle, currentVehicle));
             AlterVehicle = new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>(new { val = currentVehicle.ProfileName }));
             NavigateCreateAddVehicle = new MvxCommand(() => ShowViewModel<AddVehiclesViewModel>());
         }
@@ -74,7 +74,7 @@ namespace BCC.Core.ViewModels
         /// Switches the currentVehicle to the supplied vehicle
         /// </summary>
         /// <param name="vehicle">the vehicle to switch to</param>
-        public async void SwitchVehicle(AddVehicle vehicle)
+        public async void SwitchVehicle(AddVehicle vehicle, AddVehicle oldVehicle)
         {
             //switch title
             CurrVehicle = vehicle.ProfileName;
@@ -83,14 +83,14 @@ namespace BCC.Core.ViewModels
             View.EditVisibility(true);
 
             //switch bools in the database
-            if (currentVehicle != null)
+            if (oldVehicle != null)
             {
-                currentVehicle.VehicleSelection = 0;
-                await Mvx.Resolve<Repository>().UpdateVehicle(currentVehicle);
+                oldVehicle.VehicleSelection = 0;
+                await Mvx.Resolve<Repository>().UpdateVehicle(oldVehicle);
             }
             vehicle.VehicleSelection = 1;
             await Mvx.Resolve<Repository>().UpdateVehicle(vehicle);
-            currentVehicle = vehicle;
+            oldVehicle = vehicle;
 
             //send message to notify main window
             Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "vehicleChanged"));
