@@ -79,13 +79,16 @@ namespace BCC.Core.ViewModels
                 return new MvxCommand(() =>
                 {
                     double result;
+
                     if (_addVehicle.IsValid() && double.TryParse(VehicleHeight, out result))
+                    {
                         if (ProcessVehicle(_addVehicle))
                         {
                             Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "reload"));
                             Close(this);
                         }
-                        else Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "string"));
+                    }
+                    else Mvx.Resolve<IMvxMessenger>().Publish(new ViewModelCommunication(this, "string"));
                 });
             }
         }
